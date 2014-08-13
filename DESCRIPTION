@@ -6,7 +6,7 @@ Version: 0.1
 Date: 2014-08-13
 Description: Performs MCMCglmm on multiple phylogenetic trees (paragraph)
 Depends:
-    R (>= 3.1.1),
+    R (>= 3),
     ape,
     caper,
     coda,
