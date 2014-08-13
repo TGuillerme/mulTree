@@ -1,0 +1,15 @@
+Package: mulTree
+Title: Performs MCMCglmm on multiple phylogenetic trees.
+Authors: Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
+Maintainer: Thomas Guillerme <guillert@tcd.ie>
+Version: 0.1
+Date: 2014-08-13
+Description: Performs MCMCglmm on multiple phylogenetic trees (paragraph)
+Depends:
+    R (>= 3.1.1),
+    ape,
+    caper,
+    coda,
+    hdrcde,
+    MCMCglmm
+License: GPL (>= 2)
