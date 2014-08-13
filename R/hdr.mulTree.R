@@ -32,7 +32,12 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
 
 #DATA
     #mulTree.mcmc
-    mulTree.mcmc<-table.mulTree(mulTree.mcmc)
+    if(class(mulTree.mcmc) != 'mulTree') {
+        stop(as.character(substitute(mulTree.mcmc))," must be a 'mulTree' object.\nUse read.mulTree() function.", call.=FALSE)
+    } else {
+        table.mcmc<-mulTree.mcmc
+        class(table.mcmc)<-'data.frame'
+    }
 
     #CI
     if (class(CI) != 'numeric') {
@@ -59,7 +64,6 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
 #CALCULATING THE HDR
 
     hdr.results<-FUN.hdr.mcmc(mulTree.mcmc, CI, ...)
-    class(hdr.results)<-"hdr.mulTree"
 
 #OUPTUT
 
