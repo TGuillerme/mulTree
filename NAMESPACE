@@ -1,9 +1,13 @@
-#Functions
+##Functions
 export(rTreeBind)
 export(as.mulTree)
 export(mulTree)
 export(read.mulTree)
-export(hdr.mulTree)  #Do embed in summary and plot?
-export(table.mulTree)  #Do embed in summary and plot?
+#export(hdr.#mulTree)  #Do embed in summary and plot?
+#export(table.#mulTree)  #Do embed in summary and plot?
 export(summary.mulTree) #Assign S3
 export(plot.mulTree) #Assign S3
+
+##S3 methods
+#S3method(plot, mulTree)
+S3method(summary, mulTree)
