@@ -273,7 +273,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
             }
         }
 
-        cat("Use sum.mulTree summarizing and plot.mulTree for plotting the results.\n", sep="")
+        cat("Use read.mulTree() to read the data as 'mulTree' data.\nUse summary.mulTree() and plot.mulTree() for plotting or summarizing the 'mulTree' data.\n", sep="")
     }
 
 #End
