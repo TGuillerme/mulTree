@@ -2,14 +2,15 @@
 #Reads mcmc objects from mulTree function
 ##########################
 #Reads mcmc objects from mulTree function stored out of R environment
-#v0.1
+#v0.2
+#Update: now outputs 'mulTree' objects
 ##########################
 #SYNTAX :
 #<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files.
 #<convergence> logical, if mulTree.mcmc is a chain name, whether to read the convergence file associated (default=FALSE)
 ##########################
 #----
-#guillert(at)tcd.ie - 12/08/2014
+#guillert(at)tcd.ie - 13/08/2014
 ##########################
 #Requirements:
 #-R 3
@@ -101,11 +102,19 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE)
     }
 
 #OUTPUT
+
+    #If convergence == FALSE transforms the file using table.mulTree function
+    if(convergence == FALSE) {
+        output<-table.mulTree(output)
+        #make output in format 'mulTree' (list)
+        class(output)<-'mulTree'
+    }
+
     return(output)
 
 #End
 }
-
+#bla<-read.mulTree("mulTree.out")
 #example
 read.mulTree.example=FALSE
 if(read.mulTree.example == TRUE) {
