@@ -12,29 +12,23 @@
 #<terms> a list of terms, if NULL, the terms are extracted from mulTree.mcmc (default=NULL)
 #<colour> any colour or list of colour for the plot, if NULL colour is set to greyscale (default=NULL)
 #<coeff.lim> the estimate coefficient range, if NULL, the range is set to the extreme values of mulTree.mcmc +/- 10%
-
-
 #<...> any additional argument to be passed to plot() function
-#<horizontal> whether to plot the boxplots horizontally or not (default=TRUE)
-#<add.table> a mulTree.mcmca.frame with the row names corresponding to the names of the "hdr.mcmc" to add to the plot (default=NULL). If add.table is not NULL, horizontal is set to TRUE.
-#<LaTeX> whether to print the latex code
+#<horizontal> whether to plot the boxplots horizontally or not (default=FALSE)
 ##########################
 #----
-#guillert(at)tcd.ie - 13/08/2014
+#guillert(at)tcd.ie - 14/08/2014
 ##########################
 #Requirements:
 #-R 3
-#-R package "MCMCglmm"
-#-R package "coda"
+#-R package "hdrcde"
 #-R package "xtable" (optional)
 ##########################
 
 
-plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", horizontal=FALSE, terms=NULL, colour=NULL, coeff.lim=NULL)
+plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NULL, colour=NULL, coeff.lim=NULL, ..., horizontal=FALSE)
 {
 #HEADER
-    require(MCMCglmm)
-    require(coda)
+    require(hdrcde)
 
 #DATA
     #mulTree.mcmc
@@ -92,7 +86,7 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", horizonta
             stop("\"coeff.lim\" must be numeric.", call.=FALSE)
         } else {
             if(length(coeff.lim) != 2) {
-                stop("\"coeff.lim\" must be a list of two elements.", call.=FALSE))
+                stop("\"coeff.lim\" must be a list of two elements.", call.=FALSE)
             }
         }
     }
@@ -101,60 +95,99 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", horizonta
 
 #FUNCTION
 
-    #Density Plot function (from densityplot.R by Andrew Jackson - a.jackson@tcd.ie)
-    FUN.densityplot <- function (mulTree.mcmc, CI, average, terms, colour, coeff.lim)
+    #plots one polygon
+    FUN.polygon<-function(mulTree.mcmc, n, CI, average, colours, horizontal)
     {
+        #calculates the hdr
+        temp <- hdr(mulTree.mcmc[,n], CI, h = bw.nrd0(mulTree.mcmc[,n]))
 
-    #x spacement
-    xspc<-0.5
-    n <- ncol(mulTree.mcmc)
-        
-    # Set up the plot
-    if (is.null(coeff.lim)){coeff.lim<-c(min(mulTree.mcmc) - 0.1*min(mulTree.mcmc), max(mulTree.mcmc) + 0.1*(max(mulTree.mcmc)))}
+        #setting box parameters
+        box_width <- seq(from=0.1, by = 0.05, length.out=length(CI))
 
-    plot(1,1 , xlab="", xlim = c(1 - xspc, n + xspc), ylim = coeff.lim, type = "n", xaxt = "n")
-    #x or y label may change
+        #plotting the boxes
+        if (horizontal == FALSE) {
 
-    axis(side = 1, at = 1:n, labels = (terms))
+            for (box in 1:length(CI)) {
+                temp2 <- temp$hdr[box,]
+                polygon(c(n - box_width[box], n - box_width[box], n + box_width[box], n + box_width[box]), #x
+                  c(min(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), min(temp2[!is.na(temp2)])), #y
+                  col = colours[box]) 
+            }
 
+            #adding the average
+            if (average == "mode") {
+                points(n, temp$mode, pch=19)
+            }
+            if (average == "mean") {
+                points(n, mean(mulTree.mcmc[,n]), pch=19)
+            }
+            if (average == "median") {
+                points(n, median(mulTree.mcmc[,n]), pch=19)
+            }
 
+        } else {
+            for (box in 1:length(CI)) { #reverse the terms to go from top to bottom
+                temp2 <- temp$hdr[box,]
+                polygon(c(min(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), min(temp2[!is.na(temp2)])), #x
+                  c(n - box_width[box], n - box_width[box], n + box_width[box], n + box_width[box]), #y
+                  col = colours[box])
+            }
 
+            #adding the average
+            if (average == "mode") {
+                points(temp$mode, n, pch=19)
+            }
+            if (average == "mean") {
+                points(mean(mulTree.mcmc[,n]), n, pch=19)
+            }
+            if (average == "median") {
+                points(median(mulTree.mcmc[,n]), n, pch=19)
+            }
+        }
+    } 
 
-    colours <- rep(colour, 5)
-    for (j in 1:n) {
-            temp <- hdr(mulTree.mcmc[, j], CI, h = bw.nrd0(mulTree.mcmc[,j]))
-            line_widths <- seq(2, 20, by = 4)
-            bwd <- c(0.1, 0.15, 0.2, 0.25, 0.3)
-            #if (prn == TRUE) {
-            #    cat(paste("Probability values for Column", j, "\n"))
-            #}
-            for (k in 1:length(CI)) {
-                temp2 <- temp$hdr[k, ]
-                type="boxes"
-                if (type == "boxes") {
-                    polygon(c(j - bwd[k], j - bwd[k], j + bwd[k], j + bwd[k]),
-                      c(min(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), 
-                      max(temp2[!is.na(temp2)]), min(temp2[!is.na(temp2)])),
-                      col = colours[k])
-                    if (average == "mode") {points(j,temp$mode,pch=19)}
-                    if (average == "mean") {points(j,mean(mulTree.mcmc[,j]),pch=19)}
-                    if (average == "median") {points(j,median(mulTree.mcmc[,j]),pch=19)}
+    #Density Plot function (from densityplot.R by Andrew Jackson - a.jackson@tcd.ie)
+    FUN.densityplot <- function (mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
+    {
+        #x spacement
+        xspc<-0.5
 
-                }
-                #if (prn == TRUE) {
-                #    cat(paste("\t", CI[k], "% lower =", format(max(min(temp2[!is.na(temp2)]),
-                #      0), digits = 2, scientific = FALSE), "upper =",
-                #      format(min(max(temp2[!is.na(temp2)]), 1), digits = 2,
-                #        scientific = FALSE), "\n"))
-                #}
-            } # close the loop across CI
-        } # close the loop across teh columns in mulTree.mcmc
+        #number of boxes
+        n<-ncol(mulTree.mcmc)
+            
+        #add axis
+        if (horizontal == FALSE) {
+            #blank plot frame
+            plot(1,1 , xlab="", ylab="", xlim = c(1 - xspc, ncol(mulTree.mcmc) + xspc), ylim = coeff.lim, type = "n", xaxt = "n", yaxt="n", bty = "n", ...)
+            #coeff.estimates (is y)
+            axis(side = 2)
+            #terms (is x)
+            axis(side = 1, at = 1:ncol(mulTree.mcmc), labels = (terms), las=2)
+        } else {
+            plot(1,1 , xlab="", ylab="", ylim = c(1 - xspc, ncol(mulTree.mcmc) + xspc), xlim = coeff.lim, type = "n", xaxt = "n", yaxt="n", bty = "n", ...)
+            #coeff.estimates (is x)
+            axis(side = 3)
+            #terms (is y)
+            axis(side = 2, at = 1:ncol(mulTree.mcmc), labels = rev(terms), las=2) #reverse the terms to go from top to bottom
+        }
+
+        #set the colours for the boxplots
+        colours <- rep(colour, 5)
+
+        #creates the boxplots using hdr and add them to the plot
+        for (n in 1:ncol(mulTree.mcmc)) {
+            FUN.polygon(mulTree.mcmc, n, CI, average, colours, horizontal)
+        } 
     }
-
 
 #PLOTTING THE MCMCglmm RESULTS
 
-    FUN.densityplot(mulTree.mcmc, CI, average, terms, colour, coeff.lim)
+    if(horizontal == TRUE) {
+        FUN.densityplot(rev(mulTree.mcmc), CI, average, terms, colour, coeff.lim, horizontal, ...)
+    } else {
+        FUN.densityplot(mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
+    }
+
 #OUTPUT
 
 #End
