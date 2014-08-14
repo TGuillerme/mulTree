@@ -6,13 +6,14 @@
 \description{Summarise MCMCglmm by performing the hdr function on mulTree data and outputs a list of hdr for each fixed and random terms.}
 
 \usage{
-summary.mulTree(mulTree.mcmc, CI=95, ...)
+## S3 method for class 'mulTree'
+summary(mulTree.mcmc, CI=95, ...)
 }
 
 \arguments{
 \item{mulTree.mcmc}{A "mulTree" object obtained from \code{read.mulTree()} function.}
 
-\item{CI}{A value for the lower and upper credibility intervals (default=\code{95}).}
+\item{CI}{A value for the lower and upper credibility intervals (default=95).}
 
 \item{...}{Any optional arguments to be passed to the \code{hdr} function.}
 }

@@ -13,9 +13,14 @@ read.mulTree(mulTree.mcmc, convergence=FALSE)
 \item{mulTree.mcmc}{A MCMC chain written by the \code{mulTree} function.
     Can be either a unique file or a chain name referring to multiple files.}
 
-\item{convergence}{logical, whether to read the convergence file associated (default=\code{FALSE}).}
+\item{convergence}{Logical, whether to read the convergence file associated (default=\code{FALSE}).}
+
+\item{model}{Logical, if \code{mulTree.mcmc} is not a chain name, whether to input the \code{MCMCglmm} model or the list of random and fixed terms only (default=FALSE)}
 }
 
+\details{
+\code{model=TRUE} can be used to load the \code{MCMCglmm} object of a unique chain. The resulting object can be then summarized or plotted as S3 method for class \code{'MCMCglmm'}.
+}
 
 \examples{
 #CREATING THE FILES
