@@ -36,6 +36,7 @@ mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 }
 
 \examples{
+## Not run:
 data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep('b',3)))
 #Creates a list of trees
 trees_list<-list() ; for (i in 1:5) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])}
@@ -54,6 +55,7 @@ mulTree(mulTree_data, form, param, priors=prior, verbose=TRUE, warn=FALSE)
 
 #Remove the generated files from the current directory
 file.remove(list.files(pattern="mulTree.out"))
+## End(Not run)
 }
 
 \author{Thomas Guillerme & Kevin Healy}

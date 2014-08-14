@@ -21,4 +21,8 @@ plot(mulTree.mcmc, CI=c(95, 75, 50), average="mode", horizontal=FALSE, terms=NUL
 
 }
 
+\examples{
+#Do example
+}
+
 \author{Thomas Guillerme}

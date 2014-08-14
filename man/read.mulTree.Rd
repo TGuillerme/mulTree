@@ -23,7 +23,7 @@ read.mulTree(mulTree.mcmc, convergence=FALSE)
 }
 
 \examples{
-#CREATING THE FILES
+## Not Run:
 data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep('b',3)))
 trees_list<-list() ; for (i in 1:2) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])} ; class(trees_list)<-'multiPhylo'
 mulTree_data<-as.mulTree(data_table, trees_list, species="taxa")
@@ -46,6 +46,7 @@ read.mulTree("mulTree.ex_tree1", convergence=TRUE) #both chains for tree 1 didn'
 #Remove the generated files from the current directory
 file.remove(list.files(pattern="mulTree.ex"))
 #TRUE TRUE TRUE TRUE TRUE TRUE
+## End(Not run)
 }
 
 \author{Thomas Guillerme}
