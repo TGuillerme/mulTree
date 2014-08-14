@@ -21,7 +21,6 @@
 #Requirements:
 #-R 3
 #-R package "hdrcde"
-#-R package "xtable" (optional)
 ##########################
 
 
