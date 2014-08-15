@@ -51,7 +51,7 @@ mcmc.formula <-longevity ~ mass + volant
 #parameters (number of generations, thin/sampling, burnin) For higher parameter ESS run longer.
 mcmc.parameters=c(101000, 10, 1000)
 #priors
-prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
+mcmc.priors<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 
 #mulTree
 mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
