@@ -45,9 +45,15 @@ class(trees_list)<-'multiPhylo'
 mulTree_data<-as.mulTree(data_table, trees_list, species="taxa")
 #formula
 <<<<<<< HEAD
+<<<<<<< HEAD
 mcmc.formula <-longevity ~ mass + volant
 #parameters (number of generations, thin/sampling, burnin) For higher parameter ESS run longer.
 mcmc.parameters=c(101000, 10, 1000)
+=======
+form=var1~var2
+#parameters
+param=c(100000, 1000, 25000)
+>>>>>>> parent of 1c7c606... Merge pull request #1 from healyke/master
 =======
 form=var1~var2
 #parameters
@@ -58,7 +64,11 @@ prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 
 #mulTree
 <<<<<<< HEAD
+<<<<<<< HEAD
 mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
+=======
+mulTree(mulTree_data, form, param, priors=prior, verbose=TRUE, warn=FALSE)
+>>>>>>> parent of 1c7c606... Merge pull request #1 from healyke/master
 =======
 mulTree(mulTree_data, form, param, priors=prior, verbose=TRUE, warn=FALSE)
 >>>>>>> parent of 1c7c606... Merge pull request #1 from healyke/master
