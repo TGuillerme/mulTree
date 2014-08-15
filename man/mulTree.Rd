@@ -57,7 +57,7 @@ mcmc.priors<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.00
 mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
 
 #Remove the generated files from the current directory
-file.remove(list.files(pattern="mulTree.out"))
+file.remove(list.files(pattern="longevity.example"))
 ## End(Not run)
 }
 
