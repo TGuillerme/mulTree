@@ -37,24 +37,31 @@ mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 
 \examples{
 ## Not run:
-##read in data
-data(lifespan_volant_192taxa)
-#read in separate aves and mammalia phylogenies with multiple trees
-data(aves_2tree_58taxa)
-data(mammalia_2tree_134taxa)
-#combine aves and mammalia trees
-combined_trees<-rTreeBind(x=mammalia_2tree_134taxa, y=aves_2tree_58taxa, sample=2, root.age=250)
+data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep('b',3)))
+#Creates a list of trees
+trees_list<-list() ; for (i in 1:5) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])}
+class(trees_list)<-'multiPhylo'
 #Creates the "mulTree" object
-mulTree_data<-as.mulTree(data=lifespan_volant_192taxa, trees=combined_trees, species="species")
+mulTree_data<-as.mulTree(data_table, trees_list, species="taxa")
 #formula
+<<<<<<< HEAD
 mcmc.formula <-longevity ~ mass + volant
 #parameters (number of generations, thin/sampling, burnin) For higher parameter ESS run longer.
 mcmc.parameters=c(101000, 10, 1000)
+=======
+form=var1~var2
+#parameters
+param=c(100000, 1000, 25000)
+>>>>>>> parent of 1c7c606... Merge pull request #1 from healyke/master
 #priors
 prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 
 #mulTree
+<<<<<<< HEAD
 mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
+=======
+mulTree(mulTree_data, form, param, priors=prior, verbose=TRUE, warn=FALSE)
+>>>>>>> parent of 1c7c606... Merge pull request #1 from healyke/master
 
 #Remove the generated files from the current directory
 file.remove(list.files(pattern="mulTree.out"))
