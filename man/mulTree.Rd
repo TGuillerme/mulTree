@@ -47,14 +47,14 @@ combined_trees<-rTreeBind(x=mammalia_2tree_134taxa, y=aves_2tree_58taxa, sample=
 #Creates the "mulTree" object
 mulTree_data<-as.mulTree(data=lifespan_volant_192taxa, trees=combined_trees, species="species")
 #formula
-formula <-longevity ~ mass + volant
+mcmc.formula <-longevity ~ mass + volant
 #parameters (number of generations, thin/sampling, burnin) For higher parameter ESS run longer.
-param=c(101000, 10, 1000)
+mcmc.parameters=c(101000, 10, 1000)
 #priors
 prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 
 #mulTree
-mulTree(mulTree_data, formula=formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
+mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
 
 #Remove the generated files from the current directory
 file.remove(list.files(pattern="mulTree.out"))
