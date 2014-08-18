@@ -32,7 +32,7 @@
 ##########################
 
 
-mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ..., convergence=1.1, ESS=1000, verbose=FALSE, output=TRUE, warn=TRUE)
+mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ..., convergence=1.1, ESS=1000, verbose=TRUE, output=TRUE, warn=FALSE)
 {   #warning("ouput option doesn't accept 'FALSE' yet (change the return format)")
     #stop("IN DEVELOPEMENT")
 #HEADER
@@ -277,36 +277,4 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     }
 
 #End
-}
-
-#example
-mulTree.example=FALSE
-if(mulTree.example == TRUE) {
-    #DUMMY EXAMPLE
-    data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep('b',3)))
-    #Creates a list of trees
-    trees_list<-list() ; for (i in 1:5) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])} ; class(trees_list)<-'multiPhylo'
-    #Creates the "mulTree" object
-    mulTree_data<-as.mulTree(data_table, trees_list, species="taxa")
-    #formula
-    form=var1~var2
-    #parameters
-    param=c(100000, 1000, 25000)
-    #priors
-    prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
-
-    #mulTree
-    mulTree(mulTree_data, form, param, priors=prior, verbose=TRUE, warn=FALSE)
-
-    #EMPIRICAL EXAMPLE
-    mam_aves_tres<-read.tree("example/10trees_mammal-aves.tre")
-    long_data<-read.csv("example/425sp_LongevityData.csv")
-    longevity.data<-as.mulTree(long_data, mam_aves_tres, species="species.m")
-    formu<-long.m~BMR + mass.m + volant.m + mass.m:volant.m
-    param<-c(1000, 50, 250)
-    prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
-    outpu<-"longevity"
-    #mulTree
-    mulTree(longevity.data, formu, param, chains=2, prior, verbose=TRUE, output=outpu, warn=FALSE)
-
 }

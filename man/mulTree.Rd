@@ -8,7 +8,7 @@ The results can be written out of R environment as individual models.}
 
 \usage{
 mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
-        convergence=1.1, ESS=1000, verbose=FALSE, output=TRUE, warn=TRUE)
+        convergence=1.1, ESS=1000, verbose=TRUE, output=TRUE, warn=FALSE)
 }
 
 \arguments{
@@ -28,35 +28,39 @@ mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 
 \item{ESS}{A numerical value for assessing the effective sample size (default=\code{1000})}
 
-\item{verbose}{Whether to be verbose or not (default=\code{FALSE}).}
+\item{verbose}{Whether to be verbose or not (default=\code{TRUE}).}
 
 \item{output}{Any optional string of characters that will be used as chain name for the models output (default=\code{TRUE}).}
 
-\item{warn}{Whether to print the warning messages from the MCMCglmm function (default=TRUE).}
+\item{warn}{Whether to print the warning messages from the MCMCglmm function (default=\code{FALSE}).}
 }
 
 \examples{
 ## Not run:
-##read in data
-data(lifespan_volant_192taxa)
-#read in separate aves and mammalia phylogenies with multiple trees
-data(aves_2tree_58taxa)
-data(mammalia_2tree_134taxa)
-#combine aves and mammalia trees
-combined_trees<-rTreeBind(x=mammalia_2tree_134taxa, y=aves_2tree_58taxa, sample=2, root.age=250)
-#Creates the "mulTree" object
-mulTree_data<-as.mulTree(data=lifespan_volant_192taxa, trees=combined_trees, species="species")
-#formula
+##Before the analysis:
+##read in the data
+data(lifespan)
+##combine aves and mammalia trees
+combined_trees<-rTreeBind(x=trees_mammalia, y=trees_aves, sample=2, root.age=250)
+
+##Preparing the variables for the mulTree function
+##creates the "mulTree" object
+mulTree_data<-as.mulTree(data=lifespan_volant, trees=combined_trees, species="species")
+##formula
 mcmc.formula <-longevity ~ mass + volant
-#parameters (number of generations, thin/sampling, burnin) For higher parameter ESS run longer.
-mcmc.parameters=c(101000, 10, 1000)
-#priors
+##parameters (number of generations, thin/sampling, burnin)
+mcmc.parameters=c(101000, 10, 1000) # For higher ESS run longer by increasing the number of generations
+##priors
 mcmc.priors<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 
-#mulTree
-mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, verbose=TRUE, output="longevity.example", warn=FALSE, chains = 2, ESS = 50)
+##Running MCMCglmm on multiple trees
+##WARNING: This example takes between 1 and 2 minutes two run and generates files in your current directory.
+mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, output="longevity.example", ESS = 50) # For higher ESS run longer by increasing the number of generations
 
-#Remove the generated files from the current directory
+##The models are saved out of R environment under the "longevity.example" chains names.
+##Use read.mulTree() to read the generated models.
+
+##Remove the generated files from the current directory
 file.remove(list.files(pattern="longevity.example"))
 ## End(Not run)
 }

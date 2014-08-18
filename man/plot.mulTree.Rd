@@ -21,8 +21,14 @@ plot(mulTree.mcmc, CI=c(95, 75, 50), average="mode", horizontal=FALSE, terms=NUL
 
 }
 
+\seealso{\link{read.mulTree}, \link{summary.mulTree}}
+
 \examples{
-#Do example
+##read in the data
+data(lifespan.mcmc)
+
+##plotting the results
+plot(lifespan.mcmc)
 }
 
 \author{Thomas Guillerme}

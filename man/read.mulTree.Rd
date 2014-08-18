@@ -22,31 +22,38 @@ read.mulTree(mulTree.mcmc, convergence=FALSE)
 \code{model=TRUE} can be used to load the \code{MCMCglmm} object of a unique chain. The resulting object can be then summarized or plotted as S3 method for class \code{'MCMCglmm'}.
 }
 
+\seealso{\link{summary.mulTree}, \link{plot.mulTree}}
+
 \examples{
-## Not Run:
+## Not run:
+##Before the analysis:
+##create a data.frame
 data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep('b',3)))
+#Creates a list of trees
 trees_list<-list() ; for (i in 1:2) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])} ; class(trees_list)<-'multiPhylo'
-mulTree_data<-as.mulTree(data_table, trees_list, species="taxa")
-form=var1~var2
-param=c(10000, 100, 250)
+#priors
 prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
-mulTree(mulTree_data, form, param, priors=prior, verbose=FALSE, output="mulTree.ex", warn=FALSE)
- 
-#Reading one chain
-tree1_chain1<-read.mulTree("mulTree.ex_tree1_chain1.rda")
-traceplot(tree1_chain1\$Sol) #plotting the chain
+#mulTree
+mulTree(as.mulTree(data_table, trees_list, species="taxa"), var1~var2, param=c(10000, 10, 2500), priors=prior, verbose=FALSE, output="dummy_ex")
+##The models are saved out of R environment under the "dummy_ex" chains names.
 
-#Reading all the chains for both trees
-all_chains<-read.mulTree("mulTree.ex")
-summary(all_chains) #Use sum.mulTree to properly summarize the data!
+##Reading only one model
+model<-read.mulTree("dummy_ex_tree1_chain1", model=TRUE)
+plot(model)
 
-#Reading a single the convergence file for tree 1
-read.mulTree("mulTree.ex_tree1", convergence=TRUE) #both chains for tree 1 didn't converged!
+##Reading the convergence diagnosis for tree 1
+read.mulTree("dummy_ex_tree1", convergence=TRUE)
 
-#Remove the generated files from the current directory
-file.remove(list.files(pattern="mulTree.ex"))
-#TRUE TRUE TRUE TRUE TRUE TRUE
+##Reading all the models
+all_chains<-read.mulTree("dummy_ex")
+summary(all_chains)
+
+##Remove the generated files from the current directory
+file.remove(list.files(pattern="dummy_ex"))
 ## End(Not run)
 }
 
 \author{Thomas Guillerme}
+
+
+

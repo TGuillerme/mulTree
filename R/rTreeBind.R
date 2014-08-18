@@ -157,11 +157,3 @@ rTreeBind<-function(x, y, sample, root.age) {
 
 #End
 }
-
-#Example
-rTreeBind.example=FALSE
-if(rTreeBind.example == TRUE){
-    x<-rmtree(10,5) ; y<-rmtree(5,5)
-    #Combines 2 randomly chosen trees from x and from y into z putting the root age at 12.
-    z<-rTreeBind(x, y , sample=2, root.age=12)
-}

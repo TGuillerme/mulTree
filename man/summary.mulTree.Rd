@@ -18,9 +18,15 @@ summary(mulTree.mcmc, CI=95, ...)
 \item{...}{Any optional arguments to be passed to the \code{hdr} function.}
 }
 
+\seealso{\link{read.mulTree}, \link{plot.mulTree}}
 
 \examples{
-#Do example
+##read in the data
+data(lifespan.mcmc)
+
+##summarizing all the chains
+summary(lifespan.mcmc)
+
 }
 
 \author{Thomas Guillerme}
