@@ -6,6 +6,10 @@ export(read.mulTree)
 export(summary.mulTree)
 export(plot.mulTree)
 
+##Data
+#export(lifespan)
+#export(lifespan_volant_192taxa)
+
 ##S3 methods
 S3method(plot, mulTree)
 S3method(summary, mulTree)
