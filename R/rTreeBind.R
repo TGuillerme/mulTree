@@ -2,7 +2,7 @@
 #Randomly binds trees together
 ##########################
 #Randomly binds trees together with a provided number of trees and a root age.
-#v1.2.2
+#v1.3
 #Update: removed verbose option (useless)
 #Update: fixed randY
 #Update: added example
@@ -22,7 +22,7 @@
 
 rTreeBind<-function(x, y, sample, root.age) {
 
-#HEADER
+#HEADER 
     require(ape)
 
 #DATA INPUT
@@ -48,44 +48,38 @@ rTreeBind<-function(x, y, sample, root.age) {
     }
 
     #sample
-    if (class(sample) !='numeric') {
-        stop("\"sample\" argument must be numeric.", call.=FALSE)
+    CHECK.class(sample, 'numeric', " must be numeric.")
+    #checking if sample is > or < than the number of trees provided
+    if (sample == 1) {
+        replace.x=FALSE
     } else {
-        #checking if sample is > or < than the number of trees provided
-
-        if (sample == 1) {
-            replace.x=FALSE
+        if(x.single.tree == TRUE) {
+            warning("\"sample\" is a higher than the number of trees in \"x\": \"x\" will be re-sampled.", call.=FALSE)
+            replace.x=TRUE               
         } else {
-            if(x.single.tree == TRUE) {
+            if (sample > length(x)) {
                 warning("\"sample\" is a higher than the number of trees in \"x\": \"x\" will be re-sampled.", call.=FALSE)
-                replace.x=TRUE               
+                replace.x=TRUE
             } else {
-                if (sample > length(x)) {
-                    warning("\"sample\" is a higher than the number of trees in \"x\": \"x\" will be re-sampled.", call.=FALSE)
-                    replace.x=TRUE
-                } else {
-                    replace.x=FALSE
-                }
+                replace.x=FALSE
             }
         }
+    }
 
-
-        if (sample == 1) {
-            replace.y=FALSE
+    if (sample == 1) {
+        replace.y=FALSE
+    } else {
+        if(y.single.tree == TRUE) {
+            warning("\"sample\" is a higher than the number of trees in \"y\": \"y\" will be re-sampled.", call.=FALSE)
+            replace.y=TRUE               
         } else {
-            if(y.single.tree == TRUE) {
+            if (sample > length(y)) {
                 warning("\"sample\" is a higher than the number of trees in \"y\": \"y\" will be re-sampled.", call.=FALSE)
-                replace.y=TRUE               
+                replace.y=TRUE
             } else {
-                if (sample > length(y)) {
-                    warning("\"sample\" is a higher than the number of trees in \"y\": \"y\" will be re-sampled.", call.=FALSE)
-                    replace.y=TRUE
-                } else {
-                    replace.y=FALSE
-                }
+                replace.y=FALSE
             }
         }
-
     }
 
     #root age

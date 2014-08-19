@@ -3,9 +3,10 @@
 ##########################
 #Combines a table and a multiple phylogenies using comparative.data{caper} function.
 #Changes the name of the species column into "sp.col" to be read by comparative.data
-#v0.1.1
+#v0.2
 #Update: added the 'animal' column
 #Update: added example
+#Update: isolated function externally
 ##########################
 #SYNTAX :
 #<data> any table ("data.frame" or "matrix" object) containing at least two variable and species names
@@ -32,13 +33,10 @@ as.mulTree<-function(data, trees, species) {
     if (class(data) == 'matrix') {
         data<-as.data.frame(data)
     }
-
-    if (class(data) != 'data.frame') {
-        stop("\"data\" must be a \"data.frame\" object.", call.=FALSE)
-    } else {
-        if(length(data) < 3) {
-            stop("\"data\" must contain one species name column and at least two variables.", call.=FALSE)
-        }
+    CHECK.class(data, 'data.frame', " must be a \"data.frame\" object.")
+    #Testing the length
+    if(length(data) < 3) {
+        stop("\"data\" must contain one species name column and at least two variables.", call.=FALSE)
     }
 
 
@@ -80,9 +78,8 @@ as.mulTree<-function(data, trees, species) {
             species=names(data)[species]
         }
     } else {
-        if(length(grep(species, names(data))) == 0) {
-            stop("\"",species,"\""," not found in \"data\".", call.=FALSE)
-        }
+        species.names<-grep(species, names(data))
+        CHECK.length(species.names, 0, " not found in \"data\".", errorif=TRUE)
     }
 
 #FUNCTION

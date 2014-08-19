@@ -5,6 +5,7 @@
 #v0.3
 #Update: now outputs 'mulTree' objects
 #Update: allows to read a MCMCmodel (class 'MCMCglmm')
+#Update: isolated function externally
 ##########################
 #SYNTAX :
 #<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files.
@@ -30,39 +31,33 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
 #DATA
     #mulTree.mcmc
     files<-list.files(pattern=mulTree.mcmc)
-    if(length(files) == 0) {
-        stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
+    CHECK.length(files, 0, " files not found.", errorif=TRUE)
+
+    if(length(files) == 1) {
+        chain=FALSE
+        if(length(grep("chain1.rda", files)) == 0) {
+            stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
+        }
     } else {
-        if(length(files) == 1) {
-            chain=FALSE
-            if(length(grep("chain1.rda", files)) == 0) {
-                stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
-            }
-        } else {
-            chain=TRUE
-            if(length(grep("chain1.rda", files)) == 0) {
-                stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
-            }
+        chain=TRUE
+        if(length(grep("chain1.rda", files)) == 0) {
+            stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
         }
     }
 
+
     #convergence
-    if(class(convergence) != 'logical') {
-        stop("\"convergence\" must be logical.")
-    } else {
-        if(convergence == TRUE & chain == FALSE) {
-            warning("The convergence file can't be loaded because \"", mulTree.mcmc, "\" is not a chain name.", sep="",call.=FALSE)
-        }
+    CHECK.class(convergence, 'logical', " must be logical.")
+    if(convergence == TRUE & chain == FALSE) {
+        warning("The convergence file can't be loaded because \"", mulTree.mcmc, "\" is not a chain name.", sep="",call.=FALSE)
     }
 
     #model
-    if(class(model) != 'logical') {
-        stop("\"model\" must be logical.")
-    } else {
-        if(chain == TRUE & model == TRUE) {
-            stop("The MCMCglmm model can't be loaded because \"", mulTree.mcmc, "\" is a chain name.", sep="",call.=FALSE)
-        }
+    CHECK.class(model, 'logical', " must be logical.")
+    if(chain == TRUE & model == TRUE) {
+        stop("The MCMCglmm model can't be loaded because \"", mulTree.mcmc, "\" is a chain name.", sep="",call.=FALSE)
     }
+
 
 #FUNCTION
     FUN.read.mulTree<-function(mcmc.file) {

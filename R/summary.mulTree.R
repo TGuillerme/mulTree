@@ -21,7 +21,7 @@
 
 summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
 {
-
+ 
 #DATA
     #mulTree.mcmc
     CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")

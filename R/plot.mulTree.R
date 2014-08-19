@@ -2,7 +2,8 @@
 #Plots the results of a mulTree analysis
 ##########################
 #Plots a boxplots of the fixed and random terms of the summarized multi tree MCMCglmm
-#v0.1
+#v0.2
+#Update: isolated function externally
 ##########################
 #SYNTAX :
 #<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files. Use read.mulTree() to properly load the chains
@@ -31,17 +32,12 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 
 #DATA
     #mulTree.mcmc
-    if(class(mulTree.mcmc) != 'mulTree') {
-        stop(as.character(substitute(mulTree.mcmc))," must be a 'mulTree' object.\nUse read.mulTree() function.", call.=FALSE)
-    } else {
-        #rebuild mulTree.mcmc as a data.frame
-        class(mulTree.mcmc)<-"data.frame"
-    }
+    CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+    #rebuild mulTree.mcmc as a data.frame
+    class(mulTree.mcmc)<-"data.frame"
 
     #CI
-    if (class(CI) != 'numeric') {
-        stop("Credibility interval must be between 0 and 100.", call.=FALSE)
-    }
+    CHECK.class(CI, 'numeric', " is not numeric.")
     if (any(CI < 0)) {
         stop("Credibility interval must be between 0 and 100.", call.=FALSE)
     } else {
@@ -52,20 +48,15 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 
     #average
     first.moment<-c("mode", "median", "mean")
-    if (class(average) != 'character') {
-        stop("\"average\" must be either \"mode\", \"median\" or \"mean\".", call.=FALSE)
+    CHECK.class(average, 'character', "must be either \"mode\", \"median\" or \"mean\".")
+    if (any(average == first.moment)) {
+        ok<-"ok"
     } else {
-        if (any(average == first.moment)) {
-            ok<-"ok"
-        } else {
-            stop("\"average\" must be either \"mode\", \"median\" or \"mean\".", call.=FALSE)
-        }       
-    }
+        stop("\"average\" must be either \"mode\", \"median\" or \"mean\".", call.=FALSE)
+    }       
 
     #horizontal
-    if(class(horizontal) != 'logical'){
-        stop('"horizontal" must be logical.')
-    }
+    CHECK.class(horizontal, 'logical', " must be logical.")
 
     #colour
     if (is.null(colour)) {
@@ -81,16 +72,9 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
     if (is.null(coeff.lim)) {
         coeff.lim<-c(min(mulTree.mcmc) - 0.1*min(mulTree.mcmc), max(mulTree.mcmc) + 0.1*(max(mulTree.mcmc)))
     } else {
-        if(class(coeff.lim) != 'numeric') {
-            stop("\"coeff.lim\" must be numeric.", call.=FALSE)
-        } else {
-            if(length(coeff.lim) != 2) {
-                stop("\"coeff.lim\" must be a list of two elements.", call.=FALSE)
-            }
-        }
+        CHECK.class(coeff.lim, 'numeric', " must be numeric.")
+        CHECK.length(coeff.lim, 2, " must be a list of two elements.")
     }
-
-    #add.table
 
 #FUNCTION
 

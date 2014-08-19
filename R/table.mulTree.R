@@ -18,8 +18,8 @@
 
 
 table.mulTree<-function(mulTree.mcmc)
-{   #stop("IN DEVELOPEMENT")
-    #warning("only works with uni-modal and hdr")
+{
+    
 #HEADER
     require(MCMCglmm)
     require(coda)

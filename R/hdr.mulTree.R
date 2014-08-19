@@ -2,7 +2,8 @@
 #Calculates the highest density regions for mulTree data
 ##########################
 #Performs the hdr function on mulTree data and outputs a list of hdr for each fixed and random terms
-#v0.1
+#v0.2
+#Update: isolated function externally
 ##########################
 #SYNTAX :
 #<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files. Use read.mulTree() to properly load the chains
@@ -32,17 +33,13 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
 
 #DATA
     #mulTree.mcmc
-    if(class(mulTree.mcmc) != 'mulTree') {
-        stop(as.character(substitute(mulTree.mcmc))," must be a 'mulTree' object.\nUse read.mulTree() function.", call.=FALSE)
-    } else {
-        table.mcmc<-mulTree.mcmc
-        class(table.mcmc)<-'data.frame'
-    }
+    CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+    #making the 'mulTree' object into a 'data.frame'
+    table.mcmc<-mulTree.mcmc
+    class(table.mcmc)<-'data.frame'
 
     #CI
-    if (class(CI) != 'numeric') {
-        stop("Credibility interval must be between 0 and 100.", call.=FALSE)
-    }
+    CHECK.class(CI, 'numeric', " is not numeric.")
     if (any(CI < 0)) {
         stop("Credibility interval must be between 0 and 100.", call.=FALSE)
     } else {
