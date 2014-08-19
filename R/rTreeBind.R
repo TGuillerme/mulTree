@@ -2,10 +2,11 @@
 #Randomly binds trees together
 ##########################
 #Randomly binds trees together with a provided number of trees and a root age.
-#v1.2.1
+#v1.2.2
 #Update: removed verbose option (useless)
 #Update: fixed randY
 #Update: added example
+#Update: isolated function externally
 ##########################
 #SYNTAX :
 #<x,y> two phylo or multiPhylo objects
@@ -88,9 +89,7 @@ rTreeBind<-function(x, y, sample, root.age) {
     }
 
     #root age
-    if (class(root.age) != 'numeric') {
-        stop("\"root.age\" argument must be numeric.")
-    }
+    CHECK.class(root.age, 'numeric', " must be numeric.")
 
 #FUNCTION
 

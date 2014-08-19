@@ -2,8 +2,9 @@
 #Summarise MCMCglmm 'mulTree' data
 ##########################
 #Creates a table containing the modes and the credibility intervals for the fixed and the random terms
-#v0.2
+#v0.3
 #Update: removed the hdr calculations
+#Update: isolated function externally
 ##########################
 #SYNTAX :
 #<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files. Use read.mulTree() to properly load the chains
@@ -19,16 +20,11 @@
 
 
 summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
-{   #stop("IN DEVELOPEMENT")
-    #warning("only works with uni-modal and hdr")
-#HEADER
-
+{
 
 #DATA
-    #hdr.mcmc
-    if(class(mulTree.mcmc) != 'mulTree') {
-        stop(as.character(substitute(mulTree.mcmc))," must be a 'mulTree' object.\nUse read.mulTree() function.", call.=FALSE)
-    }
+    #mulTree.mcmc
+    CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
 
 #FUNCTIONS
 
