@@ -1,12 +1,12 @@
 #Checking the class of an object and returning an error message if != class
 
-CHECK.class<-function(object, class, msg, errorif=FALSE) {
+CHECK.length<-function(object, length, msg, errorif=FALSE) {
     if(errorif==FALSE) {
-        if(class(object) != class) {
+        if(length(object) != length) {
             stop(as.character(substitute(object)), msg , call.=FALSE)
         }
     } else {
-        if(class(object) == class) {
+        if(length(object) == length) {
             stop(as.character(substitute(object)), msg , call.=FALSE)
         }        
     }
