@@ -43,9 +43,9 @@ table.mulTree<-function(mulTree.mcmc)
         }
     }
 
-#FUNCTIONS
+#funCTIONS
 
-    FUN.table.mcmc<-function(data.mcmc) {
+    fun.table.mcmc<-function(data.mcmc) {
         if(class(data.mcmc) == "MCMCglmm") {
             #Isolates the fixed terms (model$Sol) and the random terms (model$VCV)
             #Adding the fixed terms
@@ -72,7 +72,7 @@ table.mulTree<-function(mulTree.mcmc)
 
 #SUMMARIZYNG THE MCMC
 
-    table.results<-FUN.table.mcmc(mulTree.mcmc)
+    table.results<-fun.table.mcmc(mulTree.mcmc)
 
 #OUPTUT
 

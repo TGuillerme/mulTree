@@ -24,11 +24,11 @@ summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
  
 #DATA
     #mulTree.mcmc
-    CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+    check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
 
-#FUNCTIONS
+#funCTIONS
 
-    FUN.sum.mcmc<-function(hdr.mcmc) {
+    fun.sum.mcmc<-function(hdr.mcmc) {
         #Summarize the hdr.mcmc list building a table with the terms as rows and the estimates and the CI as columns
         #Preparing the columns
         terms<-names(hdr.mcmc)
@@ -51,7 +51,7 @@ summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
     hdr.results<-hdr.mulTree(mulTree.mcmc, CI=95, ...)
 
     #Returns in a table
-    table<-FUN.sum.mcmc(hdr.results)
+    table<-fun.sum.mcmc(hdr.results)
 
 #OUPTUT
 

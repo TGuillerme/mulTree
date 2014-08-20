@@ -31,7 +31,7 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
 #DATA
     #mulTree.mcmc
     files<-list.files(pattern=mulTree.mcmc)
-    CHECK.length(files, 0, " files not found.", errorif=TRUE)
+    check.length(files, 0, " files not found.", errorif=TRUE)
 
     if(length(files) == 1) {
         chain=FALSE
@@ -47,20 +47,20 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
 
 
     #convergence
-    CHECK.class(convergence, 'logical', " must be logical.")
+    check.class(convergence, 'logical', " must be logical.")
     if(convergence == TRUE & chain == FALSE) {
         warning("The convergence file can't be loaded because \"", mulTree.mcmc, "\" is not a chain name.", sep="",call.=FALSE)
     }
 
     #model
-    CHECK.class(model, 'logical', " must be logical.")
+    check.class(model, 'logical', " must be logical.")
     if(chain == TRUE & model == TRUE) {
         stop("The MCMCglmm model can't be loaded because \"", mulTree.mcmc, "\" is a chain name.", sep="",call.=FALSE)
     }
 
 
-#FUNCTION
-    FUN.read.mulTree<-function(mcmc.file) {
+#funCTION
+    fun.read.mulTree<-function(mcmc.file) {
         model.name<-load(mcmc.file)
         model<-get(model.name)
         #Testing if the mcmc.file is the right object class
@@ -70,7 +70,7 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
         return(model)
     }
 
-    FUN.read.convergence<-function(conv.file){
+    fun.read.convergence<-function(conv.file){
         conv.name<-load(conv.file)
         converge<-get(conv.name)
         #Testing if the mcmc.file is the right object class
@@ -85,7 +85,7 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
     if(model == TRUE) {
 
         mcmc.file<-files[grep("_chain", files)]
-        mcmc.model<-FUN.read.mulTree(mcmc.file)
+        mcmc.model<-fun.read.mulTree(mcmc.file)
 
     } else {
 
@@ -95,10 +95,10 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
             conv.file<-files[grep("_conv.rda", files)]
             if(chain == FALSE) {
                 #Reading a single convergence file
-                output<-FUN.read.convergence(conv.file)
+                output<-fun.read.convergence(conv.file)
             } else {
                 #Reading multiple convergence files
-                output<-lapply(conv.file, FUN.read.convergence)
+                output<-lapply(conv.file, fun.read.convergence)
                 names(output)<-strsplit(conv.file, split=".rda")
             }
         } else {
@@ -107,10 +107,10 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
             mcmc.file<-files[grep("_chain", files)]
             if(chain == FALSE) {
                 #Reading a single chain
-                output<-FUN.read.mulTree(mcmc.file)
+                output<-fun.read.mulTree(mcmc.file)
             } else {
                 #Reading multiple chains
-                output<-lapply(mcmc.file, FUN.read.mulTree)
+                output<-lapply(mcmc.file, fun.read.mulTree)
                 names(output)<-strsplit(mcmc.file, split=".rda")
             }
         }

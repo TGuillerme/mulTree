@@ -48,23 +48,23 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 #DATA
     #mulTree.data
     #must be mulTree
-    CHECK.class(mulTree.data, 'mulTree', " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
+    check.class(mulTree.data, 'mulTree', " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
     #must be of three elements
-    CHECK.length(mulTree.data, 3, " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
+    check.length(mulTree.data, 3, " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
     #first element must be phylo
     mulTree_phylogeny<-mulTree.data[[1]]
-    CHECK.class(mulTree_phylogeny, 'multiPhylo', " is not a \"multiPhylo\" object.\nUse as.mulTree.data() function.")
+    check.class(mulTree_phylogeny, 'multiPhylo', " is not a \"multiPhylo\" object.\nUse as.mulTree.data() function.")
     #second element must be data.frame
     mulTree_data<-mulTree.data[[2]]
-    CHECK.class(mulTree_data, 'data.frame', " is not a \"data.frame\" object.\nUse as.mulTree.data() function.")
+    check.class(mulTree_data, 'data.frame', " is not a \"data.frame\" object.\nUse as.mulTree.data() function.")
 
 
     #formula
-    CHECK.class(formula, 'formula', " is not a \"formula\" object.")
+    check.class(formula, 'formula', " is not a \"formula\" object.")
 
     #chains
-    CHECK.class(chains, 'numeric', " must be numeric.")
-    CHECK.length(chains, 1, " must be a single value.")
+    check.class(chains, 'numeric', " must be numeric.")
+    check.length(chains, 1, " must be a single value.")
     if(chains == 1) {
         multiple.chains=FALSE
         warning("Only one chain has been called:\nconvergence test can't be performed.", call.=FALSE)
@@ -73,27 +73,27 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     }
 
     #parameters
-    CHECK.class(parameters, 'numeric', " is not a \"vector\" object.")
-    CHECK.length(parameters, 3, "must be a vector of three elements:\nthe number of generations ; the sampling and the burnin.")
+    check.class(parameters, 'numeric', " is not a \"vector\" object.")
+    check.length(parameters, 3, "must be a vector of three elements:\nthe number of generations ; the sampling and the burnin.")
 
     #priors
     if(is.null(priors)) {
         prior.default=TRUE
     } else {
         prior.default=FALSE
-        CHECK.class(priors, 'list', " must be a list of three elements:\nsee ?MCMCglmm manual.")
+        check.class(priors, 'list', " must be a list of three elements:\nsee ?MCMCglmm manual.")
     }
 
     #convergence
-    CHECK.class(convergence, 'numeric', " must be numeric.")
-    CHECK.length(convergence, 1, " must be a single value.")
+    check.class(convergence, 'numeric', " must be numeric.")
+    check.length(convergence, 1, " must be a single value.")
 
     #ESS
-    CHECK.class(ESS, 'numeric', " must be numeric.")
-    CHECK.length(ESS, 1, " must be a single value.")
+    check.class(ESS, 'numeric', " must be numeric.")
+    check.length(ESS, 1, " must be a single value.")
 
     #verbose
-    CHECK.class(verbose, 'logical', " must be logical.")
+    check.class(verbose, 'logical', " must be logical.")
 
     #output
     if(class(output) == 'logical') {
@@ -107,19 +107,19 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
         }
     }
     if(class(output) != 'logical') {
-        CHECK.class(output, 'logical', " must be a chain of characters.")
-        CHECK.length(output, 1, " must be a single chain of characters.")
+        check.class(output, 'logical', " must be a chain of characters.")
+        check.length(output, 1, " must be a single chain of characters.")
     } else {
         do.output=TRUE
     }
 
     #warn
-    CHECK.class(warn, 'logical', " must be logical.")
+    check.class(warn, 'logical', " must be logical.")
 
-#FUNCTION
+#funCTION
 
 
-    FUN.MCMCglmm<-function(ntree, mulTree.data, formula, priors, parameters, warn, ...){
+    fun.MCMCglmm<-function(ntree, mulTree.data, formula, priors, parameters, warn, ...){
         require(MCMCglmm)
         #Model running using MCMCglmm function (MCMCglmm) on each tree [i] on two independent chains
         if(warn == FALSE) {
@@ -132,7 +132,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
         return(model)
     }
 
-    FUN.convergence.test<-function(chains){
+    fun.convergence.test<-function(chains){
         #Creating the mcmc.list
         list.mcmc<-list()
         for (nchains in 1:chains){
@@ -165,7 +165,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
         
         #Running the model for one tree
         for (nchains in 1:chains) {
-            model_chain<-FUN.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            model_chain<-fun.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
             assign(paste("model_chain", nchains, sep=""), model_chain)
         }
 
@@ -180,7 +180,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 
         #Testing the convergence for one tree
         if(multiple.chains == TRUE) {
-            converge.test<-FUN.convergence.test(chains)
+            converge.test<-fun.convergence.test(chains)
         }
 
         #Saving convergence

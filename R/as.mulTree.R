@@ -33,7 +33,7 @@ as.mulTree<-function(data, trees, species) {
     if (class(data) == 'matrix') {
         data<-as.data.frame(data)
     }
-    CHECK.class(data, 'data.frame', " must be a \"data.frame\" object.")
+    check.class(data, 'data.frame', " must be a \"data.frame\" object.")
     #Testing the length
     if(length(data) < 3) {
         stop("\"data\" must contain one species name column and at least two variables.", call.=FALSE)
@@ -79,12 +79,12 @@ as.mulTree<-function(data, trees, species) {
         }
     } else {
         species.names<-grep(species, names(data))
-        CHECK.length(species.names, 0, " not found in \"data\".", errorif=TRUE)
+        check.length(species.names, 0, " not found in \"data\".", errorif=TRUE)
     }
 
-#FUNCTION
+#funCTION
 
-    FUN.comparative.data.test<-function(data, trees, is.multiphylo){
+    fun.comparative.data.test<-function(data, trees, is.multiphylo){
 
         if(is.multiphylo == TRUE) {
             test<-try(comparative.data(trees[[1]], data, names.col="sp.col", vcv=FALSE), silent=TRUE) #see comment in the BUILDING THE "mulTree" OBJECT LIST section
@@ -113,7 +113,7 @@ as.mulTree<-function(data, trees, species) {
     data$animal<-data$sp.col
 
     #Testing if the data and the trees can be used in comparative.data() and creating the 'mulTree' list
-    if(FUN.comparative.data.test(data, trees, is.multiphylo) == TRUE) {
+    if(fun.comparative.data.test(data, trees, is.multiphylo) == TRUE) {
         species.column<-paste("renamed column '", species, "' into 'sp.col'", sep="")
         output<-list(phy=trees, data=data, species.column=species.column)
         class(output)<-'mulTree'

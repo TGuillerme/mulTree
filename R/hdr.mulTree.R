@@ -33,13 +33,13 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
 
 #DATA
     #mulTree.mcmc
-    CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+    check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
     #making the 'mulTree' object into a 'data.frame'
     table.mcmc<-mulTree.mcmc
     class(table.mcmc)<-'data.frame'
 
     #CI
-    CHECK.class(CI, 'numeric', " is not numeric.")
+    check.class(CI, 'numeric', " is not numeric.")
     if (any(CI < 0)) {
         stop("Credibility interval must be between 0 and 100.", call.=FALSE)
     } else {
@@ -48,9 +48,9 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
         }
     }
 
-#FUNCTIONS
+#funCTIONS
 
-    FUN.hdr.mcmc<-function(table.mcmc, CI, ...) {
+    fun.hdr.mcmc<-function(table.mcmc, CI, ...) {
         #A list calculating the hdr for each fix and random terms
         hdr.mcmc<-lapply(as.list(table.mcmc), hdr, CI, ...)
         #Output
@@ -60,7 +60,7 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
 
 #CALCULATING THE HDR
 
-    hdr.results<-FUN.hdr.mcmc(mulTree.mcmc, CI, ...)
+    hdr.results<-fun.hdr.mcmc(mulTree.mcmc, CI, ...)
 
 #OUPTUT
 

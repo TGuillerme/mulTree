@@ -32,12 +32,12 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 
 #DATA
     #mulTree.mcmc
-    CHECK.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+    check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
     #rebuild mulTree.mcmc as a data.frame
     class(mulTree.mcmc)<-"data.frame"
 
     #CI
-    CHECK.class(CI, 'numeric', " is not numeric.")
+    check.class(CI, 'numeric', " is not numeric.")
     if (any(CI < 0)) {
         stop("Credibility interval must be between 0 and 100.", call.=FALSE)
     } else {
@@ -48,7 +48,7 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 
     #average
     first.moment<-c("mode", "median", "mean")
-    CHECK.class(average, 'character', "must be either \"mode\", \"median\" or \"mean\".")
+    check.class(average, 'character', "must be either \"mode\", \"median\" or \"mean\".")
     if (any(average == first.moment)) {
         ok<-"ok"
     } else {
@@ -56,7 +56,7 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
     }       
 
     #horizontal
-    CHECK.class(horizontal, 'logical', " must be logical.")
+    check.class(horizontal, 'logical', " must be logical.")
 
     #colour
     if (is.null(colour)) {
@@ -72,14 +72,14 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
     if (is.null(coeff.lim)) {
         coeff.lim<-c(min(mulTree.mcmc) - 0.1*min(mulTree.mcmc), max(mulTree.mcmc) + 0.1*(max(mulTree.mcmc)))
     } else {
-        CHECK.class(coeff.lim, 'numeric', " must be numeric.")
-        CHECK.length(coeff.lim, 2, " must be a list of two elements.")
+        check.class(coeff.lim, 'numeric', " must be numeric.")
+        check.length(coeff.lim, 2, " must be a list of two elements.")
     }
 
-#FUNCTION
+#funCTION
 
     #plots one polygon
-    FUN.polygon<-function(mulTree.mcmc, n, CI, average, colours, horizontal)
+    fun.polygon<-function(mulTree.mcmc, n, CI, average, colours, horizontal)
     {
         #calculates the hdr
         temp <- hdr(mulTree.mcmc[,n], CI, h = bw.nrd0(mulTree.mcmc[,n]))
@@ -130,7 +130,7 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
     } 
 
     #Density Plot function (from densityplot.R by Andrew Jackson - a.jackson@tcd.ie)
-    FUN.densityplot <- function (mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
+    fun.densityplot <- function (mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
     {
         #x spacement
         xspc<-0.5
@@ -159,16 +159,16 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 
         #creates the boxplots using hdr and add them to the plot
         for (n in 1:ncol(mulTree.mcmc)) {
-            FUN.polygon(mulTree.mcmc, n, CI, average, colours, horizontal)
+            fun.polygon(mulTree.mcmc, n, CI, average, colours, horizontal)
         } 
     }
 
 #PLOTTING THE MCMCglmm RESULTS
 
     if(horizontal == TRUE) {
-        FUN.densityplot(rev(mulTree.mcmc), CI, average, terms, colour, coeff.lim, horizontal, ...)
+        fun.densityplot(rev(mulTree.mcmc), CI, average, terms, colour, coeff.lim, horizontal, ...)
     } else {
-        FUN.densityplot(mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
+        fun.densityplot(mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
     }
 
 #OUTPUT
