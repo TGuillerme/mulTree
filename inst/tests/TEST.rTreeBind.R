@@ -3,11 +3,15 @@
 #Make examples
 set.seed(1)
 x.1<-rtree(5)
+x.2<-rmtree(5,5)
 y.1<-rtree(5)
-
-
+class.list<-c('multiPhylo','phylo')
 #Sanitizing
-test_that()
+test_that('Testing check.class', {
+    expect_that(check.class(x.1, class.list, 'test'), equals("phylo"))
+    expect_that(check.class(x.2, class.list, 'test'), equals("multiPhylo"))
+    expect_that(check.class(x.1, class.list, 'test'), equals("phylo"))
+})
 
 st.x.1<-single.tree(x.1)
 st.x.2<-single.tree(x.2)
