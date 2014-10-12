@@ -47,9 +47,9 @@ combined_trees<-rTreeBind(x=trees_mammalia, y=trees_aves, sample=2, root.age=250
 ##creates the "mulTree" object
 mulTree_data<-as.mulTree(data=lifespan_volant, trees=combined_trees, species="species")
 ##formula
-mcmc.formula <-longevity ~ mass + volant
+mcmc.formula<-longevity ~ mass + volant
 ##parameters (number of generations, thin/sampling, burnin)
-mcmc.parameters=c(101000, 10, 1000) # For higher ESS run longer by increasing the number of generations
+mcmc.parameters<-c(101000, 10, 1000) # For higher ESS run longer by increasing the number of generations
 ##priors
 mcmc.priors<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 

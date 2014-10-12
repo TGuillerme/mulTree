@@ -45,7 +45,8 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     #timer(start)
     start.time <- Sys.time()
 
-#DATA
+#SANITIZING
+    
     #mulTree.data
     #must be mulTree
     check.class(mulTree.data, 'mulTree', " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
@@ -107,9 +108,8 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
         }
     }
     if(class(output) != 'logical') {
-        check.class(output, 'logical', " must be a chain of characters.")
+        check.class(output, 'character', " must be a chain of characters.")
         check.length(output, 1, " must be a single chain of characters.")
-    } else {
         do.output=TRUE
     }
 
@@ -205,7 +205,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
                 } else {
                     cat("Model saved as ", file.names[[ntree]], "_chain1.rda\n", sep="")
                 }
-            }          
+            }
         }
     }
 
