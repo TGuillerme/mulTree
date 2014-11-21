@@ -21,6 +21,8 @@
 
 summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
 {
+
+warning("CI option seems to be clocked at 95.\nBug is probably in hdr.multree.R")
  
 #DATA
     #mulTree.mcmc
