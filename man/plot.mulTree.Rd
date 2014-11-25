@@ -29,6 +29,9 @@ data(lifespan.mcmc)
 
 ##plotting the results
 plot(lifespan.mcmc)
+
+##a plot using the options
+plot(lifespan.mcmc, CI=c(50, 25), average="mean", horizontal=TRUE, terms=LETTERS[1:5], colour=c('blue', 'red'), main='Posterior')
 }
 
 \author{Thomas Guillerme}

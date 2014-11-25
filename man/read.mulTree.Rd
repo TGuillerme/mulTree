@@ -6,7 +6,7 @@
 \description{Reads MCMC objects from mulTree function stored out of R environment}
 
 \usage{
-read.mulTree(mulTree.mcmc, convergence=FALSE)
+read.mulTree(mulTree.mcmc, convergence=FALSE, model=FALSE)
 }
 
 \arguments{
@@ -30,7 +30,9 @@ read.mulTree(mulTree.mcmc, convergence=FALSE)
 ##create a data.frame
 data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep('b',3)))
 #Creates a list of trees
-trees_list<-list() ; for (i in 1:2) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])} ; class(trees_list)<-'multiPhylo'
+trees_list<-list()
+for (i in 1:2) {trees_list[[i]]<-rcoal(5, tip.label=LETTERS[1:5])}
+class(trees_list)<-'multiPhylo'
 #priors
 prior<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002)))
 #mulTree

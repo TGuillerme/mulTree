@@ -27,6 +27,8 @@ data(lifespan.mcmc)
 ##summarizing all the chains
 summary(lifespan.mcmc)
 
+##Modyfing the CI
+summary(lifespan.mcmc, CI=95) == summary(lifespan.mcmc, CI=10) #Is mainly FALSE
 }
 
 \author{Thomas Guillerme}

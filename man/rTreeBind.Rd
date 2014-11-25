@@ -23,11 +23,12 @@ rTreeBind(x, y, sample, root.age)
 ##Combines 2 randomly chosen trees from x and from y into z putting the root age at 12.
 x<-rmtree(10,5) ; y<-rmtree(5,5)
 z<-rTreeBind(x, y , sample=3, root.age=12)
+z # 3 phylogenetic trees
 
 ##Combines one mammal and and one bird tree and setting the root age at 250 Mya.
 data(lifespan)
 combined_trees<-rTreeBind(trees_mammalia, trees_aves, sample=1, root.age=250)
-plot(conbined_trees)
+plot(conbined_trees) #A tree with both mammals and aves
 
 }
 

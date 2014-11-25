@@ -20,7 +20,7 @@ mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 
 \item{chains}{The number of independent MCMC chains.}
 
-\item{priors}{A series of priors to use for the mcmc (default=NULL is using the default parameters from MCMCglmm function) (default=\code{NULL}).}
+\item{priors}{A series of priors to use for the mcmc (\code{NULL} is using the default parameters from MCMCglmm function) (default=\code{NULL}).}
 
 \item{...}{Any additional argument to be passed to \code{MCMCglmm} function.}
 
@@ -55,7 +55,7 @@ mcmc.priors<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.00
 
 ##Running MCMCglmm on multiple trees
 ##WARNING: This example takes between 1 and 2 minutes two run and generates files in your current directory.
-mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, output="longevity.example", ESS = 50) # For higher ESS run longer by increasing the number of generations
+mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, output="longevity.example", ESS = 50)
 
 ##The models are saved out of R environment under the "longevity.example" chains names.
 ##Use read.mulTree() to read the generated models.
