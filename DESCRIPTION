@@ -2,7 +2,7 @@ Package: mulTree
 Title: Performs MCMCglmm on multiple phylogenetic trees.
 Authors: Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 Maintainer: Thomas Guillerme <guillert@tcd.ie>
-Version: 0.2.2
+Version: 1.0
 Date: 2014-11-25
 Description: Performs MCMCglmm on multiple phylogenetic trees (paragraph)
 Depends:
