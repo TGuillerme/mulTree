@@ -47,6 +47,7 @@ If you are using this package, please cite:
 
 * Guillerme, T. & Healy, K. (2014). mulTree: a package for running MCMCglmm analysis on multiple trees. ZENODO. 10.5281/zenodo.12902
 
-Cited by
---------
+
+Used in
+-------
 * Healy, K., Guillerme, T., Finlay, S., Kane, A., Kelly, S, B, A., McClean, D., Kelly, D, J., Donohue, I., Jackson, A, L., Cooper, N. (2014) Ecology and mode-of-life explain lifespan variation in birds and mammals. Proceedings of the Royal Society B 281, 20140298
