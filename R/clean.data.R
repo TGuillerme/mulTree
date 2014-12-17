@@ -107,8 +107,7 @@ clean.data<-function(taxon, data, tree) {
     } else {
     #for multiple trees
         #lapply function
-        lapply.clean<-function(X) {return(clean.tree.table(X, data, taxon, taxon_col))}
-        cleaned_list<-lapply(tree, lapply.clean)
+        cleaned_list<-lapply(tree, clean.tree.table, data=data, taxon=taxon, taxon_col=taxon_col)
 
         #Selecting the tips to drop
         tips_to_drop<-NULL
@@ -129,7 +128,9 @@ clean.data<-function(taxon, data, tree) {
 
         #removing the rows from the data
         if(length(taxa_to_drop) != 0) {
-            data_new<-data[-taxa_to_drop,]
+            drop_rows<-match(taxa_to_drop, data[,taxon_col])
+            drop_rows<-drop_rows[-which(is.na(drop_rows))]
+            data_new<-data[-c(drop_rows),]
             trees_new<-lapply(tree, drop.tip, tip=tips_to_drop) ; class(trees_new)<-'multiPhylo'
         } else {
             taxa_to_drop<-NA

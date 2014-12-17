@@ -33,7 +33,7 @@ dummy_data<-data.frame(taxon.list=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2)
 taxon_column<-"taxon.list"
 
 ##Cleaning the trees and the data
-cleaned<-clean.data(taxon=taxon_column, data=dummy_data, tree=tree_list)
+cleaned<-clean.data(taxon=taxon_column, data=dummy_data, tree=trees_list)
 ##The taxa that where dropped:
 cleaned$dropped.taxon
 ##The cleaned trees:
