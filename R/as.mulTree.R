@@ -161,17 +161,19 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
     #(species, list(species=species))) as in names.col <- as.character(substitute(species, list(species=species))).
 
     #renaming the species column in the data.frame
-    names(data)<-sub(species,"sp.col",names(data))
+    names(data_tmp)<-sub(species,"sp.col",names(data))
 
     #Checking if they are multiple specimens in the data
-    if(all(unique(data$sp.col) == data$sp.col)) {
+
+    options(warn=-1)
+    if(all(unique(data_tmp$sp.col) == data_tmp$sp.col)) {
         #all entries are unique
         is.unique<-TRUE
         #random terms formula
         if(set_rand_terms=="auto") {
             #adding the 'animal' column for MCMCglmm() random effect
             data["animal"]<-NA
-            data$animal<-data$sp.col
+            data$animal<-data_tmp$sp.col
             rand.terms<-~animal
         }
     } else {
@@ -181,30 +183,39 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
         if(set_rand_terms=="auto") {
             #Adding two new columns 'animal' and 'specimen' which are duplicates of 'sp.col'
             data["animal"]<-NA
-            data$animal<-data$sp.col
+            data$animal<-data_tmp$sp.col
             data["specimen"]<-NA
-            data$specimen<-data$sp.col
+            data$specimen<-data_tmp$sp.col
             rand.terms<-~animal + specimen
         }
         #Creating a subset of the data containing only the unique species names entries
-        sub.data<-data.frame("sp.col"=unique(data$sp.col), "dummy"=rnorm(length(unique(data$sp.col))))
+        sub_data<-data.frame("sp.col"=unique(data_tmp$sp.col), "dummy"=rnorm(length(unique(data_tmp$sp.col))))
     }
+    options(warn=0)
 
     #Running the comparative data.test
     if(is.unique==TRUE) {
         #Test without specimens
-        test.comp.data<-fun.comparative.data.test(data, trees, is.multiphylo)
+        test.comp.data<-fun.comparative.data.test(data_tmp, trees, is.multiphylo)
     } else {
-        test.comp.data<-fun.comparative.data.test(sub.data, trees, is.multiphylo)
+        test.comp.data<-fun.comparative.data.test(sub_data, trees, is.multiphylo)
     }
 
     #Creating the mulTree list object if test.comp.data is TRUE
     if(test.comp.data==TRUE) {
-        species.column<-paste("renamed column '", species, "' into 'sp.col'", sep="")
-        output<-list(phy=trees, data=data, random.terms=rand.terms, species.column=species.column)
+        #Save the name change notification
+        if(set_rand_terms=="auto") {
+            species.column<-paste("renamed column '", species, "' into 'sp.col'", sep="")
+            output<-list(phy=trees, data=data, random.terms=rand.terms, species.column=species.column)
+        } else {
+            output<-list(phy=trees, data=data, random.terms=rand.terms, species.column=NULL)
+        }
+
         class(output)<-'mulTree'
         return(output)
+
     } else {
+        
         if(is.multiphylo==TRUE) { 
             cat("Impossible to use comparative.data() on the given data and trees.\nTaxa names in the trees and in the table probably don't match.\nYou can use the clean.data() function to match the trees and the data.")
         } else  { 
