@@ -7,7 +7,7 @@
             Changes the name of the species column into "sp.col" to be read by comparative.data.}
 
 \usage{
-as.mulTree(data, trees, species)
+as.mulTree(data, trees, species, rand.terms=NULL)
 }
 
 \arguments{
@@ -16,6 +16,8 @@ as.mulTree(data, trees, species)
 \item{trees}{A \dQuote{multiPhylo} object}
 
 \item{species}{Either the name or the number of the column containing the list of species in the data}
+
+\item{rand.terms} {A \code{formula} for the random terms to be given to the MCMCglmm function where each elements are a column of the given data. If \code{NULL} (default), the random terms is the column containing the species names and a column containing the specimen names if more than one species per specimen is present.}
 }
 
 \examples{

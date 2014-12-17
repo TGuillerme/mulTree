@@ -2,11 +2,12 @@
 #Run MCMCglmm on a 'mulTree.data' object
 ##########################
 #Running a MCMCglmm model on a list of phylogenies and the data stored in a 'mulTree.data' object. The results can be written out of R environment as individual models.
-#v0.2
+#v1.0.1
 #Update: added convergence conditions
 #Update: typos and added warn option
 #Update: fixed timing management
 #Update: isolated function externally
+#Update: now dealing with the new mulTree objects containing the random terms formula
 ##########################
 #SYNTAX :
 #<mulTree.data> a 'mulTree.data' object obtained from as.mulTree.data function
@@ -22,12 +23,11 @@
 #<warn> whether to print the warning messages from the MCMCglmm function (default=TRUE)
 ##########################
 #----
-#guillert(at)tcd.ie & healyke(at)tcd.ie - 13/08/2014
+#guillert(at)tcd.ie & healyke(at)tcd.ie - 17/12/2014
 ##########################
 #Requirements:
 #-R 3
 #-R package "ape"
-#-R package "caper"
 #-R package "MCMCglmm"
 #-R package "coda"
 ##########################
@@ -51,14 +51,19 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     #must be mulTree
     check.class(mulTree.data, 'mulTree', " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
     #must be of three elements
-    check.length(mulTree.data, 3, " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
+    check.length(mulTree.data, 4, " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
     #first element must be phylo
     mulTree_phylogeny<-mulTree.data[[1]]
     check.class(mulTree_phylogeny, 'multiPhylo', " is not a \"multiPhylo\" object.\nUse as.mulTree.data() function.")
     #second element must be data.frame
     mulTree_data<-mulTree.data[[2]]
     check.class(mulTree_data, 'data.frame', " is not a \"data.frame\" object.\nUse as.mulTree.data() function.")
-
+    #third element must be a formula
+    mulTree_rand_terms<-mulTree.data[[3]]
+    check.class(mulTree_rand_terms, 'formula', " is not a \"formula\" object.\nUse as.mulTree.data() function.")
+    #Setting the current environement
+    environment(mulTree_rand_terms)<-environment()
+    
 
     #formula
     check.class(formula, 'formula', " is not a \"formula\" object.")
@@ -125,7 +130,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
         if(warn == FALSE) {
             options(warn=-1) #Disable warning for now
         }
-        model<-MCMCglmm(formula, random=~animal, pedigree=mulTree.data$phy[[ntree]], prior=priors, data=mulTree.data$data, verbose=FALSE, nitt=parameters[1], thin=parameters[2], burnin=parameters[3], ...)
+        model<-MCMCglmm(formula, random=mulTree.data$random.terms, pedigree=mulTree.data$phy[[ntree]], prior=priors, data=mulTree.data$data, verbose=FALSE, nitt=parameters[1], thin=parameters[2], burnin=parameters[3], ...)
         if(warn == FALSE) {
             options(warn=0) #Re-enable warnings
         }
