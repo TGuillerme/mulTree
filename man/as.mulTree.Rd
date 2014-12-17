@@ -26,7 +26,7 @@ data_table<-data.frame(taxa=LETTERS[1:5], var1=rnorm(5), var2=c(rep('a',2), rep(
 ##Creates a list of trees
 trees_list<-rmtree(5,5, tip.label=LETTERS[1:5])
 ##Creates the "mulTree" object
-mulTree_data<-as.mulTree(data_table, trees_list, species="taxa")
+as.mulTree(data_table, trees_list, species="taxa")
 }
 
 

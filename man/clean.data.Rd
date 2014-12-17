@@ -17,12 +17,6 @@ clean.data(taxon, data, tree)
 \item{tree}{A \dQuote{phylo} or \dQuote{multiPhylo} object.}
 }
 
-\details{
-If both \code{data} and \code{tree} are provided:
--\code{data} must be a \dQuote{vector}, \dQuote{data.frame}, or \dQuote{matrix} object;
--\code{taxon} can be a column name or value present in \code{data};
--the function returns a list of two elements, the first one being the eventually trimmed \code{data} and the second being the eventually trimmed \code{tree}.
-}
 \examples{
 
 ##Create a set of different trees

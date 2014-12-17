@@ -161,6 +161,7 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
     #(species, list(species=species))) as in names.col <- as.character(substitute(species, list(species=species))).
 
     #renaming the species column in the data.frame
+    data_tmp<-data
     names(data_tmp)<-sub(species,"sp.col",names(data))
 
     #Checking if they are multiple specimens in the data
@@ -215,7 +216,7 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
         return(output)
 
     } else {
-        
+
         if(is.multiphylo==TRUE) { 
             cat("Impossible to use comparative.data() on the given data and trees.\nTaxa names in the trees and in the table probably don't match.\nYou can use the clean.data() function to match the trees and the data.")
         } else  { 
