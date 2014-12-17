@@ -1,5 +1,6 @@
 ##Functions
 export(rTreeBind)
+export(clean.data)
 export(as.mulTree)
 export(mulTree)
 export(read.mulTree)
