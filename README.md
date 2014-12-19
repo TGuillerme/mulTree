@@ -26,6 +26,11 @@ Features
 
 * plot.mulTree: plots the "mulTree" data
 
+Patch notes
+----
+* 2014/12/19 - v1.0.1
+  * NEW: *clean.data* function allows to match data and multiple trees and drop the non-shared taxa.
+  * *as.mulTree* function now allows multiple specimens for any taxa and allows the user to fix the random terms to be passed to the *mulTree* function.
 
 Installing mulTree
 ------------------
