@@ -7,7 +7,7 @@
             Changes the name of the species column into "sp.col" to be read by comparative.data.}
 
 \usage{
-as.mulTree(data, trees, species, rand.terms=NULL)
+as.mulTree(data, trees, species, rand.terms=NULL, clean.data=FALSE)
 }
 
 \arguments{
@@ -18,7 +18,16 @@ as.mulTree(data, trees, species, rand.terms=NULL)
 \item{species}{Either the name or the number of the column containing the list of species in the data}
 
 \item{rand.terms}{A \code{formula} for the random terms to be given to the MCMCglmm function where each elements are a column of the given data. If \code{NULL} (default), the random terms is the column containing the species names and a column containing the specimen names if more than one species per specimen is present.}
+
+\item{clean.data}{\code{logical}, whether to use the clean.data function. Default = \code{FALSE}.}
 }
+
+\details{
+    \item{rand.terms}{If rand.terms is specified by the user, the first element is forced to be called animal.}
+    \item{clean.data}{see the \link{clean.data} function for more details.}
+}
+
+\seealso{\link{clean.data}}
 
 \examples{
 ##Creates a data.frame

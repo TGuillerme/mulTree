@@ -3,20 +3,23 @@
 ##########################
 #Combines a table and a multiple phylogenies using comparative.data{caper} function.
 #Changes the name of the species column into "sp.col" to be read by comparative.data
-#v1.0.1
+#v1.0.2
 #Update: added the 'animal' column
 #Update: added example
 #Update: isolated function externally
 #Update: allows multiple specimens for the same species
 #Update: allows to give a random term formula
+#Update: clean.data function inbuilt
+#Update: now forces the first rand.terms column to be animal
 ##########################
 #SYNTAX :
 #<data> any table ("data.frame" or "matrix" object) containing at least two variable and species names
 #<trees> a "multiPhylo" object
 #<species> either the name or the number of the column containing the list of species in the data
 #<rand.terms> the formula for the random terms to be given to the MCMCglmm function where each elements are a column of the given data. If NULL (default), the random terms is the column containing the species names and a column containing the specimen names if more than one species per specimen is present.
+#<clean.data> logical, whether to use the clean.data function.
 #----
-#guillert(at)tcd.ie - 17/12/2014
+#guillert(at)tcd.ie - 19/12/2014
 ##########################
 #Requirements:
 #-R 3
@@ -24,7 +27,7 @@
 #-R package "caper"
 ##########################
 
-as.mulTree<-function(data, trees, species, rand.terms=NULL) {
+as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
 
 #HEADER
     require(ape)
@@ -104,6 +107,9 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
         set_rand_terms<-"manual"
     }
 
+    #clean.data
+    check.class(clean.data, 'logical', " must be \"logical\".")
+
 
 #FUNCTION
 
@@ -160,35 +166,29 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
     #species as to be replaced by just "sp.col" instead of the more cleaner way :
     #(species, list(species=species))) as in names.col <- as.character(substitute(species, list(species=species))).
 
+    #Creating the temporary data set
+    if(clean.data==TRUE) {
+        data_cleaned<-clean.data(species, data, trees)
+        trees<-data_cleaned$tree
+        data_tmp<-data_cleaned$data
+        cat("Dropped the following taxa:\n", data_cleaned$dropped.taxon)
+    } else {
+        data_tmp<-data
+    }
+
     #renaming the species column in the data.frame
     data_tmp<-data
     names(data_tmp)<-sub(species,"sp.col",names(data))
 
     #Checking if they are multiple specimens in the data
-
     options(warn=-1)
     if(all(unique(data_tmp$sp.col) == data_tmp$sp.col)) {
         #all entries are unique
         is.unique<-TRUE
         #random terms formula
-        if(set_rand_terms=="auto") {
-            #adding the 'animal' column for MCMCglmm() random effect
-            data["animal"]<-NA
-            data$animal<-data_tmp$sp.col
-            rand.terms<-~animal
-        }
     } else {
         #all entries are not unique
         is.unique<-FALSE
-        #random terms formula
-        if(set_rand_terms=="auto") {
-            #Adding two new columns 'animal' and 'specimen' which are duplicates of 'sp.col'
-            data["animal"]<-NA
-            data$animal<-data_tmp$sp.col
-            data["specimen"]<-NA
-            data$specimen<-data_tmp$sp.col
-            rand.terms<-~animal + specimen
-        }
         #Creating a subset of the data containing only the unique species names entries
         sub_data<-data.frame("sp.col"=unique(data_tmp$sp.col), "dummy"=rnorm(length(unique(data_tmp$sp.col))))
     }
@@ -201,6 +201,25 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL) {
     } else {
         test.comp.data<-fun.comparative.data.test(sub_data, trees, is.multiphylo)
     }
+
+    #Setting the random terms
+    if(set_rand_terms=="auto") {
+        #adding the 'animal' column for MCMCglmm() random effect
+        data_tmp["animal"]<-NA
+        data_tmp$animal<-data_tmp$sp.col
+        rand.terms<-~animal
+    } else {
+        #If the first term list is not "animal", add a column called animal before it
+        if(terms_list[1] != "animal") {
+            #Duplicate the column species into animal
+            data_tmp["animal"]<-NA
+            data_tmp$animal<-data_tmp[,which(names(data_tmp == species))]
+            #Update the formula
+            rand.terms<-update(rand.terms, ~animal+.)
+            warning("The first element of the given random terms list must be \"animal\" for the phylogenetic effect.\nThe random terms formula has been updated to \"", rand.terms,"\".\nThe column \"", species, "\" has been duplicated into a new column called \"animal.\"")
+        }
+    }
+
 
     #Creating the mulTree list object if test.comp.data is TRUE
     if(test.comp.data==TRUE) {
