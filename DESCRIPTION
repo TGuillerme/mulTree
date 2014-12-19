@@ -3,7 +3,7 @@ Title: Performs MCMCglmm on multiple phylogenetic trees.
 Authors: Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 Maintainer: Thomas Guillerme <guillert@tcd.ie>
 Version: 1.0.1
-Date: 2014-12-17
+Date: 2014-12-19
 Description: Performs MCMCglmm on multiple phylogenetic trees (paragraph)
 Depends:
     R (>= 3.0.0),

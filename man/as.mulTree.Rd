@@ -19,12 +19,11 @@ as.mulTree(data, trees, species, rand.terms=NULL, clean.data=FALSE)
 
 \item{rand.terms}{A \code{formula} for the random terms to be given to the MCMCglmm function where each elements are a column of the given data. If \code{NULL} (default), the random terms is the column containing the species names and a column containing the specimen names if more than one species per specimen is present.}
 
-\item{clean.data}{\code{logical}, whether to use the clean.data function. Default = \code{FALSE}.}
+\item{clean.data}{\code{logical}, whether to use the clean.data function. Default = \code{FALSE}. See the \link{clean.data} function for more details.}
 }
 
 \details{
-    \item{rand.terms}{If rand.terms is specified by the user, the first element is forced to be called animal.}
-    \item{clean.data}{see the \link{clean.data} function for more details.}
+If rand.terms is specified by the user, the first element is forced to be called animal.
 }
 
 \seealso{\link{clean.data}}
