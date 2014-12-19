@@ -43,7 +43,7 @@ library(mulTree)
 
 Authors
 -------
-[Thomas Guillerme](http://tguillerme.github.io) & [Kevin Healy](http://healyke.github.iol)
+[Thomas Guillerme](http://tguillerme.github.io) & [Kevin Healy](http://healyke.github.io)
 
 
 Citation
