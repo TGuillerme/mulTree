@@ -16,11 +16,11 @@ Features
 --------
 * `rTreeBind`: randomly binds trees together
 
-* `as.mulTree`: combines a data table and a "*multiPhylo*" object into a list to be used by the mulTree function
+* `as.mulTree`: combines a data table and a "*multiPhylo*" object into a list to be used by the `mulTree` function
 
 * `mulTree`: run MCMCglmm on multiple trees
 
-* `read.mulTree`: reads MCMC objects from mulTree function
+* `read.mulTree`: reads MCMC objects from `mulTree` function
 
 * `summary.mulTree`: summarise "*mulTree*" data
 
