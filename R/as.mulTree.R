@@ -226,9 +226,9 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
         #Save the name change notification
         if(set_rand_terms=="auto") {
             species.column<-paste("renamed column '", species, "' into 'sp.col'", sep="")
-            output<-list(phy=trees, data=data, random.terms=rand.terms, species.column=species.column)
+            output<-list(phy=trees, data=data_tmp, random.terms=rand.terms, species.column=species.column)
         } else {
-            output<-list(phy=trees, data=data, random.terms=rand.terms, species.column=NULL)
+            output<-list(phy=trees, data=data_tmp, random.terms=rand.terms, species.column=NULL)
         }
 
         class(output)<-'mulTree'

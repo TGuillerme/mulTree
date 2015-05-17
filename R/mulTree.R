@@ -62,7 +62,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     mulTree_rand_terms<-mulTree.data[[3]]
     check.class(mulTree_rand_terms, 'formula', " is not a \"formula\" object.\nUse as.mulTree.data() function.")
     #Setting the current environement
-    environment(mulTree_rand_terms)<-environment()
+    environment(mulTree.data[[3]])<-environment()
     
 
     #formula
@@ -121,7 +121,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     #warn
     check.class(warn, 'logical', " must be logical.")
 
-#funCTION
+#FUNCTIONS
 
 
     fun.MCMCglmm<-function(ntree, mulTree.data, formula, priors, parameters, warn, ...){
@@ -171,6 +171,7 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
         #Running the model for one tree
         for (nchains in 1:chains) {
             model_chain<-fun.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            #model_chain<-fun.MCMCglmm(ntree, mulTree.data, mulTree_rand_terms, formula, priors, parameters, warn) ; warning("DEBUG MODE")
             assign(paste("model_chain", nchains, sep=""), model_chain)
         }
 
