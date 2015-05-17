@@ -28,6 +28,8 @@ Features
 
 Patch notes
 ----
+* 2015/05/17 - v1.0.2
+  * Fixed bug in `as.mulTree` function with the random terms management.
 * 2014/12/19 - v1.0.1
   * NEW: `clean.data` function allows to match data and multiple trees and drop the non-shared taxa.
   * `as.mulTree` function now allows multiple specimens for any taxa and allows the user to fix the random terms to be passed to the `mulTree` function.
