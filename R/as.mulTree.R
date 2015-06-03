@@ -3,7 +3,7 @@
 ##########################
 #Combines a table and a multiple phylogenies using comparative.data{caper} function.
 #Changes the name of the species column into "sp.col" to be read by comparative.data
-#v1.0.2
+#v1.0.3
 #Update: added the 'animal' column
 #Update: added example
 #Update: isolated function externally
@@ -11,6 +11,7 @@
 #Update: allows to give a random term formula
 #Update: clean.data function inbuilt
 #Update: now forces the first rand.terms column to be animal
+#Update: the species column can now contain multiple occurrences of the same species
 ##########################
 #SYNTAX :
 #<data> any table ("data.frame" or "matrix" object) containing at least two variable and species names
@@ -19,7 +20,7 @@
 #<rand.terms> the formula for the random terms to be given to the MCMCglmm function where each elements are a column of the given data. If NULL (default), the random terms is the column containing the species names and a column containing the specimen names if more than one species per specimen is present.
 #<clean.data> logical, whether to use the clean.data function.
 #----
-#guillert(at)tcd.ie - 19/12/2014
+#guillert(at)tcd.ie - 03/06/2015
 ##########################
 #Requirements:
 #-R 3
@@ -182,7 +183,7 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
 
     #Checking if they are multiple specimens in the data
     options(warn=-1)
-    if(all(unique(data_tmp$sp.col) == data_tmp$sp.col)) {
+    if(length(unique(data_tmp$sp.col)) == length(data_tmp$sp.col)) {
         #all entries are unique
         is.unique<-TRUE
         #random terms formula
