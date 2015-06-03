@@ -30,6 +30,7 @@ Patch notes
 ----
 * 2015/06/03 - v1.0.3
   * `as.mulTree` now deals properly with same taxa entries.
+  * updated examples for `as.mulTree` and `mulTree` on how to use specimen as a random term.
 * 2015/05/17 - v1.0.2
   * Fixed bug in `as.mulTree` function with the random terms management.
 * 2014/12/19 - v1.0.1
