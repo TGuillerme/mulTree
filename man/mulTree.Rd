@@ -62,6 +62,33 @@ mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=m
 
 ##Remove the generated files from the current directory
 file.remove(list.files(pattern="longevity.example"))
+
+
+##Same example but including specimens
+##read in the data
+data(lifespan)
+##combine aves and mammalia trees
+combined_trees<-rTreeBind(x=trees_mammalia, y=trees_aves, sample=2, root.age=250)
+##Subset of the data
+data<-lifespan_volant[sample(nrow(lifespan_volant), 30),]
+##Create a dataset with two specimen per species
+data<-rbind(cbind(data, specimen=rep("spec1",30)),cbind(data, specimen=rep("spec2",30)))
+##Cleaning the trees
+trees<-clean.data(taxon="species", data, combined_trees)$tree
+
+##Creates the mulTree object
+mulTree_data<-as.mulTree(data, trees, species="species", rand.terms=~specimen)
+##formula
+mcmc.formula<-longevity ~ mass + volant
+##parameters (number of generations, thin/sampling, burnin)
+mcmc.parameters<-c(10100, 10, 100) # For higher ESS run longer by increasing the number of generations
+##priors
+mcmc.priors<-list(R = list(V = 1/2, nu=0.002), G = list(G1=list(V = 1/2, nu=0.002),G2=list(V = 1/2, nu=0.002)))
+
+##Running MCMCglmm on multiple trees
+mulTree(mulTree_data, formula=mcmc.formula, parameters=mcmc.parameters, priors=mcmc.priors, output="longevity.example", ESS = 50)
+
+
 ## End(Not run)
 }
 
