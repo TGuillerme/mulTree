@@ -28,6 +28,8 @@ Features
 
 Patch notes
 ----
+* 2015/06/03 - v1.0.3
+  * `as.mulTree` now deals properly with same taxa entries.
 * 2015/05/17 - v1.0.2
   * Fixed bug in `as.mulTree` function with the random terms management.
 * 2014/12/19 - v1.0.1
@@ -37,7 +39,7 @@ Patch notes
 Installing mulTree
 ------------------
 ```r
-install.packages("devtools")
+#install.packages("devtools")
 library(devtools)
 install_github("TGuillerme/mulTree")
 library(mulTree)
