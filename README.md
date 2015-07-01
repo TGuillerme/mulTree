@@ -28,6 +28,8 @@ Features
 
 Patch notes
 ----
+* 2015/07/01 - v1.0.4
+  * improved formula management for `as.mulTree` and `mulTree`.
 * 2015/06/03 - v1.0.3
   * `as.mulTree` now deals properly with same taxa entries.
   * updated examples for `as.mulTree` and `mulTree` on how to use specimen as a random term.
