@@ -3,7 +3,7 @@
 ##########################
 #Combines a table and a multiple phylogenies using comparative.data{caper} function.
 #Changes the name of the species column into "sp.col" to be read by comparative.data
-#v1.0.3
+#v1.0.4
 #Update: added the 'animal' column
 #Update: added example
 #Update: isolated function externally
@@ -12,6 +12,7 @@
 #Update: clean.data function inbuilt
 #Update: now forces the first rand.terms column to be animal
 #Update: the species column can now contain multiple occurrences of the same species
+#Update: better formula management
 ##########################
 #SYNTAX :
 #<data> any table ("data.frame" or "matrix" object) containing at least two variable and species names
@@ -20,7 +21,7 @@
 #<rand.terms> additional random terms to add to the default random terms formula (phylogenetic effect). If NULL (default), the random terms is the column containing the species names and a column containing the specimen names if more than one species per specimen is present.
 #<clean.data> logical, whether to use the clean.data function.
 #----
-#guillert(at)tcd.ie - 03/06/2015
+#guillert(at)tcd.ie - 01/07/2015
 ##########################
 #Requirements:
 #-R 3
@@ -105,7 +106,12 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
                 stop("In rand.terms, \"",no_match[i], "\" is not matching with any column name in the provided data.")    
             }
         }
-        set_rand_terms<-"manual"
+        #check if at least of the terms is the phylogeny (i.e. animal)
+        if(any(match(species, terms_list))) {
+            set_rand_terms<-"manual"
+        } else {
+            stop("The provided random terms should at least contain the species column (phylogeny).")
+        }
     }
 
     #clean.data
@@ -210,14 +216,42 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
         data_tmp$animal<-data_tmp$sp.col
         rand.terms<-~animal
     } else {
-        #If the first term list is not "animal", add a column called animal before it
-        if(terms_list[1] != "animal") {
-            #Duplicate the column species into animal
-            data_tmp["animal"]<-NA
-            data_tmp$animal<-data_tmp[,which(names(data_tmp) == "sp.col")]
-            #Update the formula
-            rand.terms<-update(rand.terms, ~animal+.)
-            message("The random terms formula has been updated to \"", rand.terms,"\".\nThe column \"", species, "\" has been duplicated into a new column called \"animal\".")
+        #Check which term corresponds to the phylogeny (i.e. animal)
+        phylo_term<-terms_list[which(terms_list == species)]
+        data_tmp[phylo_term]<-NA
+        data_tmp[phylo_term]<-data_tmp[,which(names(data_tmp) == "sp.col")]
+
+        #Modify the formula and the column name to correspond to animal (phylogeny) for MCMCglmm (unless the phylo term is already called animal)
+        if(phylo_term != "animal") {
+            names(data_tmp)[which(names(data_tmp) == phylo_term)]<-"animal"
+            if(length(terms_list) == 1) {
+                rand.terms[[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 2) {
+                rand.terms[[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 3) {
+                rand.terms[[2]][[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 4) {
+                rand.terms[[2]][[2]][[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 5) {
+                rand.terms[[2]][[2]][[2]][[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 6) {
+                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 7) {
+                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 8) {
+                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]]<-substitute(animal)
+            }
+            if(length(terms_list) == 9) {
+                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]]<-substitute(animal)
+            }
+            message("The random terms formula has been updated to \"", rand.terms,"\".\nThe column \"", species, "\" has been duplicated into a new column called \"animal\".") 
         }
     }
 
