@@ -89,8 +89,17 @@ clean.data<-function(taxon, data, tree) {
 
         #if non-matching rows, drop them
         if(length(missing_species$unmatched.rows) != 0) {
-            data_tmp<-data[-which(data[,taxon_col] == missing_species$unmatched.rows),]
+
+            #selecting the first taxa to remove
+            remove_taxa<-which(data[,taxon_col] == missing_species$unmatched.rows[1])
+            for(tax in 2:length(missing_species$unmatched.rows)) {
+                remove_taxa<-c(remove_taxa, which(data[,taxon_col] == missing_species$unmatched.rows[tax]))
+            }
+            data_tmp<-data[-remove_taxa,]
+
+            #save the dropped rows
             dropped_rows<-missing_species$unmatched.rows
+            
         } else {
             data_tmp<-data
             dropped_rows<-NA
@@ -103,7 +112,9 @@ clean.data<-function(taxon, data, tree) {
 
     #for a single tree
     if(tree_class == "phylo") {
+        
         cleaned_data<-clean.tree.table(tree, data, taxon, taxon_col)
+
     } else {
     #for multiple trees
         #lapply function
