@@ -28,6 +28,8 @@ Features
 
 Patch notes
 ----
+* 2015/07/01 - v1.0.5
+  * `clean.data` now properly cleans data.frames with multiple specimens entries.
 * 2015/07/01 - v1.0.4
   * improved formula management for `as.mulTree` and `mulTree`.
 * 2015/06/03 - v1.0.3
