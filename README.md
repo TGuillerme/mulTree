@@ -28,6 +28,8 @@ Features
 
 Patch notes
 ----
+* 2015/07/25 - v1.0.6
+  * `plot.mulTree` has several more graphical options (see `?plot.mulTree`).
 * 2015/07/08 - v1.0.5
   * `clean.data` now properly cleans data.frames with multiple specimens entries.
 * 2015/07/01 - v1.0.4
