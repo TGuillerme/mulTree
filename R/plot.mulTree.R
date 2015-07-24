@@ -2,7 +2,7 @@
 #Plots the results of a mulTree analysis
 ##########################
 #Plots a boxplots of the fixed and random terms of the summarized multi tree MCMCglmm
-#v0.2
+#v0.3
 #Update: isolated function externally
 ##########################
 #SYNTAX :
@@ -15,9 +15,11 @@
 #<coeff.lim> the estimate coefficient range, if NULL, the range is set to the extreme values of mulTree.mcmc +/- 10%
 #<...> any additional argument to be passed to plot() function
 #<horizontal> whether to plot the boxplots horizontally or not (default=FALSE)
+#<cex.terms> size of the terms on the axis (can be missing)
+#<cex.coeff> size of the terms on the axis (can be missing)
 ##########################
 #----
-#guillert(at)tcd.ie - 14/08/2014
+#guillert(at)tcd.ie - 24/08/2015
 ##########################
 #Requirements:
 #-R 3
@@ -25,7 +27,7 @@
 ##########################
 
 
-plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NULL, colour=NULL, coeff.lim=NULL, ..., horizontal=FALSE)
+plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NULL, colour=NULL, coeff.lim=NULL, ..., horizontal=FALSE, cex.terms, cex.coeff)
 {
 #HEADER
     require(hdrcde)
@@ -76,6 +78,18 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
         check.length(coeff.lim, 2, " must be a list of two elements.")
     }
 
+    #cex
+    if(missing(cex.terms)) {
+        cex.terms=1
+    } else {
+        check.class(cex.terms, 'numeric', " must be numeric.")
+    }
+
+    if(missing(cex.coeff)) {
+        cex.coeff=1
+    } else {
+        check.class(cex.coeff, 'numeric', " must be numeric.")
+    }
 #funCTION
 
     #plots one polygon
@@ -143,15 +157,15 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
             #blank plot frame
             plot(1,1 , xlab="", ylab="", xlim = c(1 - xspc, ncol(mulTree.mcmc) + xspc), ylim = coeff.lim, type = "n", xaxt = "n", yaxt="n", bty = "n", ...)
             #coeff.estimates (is y)
-            axis(side = 2)
+            axis(side = 2, cex.axis=cex.coeff)
             #terms (is x)
-            axis(side = 1, at = 1:ncol(mulTree.mcmc), labels = (terms), las=2)
+            axis(side = 1, at = 1:ncol(mulTree.mcmc), labels = (terms), las=2, cex.axis=cex.terms)
         } else {
             plot(1,1 , xlab="", ylab="", ylim = c(1 - xspc, ncol(mulTree.mcmc) + xspc), xlim = coeff.lim, type = "n", xaxt = "n", yaxt="n", bty = "n", ...)
             #coeff.estimates (is x)
-            axis(side = 3)
+            axis(side = 3, cex.axis=cex.coeff)
             #terms (is y)
-            axis(side = 2, at = 1:ncol(mulTree.mcmc), labels = rev(terms), las=2) #reverse the terms to go from top to bottom
+            axis(side = 2, at = 1:ncol(mulTree.mcmc), labels = rev(terms), las=2, cex.axis=cex.terms) #reverse the terms to go from top to bottom
         }
 
         #set the colours for the boxplots
