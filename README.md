@@ -35,7 +35,7 @@ Installing mulTree
 ```r
 #install.packages("devtools")
 library(devtools)
-install_github("TGuillerme/mulTree")
+install_github("TGuillerme/mulTree", ref="release")
 library(mulTree)
 ```
 
