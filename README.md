@@ -34,6 +34,8 @@ library(devtools)
 install_github("TGuillerme/mulTree", ref="release")
 library(mulTree)
 ```
+The following installs the latest released version (see patch notes below). For the development version (not recommended), replace the `rep="release"` option by `rep="master"`.
+
 
 Patch notes
 ----
