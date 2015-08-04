@@ -4,7 +4,8 @@
 \title{Run MCMCglmm on multiple trees.}
 
 \description{Running a MCMCglmm model on a list of phylogenies and the data combined using \code{as.mulTree}.
-The results can be written out of R environment as individual models.}
+The results can be written out of R environment as individual models.
+daoufhaeguaeughguhweguhw}
 
 \usage{
 mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
