@@ -1,10 +1,6 @@
 mulTree
 =======
 
-
-# Release version, should be behind
-
-
 [![DOI](https://zenodo.org/badge/7411/TGuillerme/mulTree.png)](http://dx.doi.org/10.5281/zenodo.12902)
 
 Performs MCMCglmm on multiple phylogenetic trees
