@@ -3,7 +3,7 @@
 
 \title{Cleans a table/tree to match with a given table/tree}
 
-\description{Cleans data table or "phylo" objects to match the tips of the "phylo" objects with a given data.frame.}
+\description{Cleans data table or \code{phylo} objects to match the tips of the \code{phylo} objects with a given \code{data.frame}.}
 
 \usage{
 clean.data(taxon, data, tree)
