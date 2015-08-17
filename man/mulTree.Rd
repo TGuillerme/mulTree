@@ -32,9 +32,10 @@ mulTree(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
 
 \item{output}{Any optional string of characters that will be used as chain name for the models output (default=\code{TRUE}).}
 
-\item{warn}{Whether to print the warning messages from the MCMCglmm function (default=\code{FALSE}).
+\item{warn}{Whether to print the warning messages from the MCMCglmm function (default=\code{FALSE}).}
 
 \item{parallel}{Must be the virtual connection process type to run the \code{MCMCglmm} function in parallel (requires \code{snow} package; see \code{makeCluster} function; default=\code{NULL}).}
+
 }
 
 \details{
