@@ -1,7 +1,7 @@
 Patch notes
 ----
-* 2015/08/17 - v1.1.0
-  * `mulTree` can now be ran in parallel!
+* 2015/08/17 - **v1.1.0**
+  * `mulTree` can now be run in parallel!
 * 2015/07/25 - v1.0.6
   * `plot.mulTree` has several more graphical options (see `?plot.mulTree`).
 * 2015/07/08 - v1.0.5
