@@ -16,7 +16,9 @@ Features
 --------
 * `rTreeBind`: randomly binds trees together
 
-* `as.mulTree`: combines a data table and a "*multiPhylo*" object into a list to be used by the `mulTree` function
+* `clean.data`: combines a data table and a "*multiPhylo*" object into a list to be used by the `mulTree` function
+
+* `as.mulTree`: cleans data table or `phylo` objects to match the tips of the `phylo` objects with a given `data.frame`.
 
 * `mulTree`: run MCMCglmm on multiple trees
 
