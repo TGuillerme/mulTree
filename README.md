@@ -40,7 +40,7 @@ The following installs the latest released version (see patch notes below). For 
 Patch notes
 ----
 * 2015/08/17 - v1.1.0
-  * `mulTree` can now be ran in parallel!
+  * `mulTree` can now be run in parallel!
   * NEW: `clean.data` function allows to match data and multiple trees and drop the non-shared taxa.
   * `as.mulTree` function now allows multiple specimens for any taxa and allows the user to fix the random terms to be passed to the `mulTree` function.
   * `plot.mulTree` has several more graphical options (see `?plot.mulTree`).
