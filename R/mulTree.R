@@ -33,7 +33,7 @@
 ##########################
 
 
-mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ..., convergence=1.1, ESS=1000, verbose=TRUE, output=TRUE, warn=FALSE)
+mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ..., convergence=1.1, ESS=1000, verbose=TRUE, output=TRUE, warn=FALSE, parallel=NULL)
 {   #warning("ouput option doesn't accept 'FALSE' yet (change the return format)")
     #stop("IN DEVELOPEMENT")
 #HEADER
@@ -121,6 +121,11 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     #warn
     check.class(warn, 'logical', " must be logical.")
 
+    #parallel
+    if(!is.null(parallel)) {
+        check.class(parallel, "character")
+    }
+
 #FUNCTIONS
 
 
@@ -169,18 +174,39 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     for (ntree in 1:length(mulTree.data$phy)) {
         
         #Running the model for one tree
-        for (nchains in 1:chains) {
-            model_chain<-fun.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
-            #model_chain<-fun.MCMCglmm(ntree, mulTree.data, mulTree_rand_terms, formula, priors, parameters, warn) ; warning("DEBUG MODE")
-            assign(paste("model_chain", nchains, sep=""), model_chain)
-        }
+        if(is.null(parallel)) {
 
-        #Saving models
-        if(do.output == TRUE) {
+            #Serial version
             for (nchains in 1:chains) {
-                model<-get(paste("model_chain",nchains,sep=""))
-                name<-get(paste("file.names.chain",nchains,sep=""))[[ntree]]
-                save(model, file=name)
+                model_chain<-fun.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
+                #model_chain<-fun.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, warn) ; warning("DEBUG MODE")
+                #Assigning the model
+                assign(paste("model_chain", nchains, sep=""), model_chain)
+                if(do.output == TRUE) {
+                    #Model output
+                    model<-get(paste("model_chain",nchains,sep=""))
+                    name<-get(paste("file.names.chain",nchains,sep=""))[[ntree]]
+                    save(model, file=name)
+                }
+            }
+
+        } else {
+            #parallel version
+            cluster<-makeCluster(chains, parallel)
+            model_out<-clusterCall(cluster, fun.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            #model_out<-clusterCall(cluster, fun.MCMCglmm, ntree=ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
+            stopCluster(cluster)
+            #Assigning the models
+            for (nchains in 1:chains) {
+                assign(paste("model_chain", nchains, sep=""), model_out[[nchains]])
+            }
+            #Saving models
+            if(do.output == TRUE) {
+                for (nchains in 1:chains) {
+                    model<-get(paste("model_chain",nchains,sep=""))
+                    name<-get(paste("file.names.chain",nchains,sep=""))[[ntree]]
+                    save(model, file=name)
+                }
             }
         }
 
