@@ -74,7 +74,7 @@ file.remove(list.files(pattern="longevity.example"))
 
 
 ## Parallel example
-## Loading the snow pacakge
+## Loading the snow package
 library(snow)
 ## Running the same MCMCglmm on multiple trees
 mulTree(mulTree_data, formula=test_formula, parameters=mcmc_parameters, priors=mcmc_priors, output="longevity.example", ESS = 50, parallel="SOCK")
@@ -92,7 +92,7 @@ data<-rbind(cbind(data, specimen=rep("spec1",30)),cbind(data, specimen=rep("spec
 trees<-clean.data(taxon="species", data, combined_trees)$tree
 
 ##Creates the mulTree object
-mulTree_data<-as.mulTree(data, trees, species="species", rand.terms=~specimen)
+mulTree_data<-as.mulTree(data, trees, species="species", rand.terms=~species+specimen)
 
 ##Running MCMCglmm on multiple trees
 mulTree(mulTree_data, formula=test_formula, parameters=mcmc_parameters, priors=mcmc_priors, output="longevity.example", ESS = 50)

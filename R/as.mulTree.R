@@ -107,7 +107,7 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
             }
         }
         #check if at least of the terms is the phylogeny (i.e. animal)
-        if(any(match(species, terms_list))) {
+        if(!is.na(match(species, terms_list))) {
             set_rand_terms<-"manual"
         } else {
             stop("The provided random terms should at least contain the species column (phylogeny).")

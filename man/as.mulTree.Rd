@@ -46,7 +46,7 @@ data_table<-rbind(data_table_sp1, data_table_sp2)
 ##Creates a list of trees
 trees_list<-rmtree(5,5, tip.label=LETTERS[1:5])
 ##Creates the "mulTree" object (with a random term formula)
-as.mulTree(data_table, trees_list, species="taxa", rand.terms=~specimen)
+as.mulTree(data_table, trees_list, species="taxa", rand.terms=~taxa+specimen)
 }
 
 
