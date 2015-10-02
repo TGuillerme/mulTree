@@ -19,11 +19,14 @@
 ##########################
 
 
-summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
+summary.mulTree<-function(mulTree.mcmc, CI=95, use.hdr=TRUE, ...)
 { 
 #DATA
     #mulTree.mcmc
     check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+
+    #use.hdr
+    check.class(use.hdr, 'logical', " must be logical.")
 
 #funCTIONS
 
@@ -47,7 +50,7 @@ summary.mulTree<-function(mulTree.mcmc, CI=95, ...)
 #SUMMARIZYNG THE MCMC
 
     #Calculates the hdr
-    hdr.results<-hdr.mulTree(mulTree.mcmc, CI=95, ...)
+    hdr.results<-hdr.mulTree(mulTree.mcmc, CI=95, use.hdr, ...)
 
     #Returns in a table
     table<-fun.sum.mcmc(hdr.results)

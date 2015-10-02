@@ -27,7 +27,7 @@
 ##########################
 
 
-plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NULL, colour=NULL, coeff.lim=NULL, ..., horizontal=FALSE, cex.terms, cex.coeff)
+plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", use.hdr=TRUE, terms=NULL, colour=NULL, coeff.lim=NULL, ..., horizontal=FALSE, cex.terms, cex.coeff)
 {
 #HEADER
     require(hdrcde)
@@ -56,6 +56,9 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
     } else {
         stop("\"average\" must be either \"mode\", \"median\" or \"mean\".", call.=FALSE)
     }       
+    
+    #use.hdr
+    check.class(use.hdr, 'logical', " must be logical.")
 
     #horizontal
     check.class(horizontal, 'logical', " must be logical.")
@@ -93,10 +96,14 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 #funCTION
 
     #plots one polygon
-    fun.polygon<-function(mulTree.mcmc, n, CI, average, colours, horizontal)
+    fun.polygon<-function(mulTree.mcmc, n, CI, average, colours, horizontal, use.hdr)
     {
         #calculates the hdr
-        temp <- hdr(mulTree.mcmc[,n], CI, h = bw.nrd0(mulTree.mcmc[,n]))
+        if(use.hdr == TRUE) {
+            temp <- hdr(mulTree.mcmc[,n], CI, h = bw.nrd0(mulTree.mcmc[,n]))
+        } else {
+            temp <- quantile.list(mulTree.mcmc[,n], CI)
+        }
 
         #setting box parameters
         box_width <- seq(from=0.1, by = 0.05, length.out=length(CI))
@@ -173,7 +180,7 @@ plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", terms=NUL
 
         #creates the boxplots using hdr and add them to the plot
         for (n in 1:ncol(mulTree.mcmc)) {
-            fun.polygon(mulTree.mcmc, n, CI, average, colours, horizontal)
+            fun.polygon(mulTree.mcmc, n, CI, average, colours, horizontal, use.hdr)
         } 
     }
 
