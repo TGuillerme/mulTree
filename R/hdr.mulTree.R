@@ -23,15 +23,26 @@
 #-R package "coda"
 ##########################
 
+#quantile + mode
+quantile.list<-function(X, CI, ...) {
+    #Calculate the quantiles (called hdr to match hdr.mulTree)
+    quant <- quantile(X, probs=sort(c(50-CI/2, 50+CI/2)/100), ...)
+    #Transform the results into a table (called hdr to match hdr.mulTree)
+    hdr <- matrix(data=quant, ncol=2, nrow=length(CI), byrow=FALSE, dimnames=list(paste(CI, "%", sep="")))
+    #Reorder the maximum column
+    hdr[,2] <- rev(hdr[,2])
 
-hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
-{   #stop("IN DEVELOPEMENT")
-    #warning("only works with uni-modal and hdr")
-#HEADER
-    require(hdrcde)
-    require(MCMCglmm)
+    #Calculate the median (called mode to match hdr.mulTree)
+    mode <- median(X)
+    #mode <- as.numeric(names(sort(-table(X))[1]))
 
-#DATA
+    #Output
+    return(list("hdr"=hdr, "mode"=mode))
+}
+
+
+hdr.mulTree<-function(mulTree.mcmc, CI=95, use.hdr=TRUE, ...) {
+    #DATA
     #mulTree.mcmc
     check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
     #making the 'mulTree' object into a 'data.frame'
@@ -48,7 +59,7 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
         }
     }
 
-#funCTIONS
+    #FUNCTIONS
 
     fun.hdr.mcmc<-function(table.mcmc, CI, ...) {
         #A list calculating the hdr for each fix and random terms
@@ -57,12 +68,22 @@ hdr.mulTree<-function(mulTree.mcmc, CI=95, ...)
         return(hdr.mcmc)
     }
 
+    fun.quantile.mcmc<-function(table.mcmc, CI, ...) {
+        #A list calculating the quantiles for each terms
+        hdr.mcmc<-lapply(as.list(table.mcmc), quantile.list, CI=CI, ...)
+        #Output
+        return(hdr.mcmc)
+    }
 
-#CALCULATING THE HDR
+    #CALCULATING THE HDR
 
-    hdr.results<-fun.hdr.mcmc(mulTree.mcmc, CI, ...)
+    if(use.hdr == TRUE) {
+        hdr.results<-fun.hdr.mcmc(mulTree.mcmc, CI, ...)
+    } else {
+        hdr.results<-fun.quantile.mcmc(mulTree.mcmc, CI, ...)
+    }
 
-#OUPTUT
+    #OUPTUT
 
     return(hdr.results)
 
