@@ -35,12 +35,12 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
 
     if(length(files) == 1) {
         chain=FALSE
-        if(length(grep("chain1.rda", files)) == 0) {
+        if(length(grep("chain[0-9].rda", files)) == 0) {
             stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
         }
     } else {
         chain=TRUE
-        if(length(grep("chain1.rda", files)) == 0) {
+        if(length(grep("chain[0-9].rda", files)) == 0) {
             stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
         }
     }
