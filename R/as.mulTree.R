@@ -34,6 +34,7 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
 #HEADER
     require(ape)
     require(caper)
+    match_call <- match.call()
 
 #DATA INPUT
     #data
@@ -44,22 +45,22 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
     check.class(data, 'data.frame', " must be a \"data.frame\" object.")
     #Testing the length
     if(length(data) < 3) {
-        stop("\"data\" must contain one species name column and at least two variables.", call.=FALSE)
+        stop(paste(as.expression(match_call$data," must contain one species name column and at least two variables.", sep=""), call.=FALSE))
     }
 
 
     #trees
     if(class(trees) != 'multiPhylo') {
         if(class(trees) == 'phylo') {
-            warning("Provided \"trees\" is not a \"multiPhylo\" object.", call.=FALSE)
+            warning(paste("Provided ", as.expression(match_call$trees)," is not a \"multiPhylo\" object.", sep=""), call.=FALSE)
             is.multiphylo=FALSE
             is.single.tree=TRUE
         } else {
-            stop("\"trees\" must be a \"multiPhylo\" object.", call.=FALSE)
+            stop(paste(as.expression(match_call$trees)," must be a \"multiPhylo\" object.", sep=""), call.=FALSE)
         }
     } else {
         if(length(trees) == 1) {
-            warning("Provided \"trees\" contains only one tree.", call.=FALSE)
+            warning(paste("Provided ", as.expression(match_call$trees)," is not a \"multiPhylo\" object.", sep=""), call.=FALSE)
             is.multiphylo=TRUE
             is.single.tree=TRUE
         } else {
@@ -75,13 +76,13 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
         if (class(species) == 'character') {
             species.column.num=FALSE
         } else {
-            stop("\"species\" not found in \"data\".", call.=FALSE)
+            stop(paste(as.expression(match_call$species)," not found in ", as.expression(match_call$data), sep=""), call.=FALSE)
         }
     }
     #is provided column present in data?
     if(species.column.num == TRUE) {
         if(species > length(data)) {
-            stop("species column not found in \"data\".", call.=FALSE)
+            stop(paste("species column not found in ", as.expression(match_call$data), sep=""), call.=FALSE)
         } else {
             species=names(data)[species]
         }
@@ -140,7 +141,7 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
             }
         } else {
             #Test only for one tree (not multiPhylo)
-            all_same_tips==TRUE
+            all_same_tips <- TRUE
             test<-try(comparative.data(trees, data, names.col="sp.col", vcv=FALSE), silent=TRUE) #see comment in the BUILDING THE "mulTree" OBJECT LIST section
         }
 
