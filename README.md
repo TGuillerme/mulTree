@@ -41,6 +41,8 @@ The following installs the latest released version (see patch notes below). For 
 
 Patch notes
 ----
+* 2015/10/02 - v1.1.1
+  * `summary.mulTree` and `plot.mulTree` have now an option whether to use `hdrcde::hdr` or not.
 * 2015/08/17 - v1.1.0
   * `mulTree` can now be run in parallel!
   * NEW: `clean.data` function allows to match data and multiple trees and drop the non-shared taxa.
