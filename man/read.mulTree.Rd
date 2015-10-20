@@ -6,7 +6,7 @@
 \description{Reads MCMC objects from mulTree function stored out of R environment}
 
 \usage{
-read.mulTree(mulTree.mcmc, convergence=FALSE, model=FALSE)
+read.mulTree(mulTree.mcmc, convergence=FALSE, model=FALSE, extract=NULL)
 }
 
 \arguments{
@@ -16,6 +16,8 @@ read.mulTree(mulTree.mcmc, convergence=FALSE, model=FALSE)
 \item{convergence}{Logical, whether to read the convergence file associated (default=\code{FALSE}).}
 
 \item{model}{Logical, if \code{mulTree.mcmc} is not a chain name, whether to input the \code{MCMCglmm} model or the list of random and fixed terms only (default=FALSE)}
+
+\item{extract}{The name of one or more elements to extract from each model (default=NULL)}
 }
 
 \details{
@@ -49,6 +51,9 @@ read.mulTree("dummy_ex_tree1", convergence=TRUE)
 ##Reading all the models
 all_chains<-read.mulTree("dummy_ex")
 summary(all_chains)
+
+##Reading the error term and the Tune of each model
+read.mulTree("dummy_ex", extract=c("error.term", "Tune"))
 
 ##Remove the generated files from the current directory
 file.remove(list.files(pattern="dummy_ex"))

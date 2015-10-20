@@ -1,6 +1,7 @@
 Patch notes
 ----
-* ????/??/?? - **v1.1.1**
+* ????/??/?? - **v1.1.2**
+  * added the `extract` option to `read.mulTree` to extract specific elements of each models.
   * minor update on `as.mulTree`: can now intake single `phylo` objects.
 * 2015/10/02 - v1.1.1
   * `summary.mulTree` and `plot.mulTree` have now an option whether to use `hdrcde::hdr` or not.
