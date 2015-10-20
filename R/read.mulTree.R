@@ -22,11 +22,12 @@
 ##########################
 
 
-read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
+read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE, extract=NULL)
 {   #stop("IN DEVELOPEMENT")
 #HEADER
     require(MCMCglmm)
     require(coda)
+    match_call<-match.call()
 
 #DATA
     #mulTree.mcmc
@@ -58,6 +59,11 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
         stop("The MCMCglmm model can't be loaded because \"", mulTree.mcmc, "\" is a chain name.", sep="",call.=FALSE)
     }
 
+    #extract
+    if(!is.null(extract)) {
+        check.class(extract, 'character', " must be a character string.")
+    }
+
 
 #funCTION
     fun.read.mulTree<-function(mcmc.file) {
@@ -80,7 +86,47 @@ read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE)
         return(converge)
     }
 
+    #function for extracting a single element
+    fun.extract.element<-function(element, chain) {
+        #Getting the right files
+        mcmc.files<-files[grep("_chain", files)]
+
+        #Extracting the models
+        all.models <- lapply(as.list(mcmc.files), fun.read.mulTree)
+        #Extracting the element
+        all.elements <- sapply(all.models, "[[", element, simplify = FALSE)
+
+        #applying the names of to the list
+        elements.names <- sapply(strsplit(mcmc.files, paste(mulTree.mcmc,"_", sep="")), "[[", 2)
+        elements.names <- sapply(strsplit(elements.names, ".rda"), "[[", 1)
+        elements.names <- paste(elements.names, element, sep="_")
+        names(all.elements) <- elements.names
+
+        return(all.elements)
+    }
+
 #READING THE MCMC OBJECT
+
+    if(!is.null(extract)) {
+        test_model <- fun.read.mulTree(paste(mulTree.mcmc,"tree1","chain1.rda", sep="_"))
+        if(any(is.na(match(extract, names(test_model))))) {
+            #checking if the required element exists
+            stop(paste(as.expression(match_call$extract), " element does not exist in any model.", sep=""))
+        } else {
+            if(length(extract) == 1) {
+                #Remove only one element
+                output <- fun.extract.element(extract, mulTree.mcmc)
+            } else {
+                #Remove the number of elements
+                output <- lapply(as.list(extract), fun.extract.element, mulTree.mcmc)
+                names(output) <- extract
+            }
+        }
+
+        #Stop the function here
+        return(output)
+    }
+
 
     if(model == TRUE) {
 
