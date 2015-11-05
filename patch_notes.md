@@ -1,6 +1,7 @@
 Patch notes
 ----
-* ????/??/?? - **v1.1.2**
+* 2015/11/05 - **v1.1.2**
+  * fixed bug with `clean.data` function
   * added the `extract` option to `read.mulTree` to extract specific elements of each models.
   * minor update on `as.mulTree`: can now intake single `phylo` objects.
 * 2015/10/02 - v1.1.1
