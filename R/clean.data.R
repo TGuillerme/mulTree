@@ -17,6 +17,18 @@
 
 clean.data<-function(taxon, data, tree) {
 
+# new.data = new.data_badge.c
+# data = data
+# species_col_name = "species"
+# trees =  combined_trees
+# class = "mammalia"
+# isotope = "carbon"
+# taxon = species_col_name
+# data = iso_data_com
+# tree = trees
+# warning("DEBUG")
+
+
 #HEADER
     require(caper)
 
@@ -125,23 +137,30 @@ clean.data<-function(taxon, data, tree) {
         for(tr in 1:length(tree)) {
             tips_to_drop<-c(tips_to_drop, cleaned_list[[tr]]$dropped_tips)
         }
+        #Removing duplicates
+        tips_to_drop <- unique(tips_to_drop)
 
         #Selecting the rows to drop
         rows_to_drop<-NULL
         for(tr in 1:length(tree)) {
             rows_to_drop<-c(rows_to_drop, cleaned_list[[tr]]$dropped_rows)
         }
+        #Removing duplicates
+        rows_to_drop <- unique(rows_to_drop)
 
         #combining both
         taxa_to_drop<-c(tips_to_drop, rows_to_drop)
-        #remove NAs
-        taxa_to_drop<-taxa_to_drop[-which(is.na(taxa_to_drop))]
+        #remove NAs (if any!)
+        if(any(is.na(taxa_to_drop))) {
+            taxa_to_drop<-taxa_to_drop[-which(is.na(taxa_to_drop))]
+        }
 
         #removing the rows from the data
         if(length(taxa_to_drop) != 0) {
-            drop_rows<-match(taxa_to_drop, data[,taxon_col])
-            drop_rows<-drop_rows[-which(is.na(drop_rows))]
-            data_new<-data[-c(drop_rows),]
+            #drop_rows<-match(taxa_to_drop, data[,taxon_col])
+            #drop_rows<-drop_rows[-which(is.na(drop_rows))]
+            # The new data is the first data frame from the cleaned_list
+            data_new<-cleaned_list[[1]]$table
             trees_new<-lapply(tree, drop.tip, tip=tips_to_drop) ; class(trees_new)<-'multiPhylo'
         } else {
             taxa_to_drop<-NA
