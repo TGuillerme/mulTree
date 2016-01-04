@@ -185,8 +185,9 @@ as.mulTree<-function(data, trees, species, rand.terms=NULL, clean.data=FALSE) {
     }
 
     #renaming the species column in the data.frame
-    data_tmp<-data
-    names(data_tmp)<-sub(species,"sp.col",names(data))
+    
+    #data_tmp<-data #This line overwrites the cleaned data with the original data.
+    names(data_tmp)<-sub(species,"sp.col",names(data_tmp))
 
     #Checking if they are multiple specimens in the data
     #options(warn=-1)
