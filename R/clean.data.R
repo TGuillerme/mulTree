@@ -117,7 +117,7 @@ clean.data<-function(taxon, data, tree) {
             dropped_rows<-NA
         }
 
-        return(list("tree"=tree_tmp, "table"=data_tmp, "dropped_tips"=dropped_tips, "dropped_rows"=dropped_rows))
+        return(list("tree"=tree_tmp, "data"=data_tmp, "dropped_tips"=dropped_tips, "dropped_rows"=dropped_rows))
     }
 
 #CLEANING THE DATA/TREES
@@ -169,7 +169,7 @@ clean.data<-function(taxon, data, tree) {
         }
 
         #output list
-        cleaned_data<-list("tree"=trees_new, "data"=data_new, "dropped.taxon"=taxa_to_drop)
+        cleaned_data<-list("tree"=trees_new, "data"=data_new, "dropped_tips" = tips_to_drop,  "dropped_rows"=taxa_to_drop)
     }
 
     return(cleaned_data)
