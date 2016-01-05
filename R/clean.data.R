@@ -160,7 +160,7 @@ clean.data<-function(taxon, data, tree) {
             #drop_rows<-match(taxa_to_drop, data[,taxon_col])
             #drop_rows<-drop_rows[-which(is.na(drop_rows))]
             # The new data is the first data frame from the cleaned_list
-            data_new<-cleaned_list[[1]]$table
+            data_new<-cleaned_list[[1]]$data
             trees_new<-lapply(tree, drop.tip, tip=tips_to_drop) ; class(trees_new)<-'multiPhylo'
         } else {
             taxa_to_drop<-NA
