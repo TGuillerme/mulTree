@@ -1,16 +1,43 @@
-##Functions
-export(rTreeBind)
-export(clean.data)
-export(as.mulTree)
-export(mulTree)
-export(read.mulTree)
-export(summary.mulTree)
-export(plot.mulTree)
+#Dependencies
+import(ape)
+#import(paleotree)
+importFrom("paleotree", "timeSliceTree")
 
-##Data
-#export(lifespan)
-#export(lifespan_volant_192taxa)
+##Functions
+export(time.series)
+export(cust.series)
+export(boot.matrix)
+export(dispRity)
+export(test.dispRity)
+export(tree.age)
+export(summary.dispRity)
+export(plot.dispRity)
+export(print.dispRity)
+##Utilities
+export(make.metric)
+export(make.model)
+export(make.boot)
+export(get.dispRity)
+export(extract.dispRity)
+#export(cor.diversity) - TO DO!
+#export(cor.time.pco) - TO DO!
+
+##disparity metrics
+export(variances)
+export(ranges)
+export(centroids)
+export(mode.val)
+export(ellipse.volume)
+export(hyper.volume)
+export(convhull.volume)
+export(convhull.surface)
+
+
+##disparity tests
+export(bhatt.coeff)
+export(sequential.test)
 
 ##S3 methods
-S3method(plot, mulTree)
-S3method(summary, mulTree)
+S3method(plot, dispRity)
+S3method(summary, dispRity)
+S3method(print, dispRity)
