@@ -1,6 +1,8 @@
 mulTree
 =======
 
+# WARNING: this is a clunky version of `mulTree`. A completely new version is currently being developped on the `master` branch.
+
 [![DOI](https://zenodo.org/badge/7411/TGuillerme/mulTree.png)](http://dx.doi.org/10.5281/zenodo.12902)
 
 Performs MCMCglmm on multiple phylogenetic trees
@@ -36,7 +38,7 @@ library(devtools)
 install_github("TGuillerme/mulTree", ref="release")
 library(mulTree)
 ```
-The following installs the latest released version (see patch notes below). For the development version (not recommended), replace the `rep="release"` option by `rep="master"`.
+The following installs the latest released version (see patch notes below). For the development version (not recommended), replace the `rep="release"` option by `rep="clunky-mulTree"`.
 
 
 Patch notes
