@@ -20,7 +20,7 @@
 #-R package "ape"
 ##########################
 
-rTreeBind<-function(x, y, sample, root.age) {
+tree.bind<-function(x, y, sample, root.age) {
 
 #SANITIZING
     #trees
