@@ -54,7 +54,15 @@ mulTree<-function(mulTree.data, formula, parameters, chains=2, priors=NULL, ...,
     check.length(mulTree.data, 4, " is not a \"mulTree\" object.\nUse as.mulTree.data() function.")
     #first element must be phylo
     mulTree_phylogeny<-mulTree.data[[1]]
-    check.class(mulTree_phylogeny, 'multiPhylo', " is not a \"multiPhylo\" object.\nUse as.mulTree.data() function.")
+    if(any(c((class(mulTree_phylogeny) == "phylo"),(class(mulTree_phylogeny) == "multiPhylo"))) != TRUE) {
+    check.class(mulTree_phylogeny, 'multiPhylo', " is not a \"multiPhylo\" or \"phylo\" object.\nUse as.mulTree.data() function.")
+    }
+    #####cheap fix to make a single tree nested so a call for mulTree.data$phy[[1]] gives the tree not $edge
+    if((class(mulTree_phylogeny) == "phylo") == TRUE) {
+    mulTree.data[[1]] <- list(mulTree.data[[1]]) ###this turn it into a nested list with one extra nest.
+    class(mulTree.data[[1]]) = "multiPhylo" ###and the class of the list to "multiPhylo"
+    }
+
     #second element must be data.frame
     mulTree_data<-mulTree.data[[2]]
     check.class(mulTree_data, 'data.frame', " is not a \"data.frame\" object.\nUse as.mulTree.data() function.")
