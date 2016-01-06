@@ -20,12 +20,12 @@ library(mulTree)
 ## For facilitating the developement and instant testing, please use the following function:
 
 ```r
-refresh.dispRity<-function(){
+refresh.mulTree<-function(){
        library(devtools)
        setwd('~/Packaging/')
-       install('dispRity')
-       library(dispRity)
-       cd("dispRity/")
+       install('mulTree')
+       library(mulTree)
+       cd("mulTree/")
        test()
        document()
 }
