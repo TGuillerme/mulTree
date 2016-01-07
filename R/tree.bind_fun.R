@@ -1,5 +1,7 @@
 # Whether to sample with replace or not in tree.bind
-get.replace <- function(tree, sample) {
+get.replace <- function(tree, sample, verbose=FALSE) {
+    # Get call
+    match_call<-match.call()
     # If only one sample is need do not replace
     if (sample == 1) {
         replace <- FALSE
@@ -22,6 +24,11 @@ get.replace <- function(tree, sample) {
             }
         }
     }
+    # Verbose
+    if(verbose == TRUE && replace == TRUE) {
+        warning("The sample is a higher than the number of trees in ", match_call$tree, ".\n", match_call$tree, " will be re-sampled.", call.=FALSE)
+    }
+
     return(replace)
 }
 
@@ -35,5 +42,14 @@ sample.trees <- function(tree, sample, replace) {
 # Adds an edge length to the phylogeny
 add.root.edge <- function(tree, root.age) {
     tree$root.edge <- root.age - max(node.depth.edgelength(tree))
+    # Make sure root edge can not be negative!
+    if(tree$root.edge < 0) {
+        tree$root.edge <- 0
+    }
     return(tree)
+}
+
+# Lapply loop for binding trees
+lapply.bind.tree <- function(element, x, y, rand_x, rand_y, root.age) {
+    return(add.root.edge(x[[rand_x[element]]], root.age) + add.root.edge(y[[rand_y[element]]], root.age))
 }
