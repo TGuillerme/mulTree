@@ -21,6 +21,7 @@
 #' plot(conbined_trees) # A tree with both mammals and aves
 #' 
 #' @author Thomas Guillerme
+#' @export
 
 tree.bind<-function(x, y, sample, root.age) {
     #SANITIZING
@@ -67,7 +68,6 @@ tree.bind<-function(x, y, sample, root.age) {
             # output is a multiPhylo
             class(binded_trees) <- "multiPhylo"
         }
-
         return(binded_trees)
     } else {
         # Some trees have duplicated names
