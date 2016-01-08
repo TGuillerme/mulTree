@@ -23,7 +23,7 @@ test_that("clean.tree.table works", {
     # ...with three rows.
     expect_equal(nrow(test[[2]]), 4)
     # Third element contains "F" and "A"
-    expect_equal(test[[3]], c("F", "A"))
+    expect_equal(sort(test[[3]]), c("A", "F"))
     # Forth element contains NA
     expect_equal(test[[4]], NA)
 })
