@@ -7,7 +7,6 @@ Patch notes
   * many functions arguments names have been modified, please check individual functions manual.
   * `rTreeBind` is renamed to `tree.bind`.
   * `mulTree` output: when output chain name already exists in current directory, the function now asks if user wants to overwrite the existing files.
-  * `mulTree` parallel: now allows to specify the number of cores to use and runs the MCMCglmm in parallel accordingly.
 * 2015/11/05 - v1.1.2
   * fixed bug with `clean.data` function
   * added the `extract` option to `read.mulTree` to extract specific elements of each models.
