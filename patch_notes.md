@@ -1,6 +1,6 @@
 Patch notes
 ----
-* 2016/??/?? - **v2.0**
+* 2016/??/?? - **v1.2**
   * complete new architectural structure!
   * all the functions are now unit tested!
   * all manuals are now written in Roxygen2 format!
