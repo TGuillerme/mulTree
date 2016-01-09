@@ -8,7 +8,7 @@ Patch notes
   * `rTreeBind` is renamed to `tree.bind`.
   * `mulTree` output: when output chain name already exists in current directory, the function now asks if user wants to overwrite the existing files.
   * `mulTree` parallel: now allows to specify the number of cores to use and runs the MCMCglmm in parallel accordingly.
-* 2015/11/05 - **v1.1.2**
+* 2015/11/05 - v1.1.2
   * fixed bug with `clean.data` function
   * added the `extract` option to `read.mulTree` to extract specific elements of each models.
   * minor update on `as.mulTree`: can now intake single `phylo` objects.
@@ -30,3 +30,6 @@ Patch notes
 * 2014/12/19 - v1.0.1
   * NEW: `clean.data` function allows to match data and multiple trees and drop the non-shared taxa.
   * `as.mulTree` function now allows multiple specimens for any taxa and allows the user to fix the random terms to be passed to the `mulTree` function.
+
+
+Version in bold have a [release back-up](https://github.com/TGuillerme/mulTree/releases).
