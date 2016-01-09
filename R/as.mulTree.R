@@ -4,7 +4,6 @@
 #'
 #' @param data A \code{data.frame} or \code{matrix} containing at least two variable and taxa names.
 #' @param tree A \code{phylo} or \code{multiPhylo} object.
-# If phylo transform to muyltiPhylo
 #' @param taxa The name or the number of the column containing the list of taxa in the \code{data}.
 #' @param rand.terms A \code{\link[stats]{formula}} ontaining additional random terms to add to the default formula (phylogenetic effect). If missing, the random terms are the column containing the taxa names and a column containing the specimen names if more than one taxa per specimen is present.
 #' @param clean.data A \code{logical} value: whether to use the \code{\link{clean.data}} function. Default = \code{FALSE}.
@@ -35,6 +34,7 @@
 #' ##Creates the "mulTree" object (with a random term formula)
 #' as.mulTree(data_table, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen)
 #' 
+#' @seealso \code{\link{mulTree}}
 #' @author Thomas Guillerme
 #' @export
 

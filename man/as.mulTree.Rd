@@ -50,4 +50,7 @@ as.mulTree(data_table, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen)
 \author{
 Thomas Guillerme
 }
+\seealso{
+\code{\link{mulTree}}
+}
 
