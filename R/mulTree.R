@@ -1,6 +1,6 @@
 #' @title Run MCMCglmm on multiple trees
 #'
-#' @description Running a \code{\link[MCMCglmm]{MCMCglmm}} model on a multiple phylogenies and a \code{data.frame} combined using \code{\link{as.mulTree}}. The results can be written out of \code{R} environment as individual models.
+#' @description Running a \code{\link[MCMCglmm]{MCMCglmm}} model on a multiple phylogenies and a \code{data.frame} combined using \code{\link{as.mulTree}}. The results are written out of \code{R} environment as individual models.
 #'
 #' @param mulTree.data A list of class \code{mulTree} generated using \code{\link{as.mulTree}}.
 #' @param formula An object of class \code{formula} (excluding the random terms).
@@ -16,14 +16,28 @@
 #' @param parallel An optional vector containing the virtual connection process type for running the chains in parallel (requires \code{snow} package).
 #'
 #' @return
-#' Generates MCMCglmm models and saves them sequentially out of R environement to minimise users RAM usage. 
-#' Use \code{\link{read.mulTree}} to reload the models back in the R environement. 
+#' Generates MCMCglmm models and saves them sequentially out of \code{R} environement to minimise users RAM usage. 
+#' Use \code{\link{read.mulTree}} to reload the models back in the \code{R} environement. 
 #' Because of the calculation of the vcv matrix for each model and each tree in the MCMCglmm models, this function is really RAM demanding. 
 #' For big datasets we heavily recomend to have at least 4GB RAM DDR3 available.
 #' 
 #' @examples
+#' ## Quick example:
+#' ## Before the analysis
+#' data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
+#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; class(tree) <- "multiPhylo"
+#' mulTree_data <- as.mulTree(data, tree, taxa = "sp.col")
+#' priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
+#' ## quick example
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
+#' ## Clean folder
+#' file.remove(list.files(pattern = "quick_example"))
+#' ## alternative example with parallel argument (and double the number of chains!)
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 4, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, parallel = "SOCK")
+#' ## Clean folder
+#' file.remove(list.files(pattern = "quick_example"))
 #'
-#' ## Not run:
+#' \dontrun{
 #' ## Before the analysis:
 #' ## read in the data
 #' data(lifespan)
@@ -73,32 +87,11 @@
 #' mulTree(mulTree_data, formula=test_formula, parameters=mcmc_parameters, priors=mcmc_priors, output="longevity.example", ESS = 50)
 #' ##Remove the generated files from the current directory
 #' file.remove(list.files(pattern="longevity.example"))
-#' 
-#' ## End(Not run)
+#'}
 #' 
 #' @seealso \code{\link[MCMCglmm]{MCMCglmm}}, \code{\link{as.mulTree}}, \code{\link{read.mulTree}}
 #' @author Thomas Guillerme
 #' @export
-
-
-# data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
-# tree <- rmtree(3,5, tip.label = LETTERS[1:5])
-# tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; class(tree) <- "multiPhylo"
-# mulTree_data <- as.mulTree(data, tree, taxa = "sp.col")
-
-# mulTree.data <- mulTree_data
-# formula <- var1 ~ var2
-# parameters <- c(10000, 10, 1000)
-# chains <- 2
-# priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
-# convergence <- 1.1
-# ESS <- 100
-# verbose <- TRUE
-# output <- "mulTree_models"
-# warn <- FALSE
-# parallel <- c(4, "SOCK")
-
-# mulTree(mulTree.data, formula, parameters, chains=2, priors)
 
 
 
@@ -111,6 +104,9 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     }
     #timer(start)
     start.time <- Sys.time()
+
+    #Set working environment
+    mulTree_env <- new.env()
 
     #SANITIZING
     #mulTree.data
@@ -161,18 +157,23 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     check.class(warn, 'logical', " must be logical.")
 
     #parallel
-    check.class(parallel, "character")
+    if(!missing(parallel)) {
+        check.class(parallel, "character")
+    }
 
     #RUNNING THE MODELS
     for (ntree in 1:length(mulTree.data$phy)) {
         #For each tree...
 
         if(missing(parallel)) {
+#        testing_nopar <- TRUE
+#        if(testing_nopar == TRUE) {
+#            warning("DEBUG MODE")
             #SEQUENTIALLY RUNNING THE CHAINS
             for(nchain in 1:chains) { # Weirdly enough, the loop is slightly more efficient in this non-parallel case!
                 #...Run each chain one by one
-                model_tmp <- lapply.MCMCglmm(mulTree.data$phy[[tree]], mulTree.data, formula, priors, parameters, ..., warn)
-                #model_tmp <- lapply.MCMCglmm(mulTree.data$phy[[ntree]], mulTree.data, formula, priors, parameters, warn) ; warning("DEBUG MODE")
+                model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
+                #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, warn) ; warning("DEBUG MODE")
                 assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp)
 
                 #Saving the model out of R environment
@@ -185,14 +186,14 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             #Set cluster up
             cluster <- makeCluster(chains, parallel)
             model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
-            #model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree=ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
+            #model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
             stopCluster(cluster)
             #Assigning the models
-            for (nchains in 1:chains) {
-                assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp[[nchains]])
+            for (nchain in 1:chains) {
+                assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp[[nchain]])
             }
             #Saving models
-            for (nchains in 1:chains) {
+            for (nchain in 1:chains) {
                 model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
                 name <- paste(output, "-tree", ntree, "_chain", nchain, ".rda", sep = "")
                 save(model, file = name)
@@ -201,7 +202,8 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
 
         #RUNNING THE CONVERGENCE DIAGNOSIS (if more than one chain)
         if(chains > 1) {
-            converge.test <- convergence.test(chains, ntree)
+            #Running the convergence test
+            converge.test <- convergence.test(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))))
             #Saving the convergence test
             save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
         }
@@ -212,7 +214,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             if(chains > 1) {
                 cat("Convergence diagnosis:\n")
                 cat("Effective sample size is > ", ESS, ": ", all(effectiveSize(model$Sol[]) > ESS), "\n", sep = "")
-                cat(unlist(lapply(as.list(1:chains), ESS.lapply, ntree)), sep="; ")
+                cat(unlist(lapply(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))), ESS.lapply)), sep="; ")
                 cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
                 cat(converge.test$psrf[,1], sep="; ") ; cat("\n")
                 cat("Individual models saved as: ", output, "-tree", ntree, "_chain*.rda\n", sep = "")
