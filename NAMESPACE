@@ -3,4 +3,5 @@
 export(as.mulTree)
 export(clean.data)
 export(mulTree)
+export(read.mulTree)
 export(tree.bind)

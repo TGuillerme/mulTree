@@ -56,29 +56,60 @@ test_that("get.element works", {
     expect_equal(as.numeric(unlist(get.element("Tune", "read.mulTree_testing"))), rep(1,6))
 })
 
-# Testing get.element to get the proper element
-
-get.table.mulTree <- function(mcmc.file)
-
+# Testing get.mulTree.table
 test_that("get.mulTree.table works", {
     #Errors
     # Missing arguments
     expect_error(get.table.mulTree("Tune"))
     # Getting the table
     # Get the table from an extracted model
-    table_test <- get.table.mulTree( get.mulTree.model("read.mulTree_testing-tree1_chain1.rda"))
-    # Table is a data.frame
-    expect_is(table_test, "data.frame")
-    # With 4 columns and 900 rows
-    # and 900
-
+    table_test <- get.table.mulTree(get.mulTree.model("read.mulTree_testing-tree1_chain1.rda"))
+    # Table is a list
+    expect_is(table_test, "list")
+    # Of 4 elements
+    expect_equal(length(table_test), 4)
+    #Each containing 900 elements
+    expect_equal(unlist(unique(lapply(table_test, length))), 900)
 })
 
-
-
-
-
-
+# Testing read.mulTree
+test_that("example works", {
+    # Errors
+    # wrong chain name
+    expect_error(read.mulTree("quick_example"))
+    # wrong format
+    expect_error(read.mulTree(1))
+    # wrong format (args)
+    expect_error(read.mulTree("read.mulTree_testing", model = "yes"))
+    expect_error(read.mulTree("read.mulTree_testing", convergence = "yes"))
+    expect_error(read.mulTree("read.mulTree_testing", extract = "yes"))
+    # Running the example
+    # Reading all the models
+    all_chains <- read.mulTree("read.mulTree_testing")
+    # Class is mulTree
+    expect_is(all_chains, "mulTree")
+    # List of 4
+    expect_equal(length(all_chains), 4)
+    # List of 5400 elements
+    expect_equal(unlist(unique(lapply(all_chains, length))), 5400)
+    ## Reading the convergence diagnosis test
+    conv_test <- read.mulTree("read.mulTree_testing", convergence = TRUE)
+    # list of 3
+    expect_equal(length(conv_test), 3)
+    # gelman.diag objects
+    expect_equal(unlist(unique(lapply(conv_test, class))), "gelman.diag")
+    # Reading a specific model
+    model <- read.mulTree("read.mulTree_testing-tree1_chain1", model = TRUE)
+    # class MCMCglmm
+    expect_is(model, "MCMCglmm")
+    expect_equal(length(model), 18)
+    # Reading only the error term and the tune for all models
+    elements <- read.mulTree("read.mulTree_testing", extract=c("error.term", "Tune"))
+    # 2 elements
+    expect_equal(names(elements), c("error.term", "Tune"))
+    # each containing 6
+    expect_equal(unlist(unique(lapply(elements, length))), 6)
+})
 
 #Remove the data
 test_that("data has been cleaned", {

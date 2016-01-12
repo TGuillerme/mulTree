@@ -8,40 +8,36 @@
 #' @param extract Optional, the name of one or more elements to extract from each model (rather than loading the full model; default = \code{NULL}).
 #'
 #' @return
-# What does it return?
+#' A \code{list} of the terms of class \code{mulTree} by default.
+#' Else a \code{MCMCglmm} object (if \code{model = TRUE}); a \code{gelman.diag} object (if \code{convergence = TRUE}) or a list of extracted elements from the \code{MCMCglmm} models (if \code{extract} is not \code{NULL}).
 #'
 #' @details
 #' The argument \code{model = TRUE} can be used to load the \code{MCMCglmm} object of a unique chain.
 #' The resulting object can be then summarized or plotted as S3 method for class \code{MCMCglmm}.
 #' 
 #' @examples
-#' \dontrun{
-#' ## Quick example:
-#' ## Before the analysis
+#' ## Creating some dummy mulTree models
 #' data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
 #' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; class(tree) <- "multiPhylo"
 #' mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
 #' priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
-#' ## quick example
-#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
-#' 
-#' ##Reading only one model
-#' model <- read.mulTree("dummy_ex_tree1_chain1", model=TRUE)
-#' plot(model)
-#' 
-#' ##Reading the convergence diagnosis for tree 1
-#' read.mulTree("dummy_ex_tree1", convergence=TRUE)
-#' 
-#' ##Reading all the models
-#' all_chains<-read.mulTree("dummy_ex")
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, verbose = FALSE)
+#'
+#' ## Reading all the models
+#' all_chains <- read.mulTree("quick_example")
 #' summary(all_chains)
-#' 
-#' ##Reading the error term and the Tune of each model
-#' read.mulTree("dummy_ex", extract=c("error.term", "Tune"))
-#' 
+#'
+#' ## Reading the convergence diagnosis for all the trees
+#' read.mulTree("quick_example", convergence = TRUE)
+#'
+#' ## Reading a specific model
+#' model <- read.mulTree("quick_example-tree1_chain1", model = TRUE)
+#'
+#' ## Reading only the error term and the tune for all models
+#' read.mulTree("quick_example", extract=c("error.term", "Tune"))
+#'
 #' ##Remove the generated files from the current directory
-#' file.remove(list.files(pattern="dummy_ex"))
-#' }
+#' file.remove(list.files(pattern = "quick_example"))
 #' 
 #' @seealso \code{\link{mulTree}}, \code{\link{plot.mulTree}}, \code{\link{summary.mulTree}}
 #' @author Thomas Guillerme
@@ -56,7 +52,7 @@ read.mulTree <- function(mulTree.chain, convergence = FALSE, model = FALSE, extr
     check.class(mulTree.chain, "character")
     #check if chain is present
     scanned_chains <- list.files(pattern = mulTree.chain)
-    check.length(scanned_chains, 0, " files not found in current directory.", errorif = TRUE)
+#    check.length(scanned_chains, 0, " files not found in current directory.", errorif = TRUE)
     if(length(scanned_chains) == 1) {
         if(length(grep("chain[0-9].rda", scanned_chains)) == 0) {
             stop("File \"", mulTree.chain, "\" not found in current directory.", sep="",call.=FALSE)
@@ -85,6 +81,7 @@ read.mulTree <- function(mulTree.chain, convergence = FALSE, model = FALSE, extr
         check.class(extract, 'character')
     }
 
+    #READING THE MCMC MODEL BACK IN R ENVIRONMENT
     #Extracting some specific elements from all the chains
     if(!is.null(extract)) {
         # Extract the testing model
@@ -137,40 +134,23 @@ read.mulTree <- function(mulTree.chain, convergence = FALSE, model = FALSE, extr
             if(length(mcmc_file) == 1) {
                 #Reading a single chain
                 output <- get.mulTree.model(mcmc_file)
+                out_table <- get.table.mulTree(output)
             } else {
                 #Reading multiple chains
                 output <- lapply(mcmc_file, get.mulTree.model)
-                names(output) <- strsplit(mcmc_file, split=".rda")
+                out_table <- lapply(output, get.table.mulTree)
+                #Combine the elements of each chain
+                out_table_tmp <- as.list(as.data.frame(mapply(c, out_table[[1]], out_table[[2]])))
+                if(length(out_table) > 2) {
+                    for (chain in 3:length(mcmc_file)) {
+                        out_table_tmp <- as.list(as.data.frame(mapply(c, out_table_tmp, out_table[[chain]])))
+                    }
+                }
+                out_table <- out_table_tmp
             }
-
-            #Transform the output into a table
-            
+            #Set output of class mulTree
+            class(out_table) <- "mulTree"
+            return(out_table)
         }
-        
-
-
-        return(output)
     }
-
-#OUTPUT
-
-    #If model == TRUE, return the MCMCglmm model
-    if(model == TRUE) {
-
-        return(mcmc.model)
-
-    } else {
-
-        #If convergence == FALSE transforms the file using table.mulTree function
-        if(convergence == FALSE) {
-            output<-table.mulTree(output)
-            #make output in format 'mulTree' (list)
-            class(output)<-'mulTree'
-        }
-
-        return(output)
-
-    }
-
-#End
 }

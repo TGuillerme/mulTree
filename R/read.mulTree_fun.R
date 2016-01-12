@@ -42,6 +42,6 @@ get.table.mulTree <- function(mcmc.file) {
     table_mcmc[random_terms[1]]<-as.vector(mcmc.file$VCV[,1])
     table_mcmc[random_terms[2]]<-as.vector(mcmc.file$VCV[,2])
     #Output
-    return(table_mcmc)
+    return(as.list(table_mcmc))
 }
 
