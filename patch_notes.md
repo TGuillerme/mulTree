@@ -6,7 +6,9 @@ Patch notes
   * all manuals are now written in Roxygen2 format!
   * many functions arguments names have been modified, please check individual functions manual.
   * `rTreeBind` is renamed to `tree.bind`.
+  * In `as.mulTree`, the argument `species` is now `taxa`.
   * `mulTree` output: when output chain name already exists in current directory, the function now asks if user wants to overwrite the existing files.
+  * In `read.mulTree`m the argument `mulTree.mcmc` is now `mulTree.chain`.
 * 2015/11/05 - v1.1.2
   * fixed bug with `clean.data` function
   * added the `extract` option to `read.mulTree` to extract specific elements of each models.
