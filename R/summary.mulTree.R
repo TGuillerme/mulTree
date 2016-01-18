@@ -10,9 +10,17 @@
 #'
 #' @details
 #' When using the highest density region caculation method (\code{use.hdr = TRUE}), the returned central tendency is always the first estimated mode (see \code{\link[hdrcde]{hdr}}).
+#' Note that the results maybe vary when using \code{use.hdr = FALSE} or \code{TRUE}.
+#' We recommend to use \code{use.hdr = TRUE} when possible.
+#'
+#' When \code{use.hdr = FALSE}, the computation is faster but the quantiles are calculated and not estimated.
+#'  
+#' When \code{use.hdr = TRUE}, the computation is slower but the quantiles are estimated using the highest density regions.
+#' The given estimates central tendency is calculated as the mode of the estimated highest density region.
+#' For the speeding up the calculations, the \code{h} argument from \code{\link[hdrcde]{hdr} can be estimated using: \code{h = \link[stats]{bw.nrd0}}.
 #'
 #' @return
-# A \code{data.frame}?
+#' A \code{matrix} of class \code{mulTree}.
 #'
 #' @examples
 #' ## Read in the data
@@ -38,6 +46,7 @@
 #' @author Thomas Guillerme
 #' 
 #' @export 
+
 summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, cent.tend = median, ...) {
     #Set method
     #UseMethod(summary, mulTree)
@@ -89,6 +98,9 @@ summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, c
     }
     colnames(results_out) <- c(estimate, paste(c(rep("lower.CI(", length(prob)), rep("upper.CI(", length(prob))), prob.converter(prob)*100, ")", sep=""))
     rownames(results_out) <- names(mulTree.results)
+
+    #Set class
+    class(results_out) <- c("matrix", "mulTree")
 
     return(results_out)
 }

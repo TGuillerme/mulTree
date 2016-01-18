@@ -19,13 +19,10 @@
 \item{...}{Any optional arguments to be passed to the \code{\link[hdrcde]{hdr}} or \code{\link[stats]{quantile}} functions.}
 }
 \value{
-
+A \code{matrix} of class \code{mulTree}.
 }
 \description{
 Summarises the \code{MCMCglmm} models calculated from multiple trees by caculating the highest density regions (\code{\link[hdrcde]{hdr}}) of the fixed and random terms.
-}
-\details{
-When using the highest density region caculation method (\code{use.hdr = TRUE}), the returned central tendency is always the first estimated mode (see \code{\link[hdrcde]{hdr}}).
 }
 \examples{
 ## Read in the data
