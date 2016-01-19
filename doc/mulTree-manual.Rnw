@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage[utf8]{inputenc}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{
+ pdfstartview={XYZ null null 1}}
+
+\newcommand{\dispRity}{\texttt{dispRity} }
+\newcommand{\R}{\texttt{R} }
+
+\begin{document}
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+# set global chunk options
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(formatR.arrow=TRUE,width=90)
+@
+
+
+\title{\texttt{mulTree} manual}
+
+
+\author{Thomas Guillerme}
+
+\maketitle
+
+This package is based on the \href{http://cran.r-project.org/web/packages/MCMCglmm/index.html}{\texttt{MCMCglmm} package} and runs a MCMCglmm analysis on multiple trees.
+
+\section{Installation}
+You can install the latest released version (\Sexpr{packageVersion("mulTree")}) directly from GitHub using the following:
+
+<<installation, eval=FALSE>>=
+if(!require(devtools)) install.packages("devtools")
+install_github("TGuillerme/mulTree", ref = "release")
+@
+
+%\tableofcontents
+
+\section{Quick go through}
+
+Note that this section will be developed in the future.
+Stay tuned!
+
+<<load package>>=
+## Loading the package
+library(mulTree)
+
+## Loading the lifespan data
+data(lifespan)
+@
+
+
+\subsection{Combining phylogenies: \texttt{tree.bind}}
+This function allows to combine phylogenies, in this example, we are going to combine the \texttt{trees\_mammalia} and the \texttt{trees\_aves} randomly at a root.age of 250 million years ago.
+
+<<tree.bind>>=
+## The 2 mammalian trees
+trees_mammalia
+## Number of tips in both
+unlist(lapply(trees_mammalia, Ntip))
+
+## The 2 aves trees
+trees_aves
+## Number of tips in both
+unlist(lapply(trees_aves, Ntip))
+
+## Combining them
+combined_trees <- tree.bind(trees_mammalia, trees_aves, sample = 2,
+    root.age = 250)
+combined_trees
+## Number of tips in both
+unlist(lapply(combined_trees, Ntip))
+@
+
+\subsection{Preparing the \texttt{mulTree} data: \texttt{as.mulTree}}
+This function allows to combine the trees to some trait data and get it in the right format to be passed to the \texttt{mulTree} function.
+
+<<as.mulTree>>=
+## The trait data
+head(lifespan_volant)
+
+## Creating the mulTree object
+mulTree_data <- as.mulTree(data = lifespan_volant, tree = combined_trees,
+    taxa = "species")
+
+## This object is classified as "mulTree" and contains different elements to be
+## passed to the mulTree function
+class(mulTree_data) ; names(mulTree_data)
+@
+
+
+\subsection{Running the \texttt{MCMCglmm} on multiple trees: \texttt{mulTree}}
+This function intakes the normal arguments form the \href{http://cran.r-project.org/web/packages/MCMCglmm/index.html}{\texttt{MCMCglmm} function} alongside with the \texttt{mulTree} object.
+
+\textbf{WARNING: this part of the code can take several minutes to run!}
+<<mulTree>>=
+## The glmm formula
+my_formula <- longevity ~ mass + volant
+
+## The MCMC parameters (generations, sampling, burnin)
+my_parameters <- c(100000, 10, 1000)
+
+## The MCMCglmm priors
+my_priors <- list(R = list(V = 1/2, nu = 0.002),
+    G = list(G1 = list(V = 1/2, nu = 0.002)))
+
+## Running the MCMCglmm on multiple trees
+mulTree(mulTree.data = mulTree_data, formula = my_formula,
+    parameters = my_parameters, priors = my_priors,
+    output = "longevity_example", ESS = 50, chains = 2)
+@
+
+\subsection{Reading the models: \texttt{read.mulTree}}
+The models where written out of the \texttt{R} environment in your current directory.
+To reinput them in the \texttt{R} environment and analysis the results, we can use the \texttt{read.mulTree} function.
+
+<<read.mulTree>>=
+## Reading only one specific model
+one_model <- read.mulTree("longevity_example-tree1_chain1", model = TRUE)
+## This model is a normal MCMCglmm object that has been ran on one single tree
+class(one_model) ; names(one_model)
+
+## Reading the convergence diagnosis test to see if the two chains converged for
+## each tree
+read.mulTree("longevity_example", convergence = TRUE) 
+## As indicated here, the chains converged for both chains!
+
+## Reading all the models to perform the MCMCglmm analysis on multiple trees
+all_models <- read.mulTree("longevity_example")
+str(all_models)
+## This object contains 39600 estimations of the Intercept and the terms!
+
+## Removing the chains from the current directory
+file.remove(list.files(pattern="longevity_example"))
+@
+
+\subsection{Summarising the results: \texttt{summary.mulTree}}
+It is possible to summarise the results of the glmm on all chains using the \texttt{summary.mulTree} function.
+
+<<summary.mulTree>>=
+## Summarising the results by estimating the highest density regions
+## and their associated 95 and 50 confidence intervals (default)
+summarised_results <- summary(all_models)
+summarised_results
+
+## Summarising the results using the quick 'n' dirty way along with some options
+## i.e just measuring the distributions quantiles
+## note that there is a S3 method for "mulTree" objects allowing to just use
+## summary()
+summary(all_models, use.hdr = FALSE, cent.tend = mean, prob = c(75, 25))
+@
+
+\subsection{Visualising the results: \texttt{plot.mulTree}}
+Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}.
+
+<<plot.mulTree1, fig.width=8, fig.height=8, out.width='.8\\linewidth'>>=
+## Plotting using the default options
+plot(summarised_results)
+@ 
+
+<<plot.mulTree2, fig.width=8, fig.height=8, out.width='.8\\linewidth'>>=
+## Plotting using some more pretty options
+plot(summarised_results, horizontal = TRUE, ylab = "", cex.coeff = 0.8,
+    main = "Posterior distributions", ylim = c(-2,2), cex.terms = 0.5,
+    terms = c("Intercept", "Body Mass", "Volancy", "Phylogeny", "Residuals"),
+    col = "red", cex.main = 0.8)
+abline(v = 0, lty = 3)
+@ 
+
+\end{document}
