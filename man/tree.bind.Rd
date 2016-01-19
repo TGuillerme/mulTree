@@ -28,7 +28,7 @@ z # 3 phylogenetic trees
 ##Combines one mammal and and one bird tree and setting the root age at 250 Mya.
 data(lifespan)
 combined_trees <- tree.bind(trees_mammalia, trees_aves, sample = 1, root.age = 250)
-plot(conbined_trees) # A tree with both mammals and aves
+plot(combined_trees) # A tree with both mammals and aves
 
 }
 \author{
