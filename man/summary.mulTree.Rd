@@ -24,6 +24,17 @@ A \code{matrix} of class \code{mulTree}.
 \description{
 Summarises the \code{MCMCglmm} models calculated from multiple trees by caculating the highest density regions (\code{\link[hdrcde]{hdr}}) of the fixed and random terms.
 }
+\details{
+When using the highest density region caculation method (\code{use.hdr = TRUE}), the returned central tendency is always the first estimated mode (see \code{\link[hdrcde]{hdr}}).
+Note that the results maybe vary when using \code{use.hdr = FALSE} or \code{TRUE}.
+We recommend to use \code{use.hdr = TRUE} when possible.
+
+When \code{use.hdr = FALSE}, the computation is faster but the quantiles are calculated and not estimated.
+ 
+When \code{use.hdr = TRUE}, the computation is slower but the quantiles are estimated using the highest density regions.
+The given estimates central tendency is calculated as the mode of the estimated highest density region.
+For speeding up the calculations, the bandwidth (\code{h} argument) from \code{\link[hdrcde]{hdr}} can be estimated by using \code{\link[stats]{bw.nrd0}}.
+}
 \examples{
 ## Read in the data
 data(lifespan.mcmc)

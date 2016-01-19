@@ -17,7 +17,7 @@
 #'  
 #' When \code{use.hdr = TRUE}, the computation is slower but the quantiles are estimated using the highest density regions.
 #' The given estimates central tendency is calculated as the mode of the estimated highest density region.
-#' For the speeding up the calculations, the \code{h} argument from \code{\link[hdrcde]{hdr} can be estimated using: \code{h = \link[stats]{bw.nrd0}}.
+#' For speeding up the calculations, the bandwidth (\code{h} argument) from \code{\link[hdrcde]{hdr}} can be estimated by using \code{\link[stats]{bw.nrd0}}.
 #'
 #' @return
 #' A \code{matrix} of class \code{mulTree}.
