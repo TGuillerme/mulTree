@@ -63,9 +63,6 @@
  {hyperref}
 \hypersetup{
  pdfstartview={XYZ null null 1}}
-
-\newcommand{\dispRity}{\texttt{dispRity} }
-\newcommand{\R}{\texttt{R} }
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
@@ -107,7 +104,21 @@ Stay tuned!
 \end{alltt}
 
 
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: caper\\\#\# Loading required package: MASS\\\#\# Loading required package: mvtnorm\\\#\# Loading required package: coda\\\#\# Loading required package: hdrcde\\\#\# hdrcde 3.1 loaded\\\#\# \\\#\# Loading required package: MCMCglmm\\\#\# Loading required package: Matrix}}\begin{alltt}
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: caper}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: MASS}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: mvtnorm}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: coda}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: hdrcde}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# hdrcde 3.1 loaded}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: MCMCglmm}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: Matrix}}\begin{alltt}
 \hlcom{## Loading the lifespan data}
 \hlkwd{data}\hlstd{(lifespan)}
 \end{alltt}
@@ -205,7 +216,10 @@ This function allows to combine the trees to some trait data and get it in the r
 \subsection{Running the \texttt{MCMCglmm} on multiple trees: \texttt{mulTree}}
 This function intakes the normal arguments form the \href{http://cran.r-project.org/web/packages/MCMCglmm/index.html}{\texttt{MCMCglmm} function} alongside with the \texttt{mulTree} object.
 
-\textbf{WARNING: this part of the code can take several minutes to run!}
+\textbf{WARNING: this part of the code does currently not run on \texttt{knitr} and is therefore skipped.}\\
+However, this part works normally if copy / pasted into the \texttt{R} console.
+Be warned however, that this part of the code can take several minutes to run!
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -221,65 +235,60 @@ This function intakes the normal arguments form the \href{http://cran.r-project.
 
 \hlcom{## Running the MCMCglmm on multiple trees}
 \hlkwd{mulTree}\hlstd{(}\hlkwc{mulTree.data} \hlstd{= mulTree_data,} \hlkwc{formula} \hlstd{= my_formula,}
-    \hlkwc{parameters} \hlstd{= my_parameters,} \hlkwc{priors} \hlstd{= my_priors,}
-    \hlkwc{output} \hlstd{=} \hlstr{"longevity_example"}\hlstd{,} \hlkwc{ESS} \hlstd{=} \hlnum{50}\hlstd{,} \hlkwc{chains} \hlstd{=} \hlnum{2}\hlstd{)}
+     \hlkwc{parameters} \hlstd{= my_parameters,} \hlkwc{priors} \hlstd{= my_priors,}
+     \hlkwc{output} \hlstd{=} \hlstr{"longevity_example"}\hlstd{,} \hlkwc{ESS} \hlstd{=} \hlnum{50}\hlstd{,} \hlkwc{chains} \hlstd{=} \hlnum{2}\hlstd{)}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in as.vector(data): no method for coercing this S4 class to a vector}}\end{kframe}
+\end{kframe}
 \end{knitrout}
+
 
 \subsection{Reading the models: \texttt{read.mulTree}}
 The models where written out of the \texttt{R} environment in your current directory.
 To reinput them in the \texttt{R} environment and analysis the results, we can use the \texttt{read.mulTree} function.
+
+\textbf{WARNING: this part of the code does currently not run on \texttt{knitr} and is therefore skipped.}\\
+However, this part works normally if copy / pasted into the \texttt{R} console.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlcom{## Reading only one specific model}
 \hlstd{one_model} \hlkwb{<-} \hlkwd{read.mulTree}\hlstd{(}\hlstr{"longevity_example-tree1_chain1"}\hlstd{,} \hlkwc{model} \hlstd{=} \hlnum{TRUE}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: File "{}longevity\_example-tree1\_chain1"{} not found in current directory.}}\begin{alltt}
 \hlcom{## This model is a normal MCMCglmm object that has been ran on one single tree}
 \hlkwd{class}\hlstd{(one_model) ;} \hlkwd{names}\hlstd{(one_model)}
-\end{alltt}
 
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'one\_model' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'one\_model' not found}}\begin{alltt}
 \hlcom{## Reading the convergence diagnosis test to see if the two chains converged for}
 \hlcom{## each tree}
 \hlkwd{read.mulTree}\hlstd{(}\hlstr{"longevity_example"}\hlstd{,} \hlkwc{convergence} \hlstd{=} \hlnum{TRUE}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: File "{}longevity\_example"{} not found in current directory.}}\begin{alltt}
 \hlcom{## As indicated here, the chains converged for both chains!}
 
 \hlcom{## Reading all the models to perform the MCMCglmm analysis on multiple trees}
 \hlstd{all_models} \hlkwb{<-} \hlkwd{read.mulTree}\hlstd{(}\hlstr{"longevity_example"}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: File "{}longevity\_example"{} not found in current directory.}}\begin{alltt}
 \hlkwd{str}\hlstd{(all_models)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in str(all\_models): object 'all\_models' not found}}\begin{alltt}
 \hlcom{## This object contains 39600 estimations of the Intercept and the terms!}
 
 \hlcom{## Removing the chains from the current directory}
 \hlkwd{file.remove}\hlstd{(}\hlkwd{list.files}\hlstd{(}\hlkwc{pattern}\hlstd{=}\hlstr{"longevity_example"}\hlstd{))}
 \end{alltt}
-\begin{verbatim}
-## logical(0)
-\end{verbatim}
 \end{kframe}
 \end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## To temporarily remedy the problem with knitr described above we can load pre}
+\hlcom{## calculated MCMCglmm.}
+\hlkwd{data}\hlstd{(lifespan.mcmc)}
+
+\hlcom{## NOTE HOWEVER THAT IF YOU ARE RUNNING THE CODE OF THIS VIGNETTE IN THE R}
+\hlcom{## CONSOLE, YOU WON'T NEED THIS STEP!}
+
+\hlcom{## Summarizing all the chains}
+\hlstd{all_models} \hlkwb{<-} \hlstd{lifespan.mcmc}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 
 \subsection{Summarising the results: \texttt{summary.mulTree}}
 It is possible to summarise the results of the glmm on all chains using the \texttt{summary.mulTree} function.
@@ -290,28 +299,40 @@ It is possible to summarise the results of the glmm on all chains using the \tex
 \hlcom{## Summarising the results by estimating the highest density regions}
 \hlcom{## and their associated 95 and 50 confidence intervals (default)}
 \hlstd{summarised_results} \hlkwb{<-} \hlkwd{summary}\hlstd{(all_models)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in summary(all\_models): error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'all\_models' not found}}\begin{alltt}
 \hlstd{summarised_results}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'summarised\_results' not found}}\begin{alltt}
+\begin{verbatim}
+##           Estimates(mode hdr) lower.CI(2.5) lower.CI(25) upper.CI(75) upper.CI(97.5)
+## Intercept         -0.06995898   -1.13213722  -0.44481727    0.2907520     1.01296766
+## mass               0.51832789    0.38949447   0.47446867    0.5622780     0.64498769
+## volancy            0.98968139    0.39699392   0.78557590    1.1806984     1.55656199
+## phy.var            0.91484250    0.62185245   0.81017160    1.0353887     1.28535268
+## res.var            0.04436767    0.02238371   0.03521249    0.0530371     0.07522866
+## attr(,"class")
+## [1] "matrix"  "mulTree"
+\end{verbatim}
+\begin{alltt}
 \hlcom{## Summarising the results using the quick 'n' dirty way along with some options}
 \hlcom{## i.e just measuring the distributions quantiles}
 \hlcom{## note that there is a S3 method for "mulTree" objects allowing to just use}
 \hlcom{## summary()}
 \hlkwd{summary}\hlstd{(all_models,} \hlkwc{use.hdr} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{cent.tend} \hlstd{= mean,} \hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{75}\hlstd{,} \hlnum{25}\hlstd{))}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in summary(all\_models, use.hdr = FALSE, cent.tend = mean, prob = c(75, : error in evaluating the argument 'object' in selecting a method for function 'summary': Error: object 'all\_models' not found}}\end{kframe}
+\begin{verbatim}
+##           Estimates(mean) lower.CI(12.5) lower.CI(37.5) upper.CI(62.5) upper.CI(87.5)
+## Intercept     -0.06726806    -0.69609640    -0.24328020     0.10553401     0.56463730
+## mass           0.51757042     0.44244907     0.49679614     0.53879559     0.59259546
+## volancy        0.97726166     0.63844718     0.88624230     1.07205171     1.31429889
+## phy.var        0.94630374     0.75547035     0.88405672     0.99072104     1.14261125
+## res.var        0.04758039     0.03238856     0.04198954     0.05061299     0.06364383
+## attr(,"class")
+## [1] "matrix"  "mulTree"
+\end{verbatim}
+\end{kframe}
 \end{knitrout}
 
 \subsection{Visualising the results: \texttt{plot.mulTree}}
-Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}.
+Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}. 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -319,9 +340,14 @@ Finally it is possible to simply plot the results from the MCMCglmm analysis on 
 \hlcom{## Plotting using the default options}
 \hlkwd{plot}\hlstd{(summarised_results)}
 \end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.8\linewidth]{figure/minimal-plot_mulTree1-1} 
+
+}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in plot(summarised\_results): object 'summarised\_results' not found}}\end{kframe}
+
 \end{knitrout}
 
 \begin{knitrout}
@@ -332,15 +358,16 @@ Finally it is possible to simply plot the results from the MCMCglmm analysis on 
     \hlkwc{main} \hlstd{=} \hlstr{"Posterior distributions"}\hlstd{,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{),} \hlkwc{cex.terms} \hlstd{=} \hlnum{0.5}\hlstd{,}
     \hlkwc{terms} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Intercept"}\hlstd{,} \hlstr{"Body Mass"}\hlstd{,} \hlstr{"Volancy"}\hlstd{,} \hlstr{"Phylogeny"}\hlstd{,} \hlstr{"Residuals"}\hlstd{),}
     \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,} \hlkwc{cex.main} \hlstd{=} \hlnum{0.8}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in plot(summarised\_results, horizontal = TRUE, ylab = "{}"{}, cex.coeff = 0.8, : object 'summarised\_results' not found}}\begin{alltt}
 \hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{3}\hlstd{)}
 \end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.8\linewidth]{figure/minimal-plot_mulTree2-1} 
+
+}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in int\_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet}}\end{kframe}
+
 \end{knitrout}
 
 \end{document}

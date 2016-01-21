@@ -15,9 +15,6 @@
 \hypersetup{
  pdfstartview={XYZ null null 1}}
 
-\newcommand{\dispRity}{\texttt{dispRity} }
-\newcommand{\R}{\texttt{R} }
-
 \begin{document}
 <<setup, include=FALSE, cache=FALSE>>=
 library(knitr)
@@ -102,8 +99,11 @@ class(mulTree_data) ; names(mulTree_data)
 \subsection{Running the \texttt{MCMCglmm} on multiple trees: \texttt{mulTree}}
 This function intakes the normal arguments form the \href{http://cran.r-project.org/web/packages/MCMCglmm/index.html}{\texttt{MCMCglmm} function} alongside with the \texttt{mulTree} object.
 
-\textbf{WARNING: this part of the code can take several minutes to run!}
-<<mulTree>>=
+\textbf{WARNING: this part of the code does currently not run on \texttt{knitr} and is therefore skipped.}\\
+However, this part works normally if copy / pasted into the \texttt{R} console.
+Be warned however, that this part of the code can take several minutes to run!
+
+<<mulTree, eval=FALSE>>=
 ## The glmm formula
 my_formula <- longevity ~ mass + volant
 
@@ -116,15 +116,19 @@ my_priors <- list(R = list(V = 1/2, nu = 0.002),
 
 ## Running the MCMCglmm on multiple trees
 mulTree(mulTree.data = mulTree_data, formula = my_formula,
-    parameters = my_parameters, priors = my_priors,
-    output = "longevity_example", ESS = 50, chains = 2)
+     parameters = my_parameters, priors = my_priors,
+     output = "longevity_example", ESS = 50, chains = 2)
 @
+
 
 \subsection{Reading the models: \texttt{read.mulTree}}
 The models where written out of the \texttt{R} environment in your current directory.
 To reinput them in the \texttt{R} environment and analysis the results, we can use the \texttt{read.mulTree} function.
 
-<<read.mulTree>>=
+\textbf{WARNING: this part of the code does currently not run on \texttt{knitr} and is therefore skipped.}\\
+However, this part works normally if copy / pasted into the \texttt{R} console.
+
+<<read.mulTree, eval=FALSE>>=
 ## Reading only one specific model
 one_model <- read.mulTree("longevity_example-tree1_chain1", model = TRUE)
 ## This model is a normal MCMCglmm object that has been ran on one single tree
@@ -144,6 +148,19 @@ str(all_models)
 file.remove(list.files(pattern="longevity_example"))
 @
 
+<<read.mulTree2>>=
+## To temporarily remedy the problem with knitr described above we can load pre
+## calculated MCMCglmm.
+data(lifespan.mcmc)
+
+## NOTE HOWEVER THAT IF YOU ARE RUNNING THE CODE OF THIS VIGNETTE IN THE R
+## CONSOLE, YOU WON'T NEED THIS STEP!
+
+## Summarizing all the chains
+all_models <- lifespan.mcmc
+@
+
+
 \subsection{Summarising the results: \texttt{summary.mulTree}}
 It is possible to summarise the results of the glmm on all chains using the \texttt{summary.mulTree} function.
 
@@ -161,7 +178,7 @@ summary(all_models, use.hdr = FALSE, cent.tend = mean, prob = c(75, 25))
 @
 
 \subsection{Visualising the results: \texttt{plot.mulTree}}
-Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}.
+Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}. 
 
 <<plot.mulTree1, fig.width=8, fig.height=8, out.width='.8\\linewidth'>>=
 ## Plotting using the default options
