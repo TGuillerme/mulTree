@@ -18,7 +18,7 @@ The following installs the latest released version (see patch notes below). For 
 ###### Note that many code architecture have changed from version `1.2` onwards (including proper testing!). If you wish to use older "clunky" version, you can download former releases [here](https://github.com/TGuillerme/mulTree/releases).
 
 #### Vignettes
-*  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-manual.pdf).
+*  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.pdf).
 
 ##### Patch notes (latest version)
 * 2016/01/21 - **v1.2**
