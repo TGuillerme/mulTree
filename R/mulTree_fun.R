@@ -19,7 +19,7 @@ lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, war
     #Disable warnings (if needed)
     if(warn == FALSE) {options(warn=-1)}
     #MCMCglmm
-    model <- MCMCglmm(formula, random = mulTree.data$random.terms, pedigree = mulTree.data$phy[[tree]], prior = priors, data = mulTree.data$data, verbose = FALSE, nitt = parameters[1], thin = parameters[2], burnin = parameters[3], ...)
+    model <- MCMCglmm(fixed = formula, random = mulTree.data$random.terms, pedigree = mulTree.data$phy[[tree]], prior = priors, data = mulTree.data$data, verbose = FALSE, nitt = parameters[1], thin = parameters[2], burnin = parameters[3], ...)
 
     #Re-enable warnings (if needed)
     if(warn == FALSE) {options(warn=0)}
