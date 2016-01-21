@@ -18,19 +18,21 @@ The following installs the latest released version (see patch notes below). For 
 ###### Note that many code architecture have changed from version `1.2` onwards (including proper testing!). If you wish to use older "clunky" version, you can download former releases [here](https://github.com/TGuillerme/mulTree/releases).
 
 #### Vignettes
-Coming soon...
-<!--
 *  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-manual.pdf).
-*  A tutorial for palaeobiologists [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-palaeo-demo.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-palaeo-demo.pdf).
-*  A tutorial ecologists [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-ecology-demo.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-ecology-demo.pdf).
-*  The disparity metrics [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-metrics.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-metrics.pdf).
--->
 
 ##### Patch notes (latest version)
-* 2015/11/05 - v1.1.2
-  * fixed bug with `clean.data` function
-  * added the `extract` option to `read.mulTree` to extract specific elements of each models.
-  * minor update on `as.mulTree`: can now intake single `phylo` objects.
+* 2016/01/21 - **v1.2**
+  * complete new architectural structure!
+  * all the functions are now unit tested!
+  * all manuals are now written in Roxygen2 format!
+  * many functions arguments names have been modified, please check individual functions manual.
+  * `rTreeBind` is renamed to `tree.bind`.
+  * In `as.mulTree`, the argument `species` is now `taxa`.
+  * `mulTree` output: when output chain name already exists in current directory, the function now asks if user wants to overwrite the existing files.
+  * In `read.mulTree`, the argument `mulTree.mcmc` is now `mulTree.chain`.
+  * In `summary.mulTree`, the argument `mulTree.mcmc` is now `mulTree.results` and the argument `CI` is now `prob`.
+  * `summary.mulTree` now outputs a `c("matrix", "mulTree")` class object.
+  * In `plot.mulTree`, the argument `mulTree.mcmc` must now be an object returned from `summary.mulTree`.
   
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
