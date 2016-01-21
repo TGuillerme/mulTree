@@ -1,186 +1,156 @@
-##########################
-#Reads mcmc objects from mulTree function
-##########################
-#Reads mcmc objects from mulTree function stored out of R environment
-#v0.3
-#Update: now outputs 'mulTree' objects
-#Update: allows to read a MCMCmodel (class 'MCMCglmm')
-#Update: isolated function externally
-##########################
-#SYNTAX :
-#<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files.
-#<convergence> logical, if mulTree.mcmc is a chain name, whether to read the convergence file associated (default=FALSE)
-#<model> logical, if mulTree.mcmc is not a chain name, whether to input the MCMCglmm model or the list of random and fixed terms only (default=FALSE)
-##########################
-#----
-#guillert(at)tcd.ie - 13/08/2014
-##########################
-#Requirements:
-#-R 3
-#-R package "MCMCglmm"
-#-R package "coda"
-##########################
+#' @title Reads MCMCglmm models fromn mulTree.
+#'
+#' @description Reads MCMCglmm objects from the \code{\link{mulTree}} function back into the \code{R} environment.
+#'
+#' @param mulTree.chain A chain name of \code{MCMCglmm} models written by the \code{\link{mulTree}} function.
+#' @param convergence Logical, whether to read the convergence file associated with the chain name (default = \code{FALSE}).
+#' @param model Logical, whether to input a single \code{MCMCglmm} model or the list of random and fixed terms only (default = \code{FALSE}).
+#' @param extract Optional, the name of one or more elements to extract from each model (rather than loading the full model; default = \code{NULL}).
+#'
+#' @return
+#' A \code{list} of the terms of class \code{mulTree} by default.
+#' Else a \code{MCMCglmm} object (if \code{model = TRUE}); a \code{gelman.diag} object (if \code{convergence = TRUE}) or a list of extracted elements from the \code{MCMCglmm} models (if \code{extract} is not \code{NULL}).
+#'
+#' @details
+#' The argument \code{model = TRUE} can be used to load the \code{MCMCglmm} object of a unique chain.
+#' The resulting object can be then summarized or plotted as S3 method for class \code{MCMCglmm}.
+#' 
+#' @examples
+#' ## Creating some dummy mulTree models
+#' data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
+#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; class(tree) <- "multiPhylo"
+#' mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
+#' priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, verbose = FALSE)
+#'
+#' ## Reading all the models
+#' all_chains <- read.mulTree("quick_example")
+#' summary(all_chains)
+#'
+#' ## Reading the convergence diagnosis for all the trees
+#' read.mulTree("quick_example", convergence = TRUE)
+#'
+#' ## Reading a specific model
+#' model <- read.mulTree("quick_example-tree1_chain1", model = TRUE)
+#'
+#' ## Reading only the error term and the tune for all models
+#' read.mulTree("quick_example", extract=c("error.term", "Tune"))
+#'
+#' ##Remove the generated files from the current directory
+#' file.remove(list.files(pattern = "quick_example"))
+#' 
+#' @seealso \code{\link{mulTree}}, \code{\link{plot.mulTree}}, \code{\link{summary.mulTree}}
+#' @author Thomas Guillerme
+#' @export
 
-
-read.mulTree<-function(mulTree.mcmc, convergence=FALSE, model=FALSE, extract=NULL)
-{   #stop("IN DEVELOPEMENT")
-#HEADER
-    require(MCMCglmm)
-    require(coda)
+read.mulTree <- function(mulTree.chain, convergence = FALSE, model = FALSE, extract = NULL) { 
+    #HEADER
     match_call<-match.call()
 
-#DATA
-    #mulTree.mcmc
-    files<-list.files(pattern=mulTree.mcmc)
-    check.length(files, 0, " files not found.", errorif=TRUE)
-
-    if(length(files) == 1) {
-        chain=FALSE
-        if(length(grep("chain[0-9].rda", files)) == 0) {
-            stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
+    #SANITIZING
+    #mulTree.chain
+    check.class(mulTree.chain, "character")
+    #check if chain is present
+    scanned_chains <- list.files(pattern = mulTree.chain)
+#    check.length(scanned_chains, 0, " files not found in current directory.", errorif = TRUE)
+    if(length(scanned_chains) == 1) {
+        if(length(grep("chain[0-9].rda", scanned_chains)) == 0) {
+            stop("File \"", mulTree.chain, "\" not found in current directory.", sep="",call.=FALSE)
         }
     } else {
-        chain=TRUE
-        if(length(grep("chain[0-9].rda", files)) == 0) {
-            stop("File \"", mulTree.mcmc, "\" not found.", sep="",call.=FALSE)
+        if(length(grep("chain[0-9].rda", scanned_chains)) == 0) {
+            stop("File \"", mulTree.chain, "\" not found in current directory.", sep="",call.=FALSE)
         }
     }
 
 
     #convergence
-    check.class(convergence, 'logical', " must be logical.")
-    if(convergence == TRUE & chain == FALSE) {
-        warning("The convergence file can't be loaded because \"", mulTree.mcmc, "\" is not a chain name.", sep="",call.=FALSE)
+    check.class(convergence, 'logical')
+    if(convergence == TRUE & length(scanned_chains) == 1) {
+        stop("The convergence file can't be loaded because \"", mulTree.chain, "\" is a single model.\n", sep="")
     }
 
     #model
-    check.class(model, 'logical', " must be logical.")
-    if(chain == TRUE & model == TRUE) {
-        stop("The MCMCglmm model can't be loaded because \"", mulTree.mcmc, "\" is a chain name.", sep="",call.=FALSE)
+    check.class(model, 'logical')
+    if(length(scanned_chains) > 1 & model == TRUE) {
+        stop("The MCMCglmm model can't be loaded because \"", mulTree.chain, "\" is a chain name.\nPlease specify the single model's name.", sep="")
     }
 
     #extract
     if(!is.null(extract)) {
-        check.class(extract, 'character', " must be a character string.")
+        check.class(extract, 'character')
     }
 
-
-#funCTION
-    fun.read.mulTree<-function(mcmc.file) {
-        model.name<-load(mcmc.file)
-        model<-get(model.name)
-        #Testing if the mcmc.file is the right object class
-        if(class(model) != "MCMCglmm") {
-            stop("File \"", mcmc.file, "\" is not a \"MCMCglmm\" object.", sep="",call.=FALSE)
-        }
-        return(model)
-    }
-
-    fun.read.convergence<-function(conv.file){
-        conv.name<-load(conv.file)
-        converge<-get(conv.name)
-        #Testing if the mcmc.file is the right object class
-        if(class(converge) != "gelman.diag") { #PUT THE RIGHT CLASS
-            stop("File \"", converge, "\" is not a \"gelman.diag\" object.", sep="",call.=FALSE)
-        }
-        return(converge)
-    }
-
-    #function for extracting a single element
-    fun.extract.element<-function(element, chain) {
-        #Getting the right files
-        mcmc.files<-files[grep("_chain", files)]
-
-        #Extracting the models
-        all.models <- lapply(as.list(mcmc.files), fun.read.mulTree)
-        #Extracting the element
-        all.elements <- sapply(all.models, "[[", element, simplify = FALSE)
-
-        #applying the names of to the list
-        elements.names <- sapply(strsplit(mcmc.files, paste(mulTree.mcmc,"_", sep="")), "[[", 2)
-        elements.names <- sapply(strsplit(elements.names, ".rda"), "[[", 1)
-        elements.names <- paste(elements.names, element, sep="_")
-        names(all.elements) <- elements.names
-
-        return(all.elements)
-    }
-
-#READING THE MCMC OBJECT
-
+    #READING THE MCMC MODEL BACK IN R ENVIRONMENT
+    #Extracting some specific elements from all the chains
     if(!is.null(extract)) {
-        test_model <- fun.read.mulTree(paste(mulTree.mcmc,"tree1","chain1.rda", sep="_"))
+        # Extract the testing model
+        test_model <- get.mulTree.model(paste(mulTree.chain, "-tree1_", "chain1.rda", sep=""))
+        #checking if the required element exists
         if(any(is.na(match(extract, names(test_model))))) {
-            #checking if the required element exists
             stop(paste(as.expression(match_call$extract), " element does not exist in any model.", sep=""))
         } else {
+            # Proceed to extraction
             if(length(extract) == 1) {
                 #Remove only one element
-                output <- fun.extract.element(extract, mulTree.mcmc)
+                output <- get.element(extract, mulTree.chain)
             } else {
                 #Remove the number of elements
-                output <- lapply(as.list(extract), fun.extract.element, mulTree.mcmc)
+                output <- lapply(as.list(extract), get.element, mulTree.chain)
                 names(output) <- extract
             }
         }
-
         #Stop the function here
         return(output)
     }
 
-
+    #Extracting a single model
     if(model == TRUE) {
-
-        mcmc.file<-files[grep("_chain", files)]
-        mcmc.model<-fun.read.mulTree(mcmc.file)
-
-    } else {
-
-        if(convergence == TRUE) {
-        #Reading the convergence files
-            #Selecting the convergence files
-            conv.file<-files[grep("_conv.rda", files)]
-            if(chain == FALSE) {
-                #Reading a single convergence file
-                output<-fun.read.convergence(conv.file)
-            } else {
-                #Reading multiple convergence files
-                output<-lapply(conv.file, fun.read.convergence)
-                names(output)<-strsplit(conv.file, split=".rda")
-            }
-        } else {
-        #Reading the chains
-            #Selecting the chains
-            mcmc.file<-files[grep("_chain", files)]
-            if(chain == FALSE) {
-                #Reading a single chain
-                output<-fun.read.mulTree(mcmc.file)
-            } else {
-                #Reading multiple chains
-                output<-lapply(mcmc.file, fun.read.mulTree)
-                names(output)<-strsplit(mcmc.file, split=".rda")
-            }
-        }
-    }
-
-#OUTPUT
-
-    #If model == TRUE, return the MCMCglmm model
-    if(model == TRUE) {
-
-        return(mcmc.model)
-
-    } else {
-
-        #If convergence == FALSE transforms the file using table.mulTree function
-        if(convergence == FALSE) {
-            output<-table.mulTree(output)
-            #make output in format 'mulTree' (list)
-            class(output)<-'mulTree'
-        }
-
+        #get the model
+        output <- get.mulTree.model(scanned_chains)
+        #Stop the function here
         return(output)
 
-    }
+    } else {
+        #Reading the convergence files
+        if(convergence == TRUE) {
+            #Selecting the convergence scanned_chains
+            conv_file <- scanned_chains[grep("_conv.rda", scanned_chains)]
+            if(length(conv_file) == 1) {
+                #Reading a single convergence file
+                output <- get.convergence(conv_file)
+            } else {
+                #Reading multiple convergence scanned_chains
+                output <- lapply(conv_file, get.convergence)
+                names(output) <- strsplit(conv_file, split=".rda")
+            }
+            #Stop the function here
+            return(output)
 
-#End
+        #Reading the chains
+        } else {
+            #Selecting the chains
+            mcmc_file <- scanned_chains[grep("_chain", scanned_chains)]
+            if(length(mcmc_file) == 1) {
+                #Reading a single chain
+                output <- get.mulTree.model(mcmc_file)
+                out_table <- get.table.mulTree(output)
+            } else {
+                #Reading multiple chains
+                output <- lapply(mcmc_file, get.mulTree.model)
+                out_table <- lapply(output, get.table.mulTree)
+                #Combine the elements of each chain
+                out_table_tmp <- as.list(as.data.frame(mapply(c, out_table[[1]], out_table[[2]])))
+                if(length(out_table) > 2) {
+                    for (chain in 3:length(mcmc_file)) {
+                        out_table_tmp <- as.list(as.data.frame(mapply(c, out_table_tmp, out_table[[chain]])))
+                    }
+                }
+                out_table <- out_table_tmp
+            }
+            #Set output of class mulTree
+            class(out_table) <- "mulTree"
+            return(out_table)
+        }
+    }
 }

@@ -1,60 +1,42 @@
-mulTree
-=======
+# mulTree
+[![Build Status](https://travis-ci.org/TGuillerme/mulTree.svg?branch=release)](https://travis-ci.org/TGuillerme/mulTree)
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.31742.svg)](http://dx.doi.org/10.5281/zenodo.31742)
 
-[![DOI](https://zenodo.org/badge/7411/TGuillerme/mulTree.png)](http://dx.doi.org/10.5281/zenodo.12902)
-
-Performs MCMCglmm on multiple phylogenetic trees
-
-mulTree
--------
 This package is based on the [MCMCglmm](http://cran.r-project.org/web/packages/MCMCglmm/index.html) package
 and runs a MCMCglmm analysis on multiple trees.
 This code has been used prior to this package release in [Healy et. al. (2014)](http://rspb.royalsocietypublishing.org/content/281/1784/20140298.full.pdf?ijkey=gPt28ElSAYBvRhZ&keytype=ref).
 Please send me an [email](mailto:guillert@tcd.ie) or a pull request if you find/have any issue using this package.
 
-Features
---------
-* `rTreeBind`: randomly binds trees together
-
-* `clean.data`: combines a data table and a "*multiPhylo*" object into a list to be used by the `mulTree` function
-
-* `as.mulTree`: cleans data table or `phylo` objects to match the tips of the `phylo` objects with a given `data.frame`.
-
-* `mulTree`: run MCMCglmm on multiple trees
-
-* `read.mulTree`: reads MCMC objects from `mulTree` function
-
-* `summary.mulTree`: summarise "*mulTree*" data
-
-* `plot.mulTree`: plots the "*mulTree*" data
-
-Installing mulTree 
-------------------
+## Installing mulTree
 ```r
-#install.packages("devtools")
-library(devtools)
-install_github("TGuillerme/mulTree", ref="release")
+if(!require(devtools)) install.packages("devtools")
+install_github("TGuillerme/mulTree", ref = "release")
 library(mulTree)
 ```
-The following installs the latest released version (see patch notes below). For the development version (not recommended), replace the `rep="release"` option by `rep="master"`.
+The following installs the latest released version (see patch notes below). For the piping hot development version (not recommended), replace the `ref="release"` option by `ref="master"`. If you're using the `master` branch, see the latest developement in the [patch note](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
+###### Note that many code architecture have changed from version `1.2` onwards (including proper testing!). If you wish to use older "clunky" version, you can download former releases [here](https://github.com/TGuillerme/mulTree/releases).
 
-Patch notes
-----
-* 2015/10/02 - v1.1.1
-  * `summary.mulTree` and `plot.mulTree` have now an option whether to use `hdrcde::hdr` or not.
-* 2015/08/17 - v1.1.0
-  * `mulTree` can now be run in parallel!
-  * NEW: `clean.data` function allows to match data and multiple trees and drop the non-shared taxa.
-  * `as.mulTree` function now allows multiple specimens for any taxa and allows the user to fix the random terms to be passed to the `mulTree` function.
-  * `plot.mulTree` has several more graphical options (see `?plot.mulTree`).
+#### Vignettes
+Coming soon...
+<!--
+*  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-manual.pdf).
+*  A tutorial for palaeobiologists [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-palaeo-demo.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-palaeo-demo.pdf).
+*  A tutorial ecologists [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-ecology-demo.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-ecology-demo.pdf).
+*  The disparity metrics [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-metrics.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/mulTree-metrics.pdf).
+-->
 
-All patch notes can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
+##### Patch notes (latest version)
+* 2015/11/05 - v1.1.2
+  * fixed bug with `clean.data` function
+  * added the `extract` option to `read.mulTree` to extract specific elements of each models.
+  * minor update on `as.mulTree`: can now intake single `phylo` objects.
+  
+Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors
 -------
-[Thomas Guillerme](http://tguillerme.github.io) & [Kevin Healy](http://healyke.github.io)
-
+[Thomas Guillerme](http://tguillerme.github.io) and [Kevin Healy](http://healyke.github.io)
 
 Citation
 -------
@@ -63,7 +45,6 @@ If you are using this package, please cite:
 * Guillerme, T. & Healy, K. (**2014**). mulTree: a package for running MCMCglmm analysis on multiple trees. ZENODO. 10.5281/zenodo.12902
 
 [BibTeX](https://zenodo.org/record/12902/export/hx), [EndNote](https://zenodo.org/record/12902/export/xe), [DataCite](https://zenodo.org/record/12902/export/dcite3), [RefWorks](https://zenodo.org/record/12902/export/xw)
-
 
 Used in
 -------

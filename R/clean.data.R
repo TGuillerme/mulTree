@@ -1,156 +1,127 @@
-##########################
-#Cleans a table/tree to match with a given table/tree
-##########################
-#v0.1
-##########################
-#SYNTAX :
-#<taxon> A vector containing a list of taxon names.
-#<data> A data.frame, matrix, phylo or multiPhylo object
-#<tree> A phylo or multiPhylo object
-#----
-#guillert(at)tcd.ie - 17/12/2014
-##########################
-#Requirements:
-#-R 3
-#-R package "geiger"
-##########################
+#' @title Cleaning phylogenetic data
+#'
+#' @description Cleans a table/tree to match with a given table/tree
+#'
+#' @param taxa A \code{vector} of taxa to keep or a \code{numerical} or \code{character} value refering to the column in \code{data} containing the taxa list.
+#' @param data A \code{data.frame} or \code{matrix}.
+#' @param tree A \code{phylo} or \code{multiPhylo} object.
+#'
+#' @return
+#' A \code{list} containing the cleaned data and tree(s) and information on the eventual dropped tips and rows.
+#'
+#' @examples
+#' ##Create a set of different trees
+#' trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
+#' ##Creates a data frame
+#' dummy_data <- data.frame(taxa_list = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep('a',2), rep('b',3)))
+#'
+#' ##Cleaning the trees and the data
+#' cleaned <- clean.data(taxa = "taxa_list", data = dummy_data, tree = trees_list)
+#' ##The taxa that where dropped (tips and rows):
+#' c(cleaned$dropped_tips, cleaned$dropped_rows)
+#' ##The cleaned trees:
+#' cleaned$tree
+#' ##The cleaned data set:
+#' cleaned$data
+#' 
+#' @author Thomas Guillerme & Kevin Healy
+#' @export
 
-clean.data<-function(taxon, data, tree) {
 
-#HEADER
-    require(caper)
+clean.data<-function(taxa, data, tree) {
 
-#DATA INPUT
-
-    #taxon
-    if (class(taxon) == 'numeric') {
-        #taxon is a column number
-        check.length(taxon, 1, " must be a single \"numerical\" value referring to the column containing the taxon names in \"data\".")
-        taxon_column<-TRUE
-        taxon_number<-TRUE
+    #SANITIZING
+    #taxa
+    # must be a single numeric element
+    if (class(taxa) == 'numeric') {
+        #taxa is a column number
+        check.length(taxa, 1, " must be a single numerical value referring to the column containing the taxa names in data.")
+        taxa_column <- TRUE
+        taxa_number <- TRUE
 
     } else {
-
-        check.class(taxon, 'character', " must be a \"character\" value referring to the column containing the taxon names in \"data\".")
-        if(length(taxon) == 1) {
-            #taxon is a column name
-            taxon_column<-TRUE
-            taxon_number<-FALSE
+        check.class(taxa, 'character', " must be a character value referring to the column containing the taxa names in data or a vector of taxa names.")
+        if(length(taxa) == 1) {
+            #taxa is a column name
+            taxa_column <- TRUE
+            taxa_number <- FALSE
 
         } else {
 
-            #taxon is a vector
-            for (vector_length in 0:3) {check.length(taxon, vector_length,  " must be a \"character\" value referring to the column containing the taxon names in \"data\".")}
-            taxon_column<-FALSE
+            taxa_column <- FALSE
         }
     }
 
-    #data (must be a data.frame or a matrix)
-    data_class<-check.class(data, c('data.frame', 'matrix'), " must be a \"data.frame\" or \"matrix\" object.")   
+    #data
+    data_class <- check.class(data, c('data.frame', 'matrix'), " must be a data.frame or matrix object.")   
 
-    #data (must be a data.frame or a matrix)
-    tree_class<-check.class(tree, c('phylo', 'multiPhylo'), " must be a \"phylo\" or \"multiPhylo\" object.")   
+    #tree
+    tree_class <- check.class(tree, c('phylo', 'multiPhylo'), " must be a phylo or multiPhylo object.")   
 
     #is provided column present in data?
-    if(taxon_column == TRUE) {
-        if(taxon_number == TRUE) {
+    if(taxa_column == TRUE) {
+        if(taxa_number == TRUE) {
             #Is it a valid number?
-                if(taxon > length(data)) {
-                stop("Taxon column not found in \"data\".")
+                if(taxa > length(data)) {
+                stop("Taxon column not found in data.")
             } else {
-                taxon_col<-taxon
-                taxon<-unique(as.vector(unlist(as.list(data[taxon]))))
+                taxa_col <- taxa
+                taxa <- unique(as.vector(unlist(as.list(data[taxa]))))
             }                
         } else {
             #Is it a valid name?
-            taxon_col<-grep(taxon, names(data))
-            taxon<-unique(as.vector(unlist(as.list(data[taxon_col]))))
-            check.class(taxon, 'character', " not found in \"data\".")
+            taxa_col <- grep(taxa, names(data))
+            taxa <- unique(as.vector(unlist(as.list(data[taxa_col]))))
+            check.class(taxa, 'character', " not found in data.")
         }
     }
 
-
-#FUNCTION
-
-    #Cleaning a tree so that the species match with the ones in a table
-    clean.tree.table<-function(tree, data, taxon, taxon_col) {
-
-        #run comparative.data to check the non matching columns/rows
-        missing_species<-comparative.data(tree, data.frame("species"=taxon, "dummy"=rnorm(length(taxon)), "dumb"=rnorm(length(taxon))), "species")$dropped
-
-        #if non-matching tips, drop them
-        if(length(missing_species$tips) != 0) {
-            tree_tmp<-drop.tip(tree, missing_species$tips)
-            dropped_tips<-missing_species$tips
-        } else {
-            tree_tmp<-tree
-            dropped_tips<-NA
-        }
-
-        #if non-matching rows, drop them
-        if(length(missing_species$unmatched.rows) != 0) {
-
-            #selecting the first taxa to remove
-            remove_taxa<-which(data[,taxon_col] == missing_species$unmatched.rows[1])
-            for(tax in 2:length(missing_species$unmatched.rows)) {
-                remove_taxa<-c(remove_taxa, which(data[,taxon_col] == missing_species$unmatched.rows[tax]))
-            }
-            data_tmp<-data[-remove_taxa,]
-
-            #save the dropped rows
-            dropped_rows<-missing_species$unmatched.rows
-            
-        } else {
-            data_tmp<-data
-            dropped_rows<-NA
-        }
-
-        return(list("tree"=tree_tmp, "table"=data_tmp, "dropped_tips"=dropped_tips, "dropped_rows"=dropped_rows))
-    }
-
-#CLEANING THE DATA/TREES
-
+    #CLEANING THE DATA/TREES
     #for a single tree
     if(tree_class == "phylo") {
         
-        cleaned_data<-clean.tree.table(tree, data, taxon, taxon_col)
+        cleaned_data <- clean.tree.table(tree, data, taxa, taxa_col)
 
     } else {
-    #for multiple trees
+        #for multiple trees
         #lapply function
-        cleaned_list<-lapply(tree, clean.tree.table, data=data, taxon=taxon, taxon_col=taxon_col)
+        cleaned_list <- lapply(tree, clean.tree.table, data = data, taxa = taxa, taxa_col = taxa_col)
 
         #Selecting the tips to drop
-        tips_to_drop<-NULL
-        for(tr in 1:length(tree)) {
-            tips_to_drop<-c(tips_to_drop, cleaned_list[[tr]]$dropped_tips)
-        }
+        tips_to_drop <- unique(unlist(lapply(cleaned_list, function(x) x[[3]])))
+        #removing NAs
+        tips_to_drop <- tips_to_drop[-which(is.na(tips_to_drop))]
 
         #Selecting the rows to drop
-        rows_to_drop<-NULL
-        for(tr in 1:length(tree)) {
-            rows_to_drop<-c(rows_to_drop, cleaned_list[[tr]]$dropped_rows)
+        rows_to_drop <- unique(unlist(lapply(cleaned_list, function(x) x[[4]])))
+        #removing NAs
+        rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]
+
+        #Combining both
+        taxa_to_drop <- c(tips_to_drop, rows_to_drop)
+
+        #Dropping the tips across all trees
+        if(length(taxa_to_drop) != 0) {
+            tree_new <- lapply(tree, drop.tip, taxa_to_drop) ; class(tree_new) <- 'multiPhylo'
+        } else {
+            #removing taxa from the trees
+            #keep the same trees
+            tree_new <- tree
+            if(length(tips_to_drop) == 0) tips_to_drop <- NA
         }
 
-        #combining both
-        taxa_to_drop<-c(tips_to_drop, rows_to_drop)
-        #remove NAs
-        taxa_to_drop<-taxa_to_drop[-which(is.na(taxa_to_drop))]
-
-        #removing the rows from the data
-        if(length(taxa_to_drop) != 0) {
-            drop_rows<-match(taxa_to_drop, data[,taxon_col])
-            drop_rows<-drop_rows[-which(is.na(drop_rows))]
-            data_new<-data[-c(drop_rows),]
-            trees_new<-lapply(tree, drop.tip, tip=tips_to_drop) ; class(trees_new)<-'multiPhylo'
+        #Dropping the rows
+        if(length(rows_to_drop) != 0) {
+            #removing taxa from the data
+            data_new <- data[-match(rows_to_drop, data[,taxa_col]),]
         } else {
-            taxa_to_drop<-NA
-            data_new<-data
-            trees_new<-tree
+            #keep the same data
+            data_new <- data
+            if(length(rows_to_drop) == 0) rows_to_drop <- NA
         }
 
         #output list
-        cleaned_data<-list("tree"=trees_new, "data"=data_new, "dropped.taxon"=taxa_to_drop)
+        cleaned_data <- list("tree" = tree_new, "data" = data_new, "dropped_tips" = tips_to_drop,  "dropped_rows" = rows_to_drop)
     }
 
     return(cleaned_data)

@@ -1,63 +1,106 @@
-##########################
-#Summarise MCMCglmm 'mulTree' data
-##########################
-#Creates a table containing the modes and the credibility intervals for the fixed and the random terms
-#v0.3
-#Update: removed the hdr calculations
-#Update: isolated function externally
-##########################
-#SYNTAX :
-#<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files. Use read.mulTree() to properly load the chains
-#<CI> the credibility interval (can be more than one value)
-#<...> any optional arguments to be passed to the hdr function
-##########################
-#----
-#guillert(at)tcd.ie - 13/08/2014
-##########################
-#Requirements:
-#-R 3
-##########################
+#' @title Summarises \code{mulTree} data
+#'
+#' @description Summarises the \code{MCMCglmm} models calculated from multiple trees by caculating the highest density regions (\code{\link[hdrcde]{hdr}}) of the fixed and random terms.
+#'
+#' @param mulTree.results A \code{mulTree} object obtained from \code{\link{read.mulTree}} function.
+#' @param prob One or more precentage values for to be the credibility intervals (\code{default = c(50, 95)}).
+#' @param use.hdr Logical, whether to calculate the highest density region using \code{\link[hdrcde]{hdr}} (\code{TRUE}) or the quantiles using \code{\link[stats]{quantile}} (\code{FALSE}).
+#' @param cent.tend A function for calculating the central tendency (\code{default = median}) from the quantiles (if \code{use.hdr = FALSE}; else is ignored).
+#' @param ... Any optional arguments to be passed to the \code{\link[hdrcde]{hdr}} or \code{\link[stats]{quantile}} functions.
+#'
+#' @details
+#' When using the highest density region caculation method (\code{use.hdr = TRUE}), the returned central tendency is always the first estimated mode (see \code{\link[hdrcde]{hdr}}).
+#' Note that the results maybe vary when using \code{use.hdr = FALSE} or \code{TRUE}.
+#' We recommend to use \code{use.hdr = TRUE} when possible.
+#'
+#' When \code{use.hdr = FALSE}, the computation is faster but the quantiles are calculated and not estimated.
+#'  
+#' When \code{use.hdr = TRUE}, the computation is slower but the quantiles are estimated using the highest density regions.
+#' The given estimates central tendency is calculated as the mode of the estimated highest density region.
+#' For speeding up the calculations, the bandwidth (\code{h} argument) from \code{\link[hdrcde]{hdr}} can be estimated by using \code{\link[stats]{bw.nrd0}}.
+#'
+#' @return
+#' A \code{matrix} of class \code{mulTree}.
+#'
+#' @examples
+#' ## Read in the data
+#' data(lifespan.mcmc)
+#' 
+#' ## Summarizing all the chains
+#' summary(lifespan.mcmc)
+#' 
+#' ## Modyfing the CI
+#' summary(lifespan.mcmc, prob = 95) == summary(lifespan.mcmc, prob = 10) #Is mainly FALSE
+#' 
+#' ## Using use.hdr = FALSE
+#' summary(lifespan.mcmc, use.hdr = FALSE)
+#' 
+#' ## Difference in results
+#' round(summary(lifespan.mcmc) - summary(lifespan.mcmc, use.hdr = FALSE), digit = 3)
+#' 
+#' ## Difference in time
+#' system.time(summary(lifespan.mcmc))
+#' system.time(summary(lifespan.mcmc, use.hdr = FALSE))
+#'
+#' @seealso \code{\link{mulTree}}, \code{\link{read.mulTree}}, \code{\link{plot.mulTree}}
+#' @author Thomas Guillerme
+#' 
+#' @export 
 
+summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, cent.tend = median, ...) {
+    #Set method
+    #UseMethod(summary, mulTree)
+    match_call <- match.call()
 
-summary.mulTree<-function(mulTree.mcmc, CI=95, use.hdr=TRUE, ...)
-{ 
-#DATA
-    #mulTree.mcmc
-    check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
+    #SANITIZING
+    #mulTree.results
+    check.class(mulTree.results, "mulTree", " is not of class mulTree.\nUse read.mulTree() to properly load the data.")
 
-    #use.hdr
-    check.class(use.hdr, 'logical', " must be logical.")
-
-#funCTIONS
-
-    fun.sum.mcmc<-function(hdr.mcmc) {
-        #Summarize the hdr.mcmc list building a table with the terms as rows and the estimates and the CI as columns
-        #Preparing the columns
-        terms<-names(hdr.mcmc)
-        estimates<-rep(NA, length(terms)) ; lower.CI<-rep(NA, length(terms)) ; upper.CI<-rep(NA, length(terms))
-        #Filling the columns
-        for (n in 1:length(terms)) {
-            estimates[n]<-hdr.mcmc[[n]]$mode
-            lower.CI[n]<-min(hdr.mcmc[[n]]$hdr)
-            upper.CI[n]<-max(hdr.mcmc[[n]]$hdr)
-        }
-        #Creating the data.frame
-        sum.mcmc<-data.frame(row.names=terms, estimates=estimates, lower.CI=lower.CI, upper.CI=upper.CI)
-        #Output
-        return(sum.mcmc)
+    #prob
+    check.class(prob, "numeric")
+    if(any(prob > 100) | any(prob < 0)) {
+        stop("prob argument must percentages (between 0 and 100).")
     }
 
-#SUMMARIZYNG THE MCMC
+    #cent.tend
+    check.class(cent.tend, c("function", "standardGeneric"))
+    #check if the function properly outputs a single value
+    try(test_cent.tend <- cent.tend(rnorm(100)), silent = TRUE)
+    if(length(test_cent.tend) != 1 & class(test_cent.tend) != "numeric") {
+        stop(paste(match_call$cent.tend, " cannot calculate a central tendency of a distribution."))
+    }
 
-    #Calculates the hdr
-    hdr.results<-hdr.mulTree(mulTree.mcmc, CI=95, use.hdr, ...)
+    #use.hdr
+    check.class(use.hdr, "logical")
 
-    #Returns in a table
-    table<-fun.sum.mcmc(hdr.results)
+    #SUMMARISING
+    if(use.hdr == FALSE) {
+        #Calculate the quantiles
+        mulTree_results <- lapply(mulTree.results, lapply.quantile, prob, cent.tend, ...)
+        #mulTree_results <- lapply(mulTree.results, lapply.quantile, prob, cent.tend) ; warning("DEBUG MODE")
+    } else {
+        #Calculate the hdr
+        mulTree_results <- lapply(mulTree.results, lapply.hdr, prob, ...)
+        #mulTree_results <- lapply(mulTree.results, lapply.hdr, prob) ; warning("DEBUG MODE")
+    }
 
-#OUPTUT
+    #Transform the results into a table
+    results_out <- result.list.to.table(mulTree_results)
+    #Add the names
+    if(use.hdr == FALSE) {
+        if(is.null(match_call$cent.tend)) {
+            estimate <- "Estimates(median)"
+        } else {
+            estimate <- paste("Estimates(", match_call$cent.tend,")", sep="") 
+        }
+    } else {
+        estimate <- "Estimates(mode hdr)"
+    }
+    colnames(results_out) <- c(estimate, paste(c(rep("lower.CI(", length(prob)), rep("upper.CI(", length(prob))), prob.converter(prob)*100, ")", sep=""))
+    rownames(results_out) <- names(mulTree.results)
 
-    return(table)
+    #Set class
+    class(results_out) <- c("matrix", "mulTree")
 
-#End
+    return(results_out)
 }

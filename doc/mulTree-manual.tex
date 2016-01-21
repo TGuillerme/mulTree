@@ -1,0 +1,366 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage[utf8]{inputenc}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{
+ pdfstartview={XYZ null null 1}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+\title{\texttt{mulTree} manual}
+
+
+\author{Thomas Guillerme}
+
+\maketitle
+
+This package is based on the \href{http://cran.r-project.org/web/packages/MCMCglmm/index.html}{\texttt{MCMCglmm} package} and runs a MCMCglmm analysis on multiple trees.
+
+\section{Installation}
+You can install the latest released version (1.2) directly from GitHub using the following:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwa{if}\hlstd{(}\hlopt{!}\hlkwd{require}\hlstd{(devtools))} \hlkwd{install.packages}\hlstd{(}\hlstr{"devtools"}\hlstd{)}
+\hlkwd{install_github}\hlstd{(}\hlstr{"TGuillerme/mulTree"}\hlstd{,} \hlkwc{ref} \hlstd{=} \hlstr{"release"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+%\tableofcontents
+
+\section{Quick go through}
+
+Note that this section will be developed in the future.
+Stay tuned!
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## Loading the package}
+\hlkwd{library}\hlstd{(mulTree)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: caper}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: MASS}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: mvtnorm}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: coda}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: hdrcde}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# hdrcde 3.1 loaded}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: MCMCglmm}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: Matrix}}\begin{alltt}
+\hlcom{## Loading the lifespan data}
+\hlkwd{data}\hlstd{(lifespan)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\subsection{Combining phylogenies: \texttt{tree.bind}}
+This function allows to combine phylogenies, in this example, we are going to combine the \texttt{trees\_mammalia} and the \texttt{trees\_aves} randomly at a root.age of 250 million years ago.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## The 2 mammalian trees}
+\hlstd{trees_mammalia}
+\end{alltt}
+\begin{verbatim}
+## 2 phylogenetic trees
+\end{verbatim}
+\begin{alltt}
+\hlcom{## Number of tips in both}
+\hlkwd{unlist}\hlstd{(}\hlkwd{lapply}\hlstd{(trees_mammalia, Ntip))}
+\end{alltt}
+\begin{verbatim}
+## [1] 134 134
+\end{verbatim}
+\begin{alltt}
+\hlcom{## The 2 aves trees}
+\hlstd{trees_aves}
+\end{alltt}
+\begin{verbatim}
+## 2 phylogenetic trees
+\end{verbatim}
+\begin{alltt}
+\hlcom{## Number of tips in both}
+\hlkwd{unlist}\hlstd{(}\hlkwd{lapply}\hlstd{(trees_aves, Ntip))}
+\end{alltt}
+\begin{verbatim}
+## [1] 58 58
+\end{verbatim}
+\begin{alltt}
+\hlcom{## Combining them}
+\hlstd{combined_trees} \hlkwb{<-} \hlkwd{tree.bind}\hlstd{(trees_mammalia, trees_aves,} \hlkwc{sample} \hlstd{=} \hlnum{2}\hlstd{,}
+    \hlkwc{root.age} \hlstd{=} \hlnum{250}\hlstd{)}
+\hlstd{combined_trees}
+\end{alltt}
+\begin{verbatim}
+## 2 phylogenetic trees
+\end{verbatim}
+\begin{alltt}
+\hlcom{## Number of tips in both}
+\hlkwd{unlist}\hlstd{(}\hlkwd{lapply}\hlstd{(combined_trees, Ntip))}
+\end{alltt}
+\begin{verbatim}
+## [1] 192 192
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\subsection{Preparing the \texttt{mulTree} data: \texttt{as.mulTree}}
+This function allows to combine the trees to some trait data and get it in the right format to be passed to the \texttt{mulTree} function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## The trait data}
+\hlkwd{head}\hlstd{(lifespan_volant)}
+\end{alltt}
+\begin{verbatim}
+##                species    class  longevity       mass    volant
+## 1 Dolichotis_patagonum Mammalia -0.1490041  1.0875446 nonvolant
+## 2       Eidolon_helvum Mammalia  0.4686111 -0.2748337    volant
+## 3      Elephas_maximus Mammalia  2.1071286  3.1220340 nonvolant
+## 4         Equus_asinus Mammalia  1.6128024  2.0352764 nonvolant
+## 5     Equus_burchellii Mammalia  1.2962194  2.2295299 nonvolant
+## 6       Equus_caballus Mammalia  1.9001076  2.2548716 nonvolant
+\end{verbatim}
+\begin{alltt}
+\hlcom{## Creating the mulTree object}
+\hlstd{mulTree_data} \hlkwb{<-} \hlkwd{as.mulTree}\hlstd{(}\hlkwc{data} \hlstd{= lifespan_volant,} \hlkwc{tree} \hlstd{= combined_trees,}
+    \hlkwc{taxa} \hlstd{=} \hlstr{"species"}\hlstd{)}
+
+\hlcom{## This object is classified as "mulTree" and contains different elements to be}
+\hlcom{## passed to the mulTree function}
+\hlkwd{class}\hlstd{(mulTree_data) ;} \hlkwd{names}\hlstd{(mulTree_data)}
+\end{alltt}
+\begin{verbatim}
+## [1] "mulTree"
+## [1] "phy"          "data"         "random.terms" "taxa.column"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\subsection{Running the \texttt{MCMCglmm} on multiple trees: \texttt{mulTree}}
+This function intakes the normal arguments form the \href{http://cran.r-project.org/web/packages/MCMCglmm/index.html}{\texttt{MCMCglmm} function} alongside with the \texttt{mulTree} object.
+
+\textbf{WARNING: this part of the code does currently not run on \texttt{knitr} and is therefore skipped.}\\
+However, this part works normally if copy / pasted into the \texttt{R} console.
+Be warned however, that this part of the code can take several minutes to run!
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## The glmm formula}
+\hlstd{my_formula} \hlkwb{<-} \hlstd{longevity} \hlopt{~} \hlstd{mass} \hlopt{+} \hlstd{volant}
+
+\hlcom{## The MCMC parameters (generations, sampling, burnin)}
+\hlstd{my_parameters} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{100000}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{1000}\hlstd{)}
+
+\hlcom{## The MCMCglmm priors}
+\hlstd{my_priors} \hlkwb{<-} \hlkwd{list}\hlstd{(}\hlkwc{R} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{V} \hlstd{=} \hlnum{1}\hlopt{/}\hlnum{2}\hlstd{,} \hlkwc{nu} \hlstd{=} \hlnum{0.002}\hlstd{),}
+    \hlkwc{G} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{G1} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{V} \hlstd{=} \hlnum{1}\hlopt{/}\hlnum{2}\hlstd{,} \hlkwc{nu} \hlstd{=} \hlnum{0.002}\hlstd{)))}
+
+\hlcom{## Running the MCMCglmm on multiple trees}
+\hlkwd{mulTree}\hlstd{(}\hlkwc{mulTree.data} \hlstd{= mulTree_data,} \hlkwc{formula} \hlstd{= my_formula,} \hlkwc{priors} \hlstd{= my_priors,}
+     \hlkwc{parameters} \hlstd{= my_parameters,} \hlkwc{output} \hlstd{=} \hlstr{"longevity_example"}\hlstd{,} \hlkwc{ESS} \hlstd{=} \hlnum{50}\hlstd{,}
+     \hlkwc{chains} \hlstd{=} \hlnum{2}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\subsection{Reading the models: \texttt{read.mulTree}}
+The models where written out of the \texttt{R} environment in your current directory.
+To reinput them in the \texttt{R} environment and analysis the results, we can use the \texttt{read.mulTree} function.
+
+\textbf{WARNING: this part of the code does currently not run on \texttt{knitr} and is therefore skipped.}\\
+However, this part works normally if copy / pasted into the \texttt{R} console.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## Reading only one specific model}
+\hlstd{one_model} \hlkwb{<-} \hlkwd{read.mulTree}\hlstd{(}\hlstr{"longevity_example-tree1_chain1"}\hlstd{,} \hlkwc{model} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlcom{## This model is a normal MCMCglmm object that has been ran on one single tree}
+\hlkwd{class}\hlstd{(one_model) ;} \hlkwd{names}\hlstd{(one_model)}
+
+\hlcom{## Reading the convergence diagnosis test to see if the two chains converged for}
+\hlcom{## each tree}
+\hlkwd{read.mulTree}\hlstd{(}\hlstr{"longevity_example"}\hlstd{,} \hlkwc{convergence} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlcom{## As indicated here, the chains converged for both chains!}
+
+\hlcom{## Reading all the models to perform the MCMCglmm analysis on multiple trees}
+\hlstd{all_models} \hlkwb{<-} \hlkwd{read.mulTree}\hlstd{(}\hlstr{"longevity_example"}\hlstd{)}
+\hlkwd{str}\hlstd{(all_models)}
+\hlcom{## This object contains 39600 estimations of the Intercept and the terms!}
+
+\hlcom{## Removing the chains from the current directory}
+\hlkwd{file.remove}\hlstd{(}\hlkwd{list.files}\hlstd{(}\hlkwc{pattern}\hlstd{=}\hlstr{"longevity_example"}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## To temporarily remedy the problem with knitr described above we can load pre}
+\hlcom{## calculated MCMCglmm.}
+\hlkwd{data}\hlstd{(lifespan.mcmc)}
+
+\hlcom{## NOTE HOWEVER THAT IF YOU ARE RUNNING THE CODE OF THIS VIGNETTE IN THE R}
+\hlcom{## CONSOLE, YOU WON'T NEED THIS STEP!}
+
+\hlcom{## Summarizing all the chains}
+\hlstd{all_models} \hlkwb{<-} \hlstd{lifespan.mcmc}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\subsection{Summarising the results: \texttt{summary.mulTree}}
+It is possible to summarise the results of the glmm on all chains using the \texttt{summary.mulTree} function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## Summarising the results by estimating the highest density regions}
+\hlcom{## and their associated 95 and 50 confidence intervals (default)}
+\hlstd{summarised_results} \hlkwb{<-} \hlkwd{summary}\hlstd{(all_models)}
+\hlstd{summarised_results}
+\end{alltt}
+\begin{verbatim}
+##           Estimates(mode hdr) lower.CI(2.5) lower.CI(25) upper.CI(75) upper.CI(97.5)
+## Intercept         -0.06999296   -1.13207196  -0.44486942   0.29070469     1.01296766
+## mass               0.51833987    0.38949753   0.47446665   0.56227442     0.64498855
+## volancy            0.98967086    0.39699309   0.78557528   1.18069787     1.55656195
+## phy.var            0.91505855    0.62186635   0.81016578   1.03538270     1.28537645
+## res.var            0.04438445    0.02238516   0.03521298   0.05303724     0.07522887
+## attr(,"class")
+## [1] "matrix"  "mulTree"
+\end{verbatim}
+\begin{alltt}
+\hlcom{## Summarising the results using the quick 'n' dirty way along with some options}
+\hlcom{## i.e just measuring the distributions quantiles}
+\hlcom{## note that there is a S3 method for "mulTree" objects allowing to just use}
+\hlcom{## summary()}
+\hlkwd{summary}\hlstd{(all_models,} \hlkwc{use.hdr} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{cent.tend} \hlstd{= mean,} \hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{75}\hlstd{,} \hlnum{25}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+##           Estimates(mean) lower.CI(12.5) lower.CI(37.5) upper.CI(62.5) upper.CI(87.5)
+## Intercept     -0.06726806    -0.69609640    -0.24328020     0.10553401     0.56463730
+## mass           0.51757042     0.44244907     0.49679614     0.53879559     0.59259546
+## volancy        0.97726166     0.63844718     0.88624230     1.07205171     1.31429889
+## phy.var        0.94630374     0.75547035     0.88405672     0.99072104     1.14261125
+## res.var        0.04758039     0.03238856     0.04198954     0.05061299     0.06364383
+## attr(,"class")
+## [1] "matrix"  "mulTree"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\newpage
+
+\subsection{Visualising the results: \texttt{plot.mulTree}}
+Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}.
+Here are two examples:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{## Graphical options}
+\hlkwd{quartz}\hlstd{(}\hlkwc{width} \hlstd{=} \hlnum{10}\hlstd{,} \hlkwc{height} \hlstd{=} \hlnum{5}\hlstd{) ;} \hlkwd{par}\hlstd{(}\hlkwc{mfrow} \hlstd{= (}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{)),} \hlkwc{bty} \hlstd{=} \hlstr{"n"}\hlstd{)}
+
+\hlcom{## Plotting using the default options}
+\hlkwd{plot}\hlstd{(summarised_results)}
+
+\hlcom{## Plotting using some more pretty options}
+\hlkwd{plot}\hlstd{(summarised_results,} \hlkwc{horizontal} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{cex.coeff} \hlstd{=} \hlnum{0.8}\hlstd{,}
+    \hlkwc{main} \hlstd{=} \hlstr{"Posterior distributions"}\hlstd{,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{),} \hlkwc{cex.terms} \hlstd{=} \hlnum{0.5}\hlstd{,}
+    \hlkwc{terms} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Intercept"}\hlstd{,} \hlstr{"Body Mass"}\hlstd{,} \hlstr{"Volancy"}\hlstd{,} \hlstr{"Phylogeny"}\hlstd{,} \hlstr{"Residuals"}\hlstd{),}
+    \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,} \hlkwc{cex.main} \hlstd{=} \hlnum{0.8}\hlstd{)}
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{3}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=1\linewidth]{figure/minimal-plot_mulTree1-1} 
+
+}
+
+
+
+\end{knitrout}
+
+\end{document}

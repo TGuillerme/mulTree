@@ -1,198 +1,146 @@
-##########################
-#Plots the results of a mulTree analysis
-##########################
-#Plots a boxplots of the fixed and random terms of the summarized multi tree MCMCglmm
-#v0.3
-#Update: isolated function externally
-##########################
-#SYNTAX :
-#<mulTree.mcmc> a mcmc chain written by the mulTree function. Can be either a unique file or a chain name referring to multiple files. Use read.mulTree() to properly load the chains
-#<CI> the credibility interval (can be more than one value)
-#<average> the central tendency of the distribution to plot. Can be either 'mode', 'median' or 'mean' (default="mode")
-#<horizontal> whether to plot the boxplots horizontally or not (default=TRUE)
-#<terms> a list of terms, if NULL, the terms are extracted from mulTree.mcmc (default=NULL)
-#<colour> any colour or list of colour for the plot, if NULL colour is set to greyscale (default=NULL)
-#<coeff.lim> the estimate coefficient range, if NULL, the range is set to the extreme values of mulTree.mcmc +/- 10%
-#<...> any additional argument to be passed to plot() function
-#<horizontal> whether to plot the boxplots horizontally or not (default=FALSE)
-#<cex.terms> size of the terms on the axis (can be missing)
-#<cex.coeff> size of the terms on the axis (can be missing)
-##########################
-#----
-#guillert(at)tcd.ie - 24/08/2015
-##########################
-#Requirements:
-#-R 3
-#-R package "hdrcde"
-##########################
+#' @title Plots \code{mulTree} results
+#'
+#' @description Plots a boxplots of the terms of a \code{mulTree} analysis.
+#'
+#' @param mulTree.summary A \code{mulTree} matrix summarized by \code{\link{summary.mulTree}}.
+#' @param terms An optional vector of terms labels.
+#' @param cex.terms An optional value for the size of the terms labels.
+#' @param cex.coeff An optional value for the size of the coefficients labels.
+#' @param horizontal Whether to plot the results horizontally (\code{default = FALSE}).
+#' @param ylim Optional, the y limits of the plot.
+#' @param col Optional, the color of the plot.
+#' @param ... Any additional arguments to be passed to \code{\link[graphics]{plot}}.
+#' 
+#' @examples
+#' \dontrun{
+#' ## read in the data
+#' data(lifespan.mcmc)
+#' 
+#' ## summarising the results
+#' summarized_data <- summary(lifespan.mcmc)
+#'
+#' ## plotting the results
+#' plot(summarized_data)
+#' 
+#' ## Same plot using more options
+#' plot(summarized_data, horizontal = TRUE, ylab = "", main = "Posterior distributions",
+#'    terms = c("Intercept", "Body Mass", "Volancy", "Phylogeny", "Residuals"),
+#'    ylim = c(-2,2), cex.terms = 0.5, cex.coeff = 0.8, col = c("red"), cex.main = 0.8)
+#' abline(v = 0, lty = 3)
+#' }
+#'
+#' @seealso \code{\link{mulTree}}, \code{\link{read.mulTree}}, \code{\link{summary.mulTree}}
+#' @author Thomas Guillerme
+#' 
+#' @export 
 
+plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizontal = FALSE, ylim, col, ...) {
 
-plot.mulTree<-function(mulTree.mcmc, CI=c(95, 75, 50), average="mode", use.hdr=TRUE, terms=NULL, colour=NULL, coeff.lim=NULL, ..., horizontal=FALSE, cex.terms, cex.coeff)
-{
-#HEADER
-    require(hdrcde)
+    match_call <- match.call()
 
-#DATA
-    #mulTree.mcmc
-    check.class(mulTree.mcmc, 'mulTree', " must be a 'mulTree' object.\nUse read.mulTree() function.")
-    #rebuild mulTree.mcmc as a data.frame
-    class(mulTree.mcmc)<-"data.frame"
-
-    #CI
-    check.class(CI, 'numeric', " is not numeric.")
-    if (any(CI < 0)) {
-        stop("Credibility interval must be between 0 and 100.", call.=FALSE)
-    } else {
-        if (any(CI > 100)) {
-            stop("Credibility interval must be between 0 and 100.", call.=FALSE)
-        }
-    }
-
-    #average
-    first.moment<-c("mode", "median", "mean")
-    check.class(average, 'character', "must be either \"mode\", \"median\" or \"mean\".")
-    if (any(average == first.moment)) {
-        ok<-"ok"
-    } else {
-        stop("\"average\" must be either \"mode\", \"median\" or \"mean\".", call.=FALSE)
-    }       
-    
-    #use.hdr
-    check.class(use.hdr, 'logical', " must be logical.")
-
-    #horizontal
-    check.class(horizontal, 'logical', " must be logical.")
-
-    #colour
-    if (is.null(colour)) {
-        colour=gray((9:1)/10)
+    #SANITIZING
+    #mulTree.results
+    if(!all(class(mulTree.summary) == c("matrix","mulTree"))) {
+        stop(match_call$mulTree.summary, " is not mulTree matrix.\nUse summary.mulTree() to properly generate the data.", sep = "")   
     }
 
     #terms
-    if(is.null(terms)) {
-        terms=as.character(names(mulTree.mcmc))
-    }
-
-    #coeff.lim
-    if (is.null(coeff.lim)) {
-        coeff.lim<-c(min(mulTree.mcmc) - 0.1*min(mulTree.mcmc), max(mulTree.mcmc) + 0.1*(max(mulTree.mcmc)))
+    if(!missing(terms)) {
+        check.class(terms, "character")
+        check.length(terms, nrow(mulTree.summary), paste(" must have the same number of terms as ", match_call$mulTree.summary, sep = ""), errorif = FALSE)
     } else {
-        check.class(coeff.lim, 'numeric', " must be numeric.")
-        check.length(coeff.lim, 2, " must be a list of two elements.")
+        terms <- rownames(mulTree.summary)
     }
 
-    #cex
-    if(missing(cex.terms)) {
-        cex.terms=1
-    } else {
-        check.class(cex.terms, 'numeric', " must be numeric.")
+    #cex.terms
+    if(!missing(cex.terms)) {
+        check.class(cex.terms, "numeric")
+        check.length(cex.terms, 1, " must be a single value for the size of the terms labels.")
     }
 
-    if(missing(cex.coeff)) {
-        cex.coeff=1
-    } else {
-        check.class(cex.coeff, 'numeric', " must be numeric.")
+    #cex.terms
+    if(!missing(cex.coeff)) {
+        check.class(cex.coeff, "numeric")
+        check.length(cex.coeff, 1, " must be a single value for the size of the coefficients labels.")
     }
-#funCTION
 
-    #plots one polygon
-    fun.polygon<-function(mulTree.mcmc, n, CI, average, colours, horizontal, use.hdr)
-    {
-        #calculates the hdr
-        if(use.hdr == TRUE) {
-            temp <- hdr(mulTree.mcmc[,n], CI, h = bw.nrd0(mulTree.mcmc[,n]))
+    #horizontal
+    check.class(horizontal, "logical")
+
+    #default optional arguments
+    #Get the automatic ylimits
+    if(missing(ylim)) {
+        ylim <- get.ylim(mulTree.summary)
+    }
+
+    #Get the automatic colours
+    if(missing(col)) {
+        col <- gray(seq(from = 1-(1/((ncol(mulTree.summary)-1)/2*2)), to = 0+(1/((ncol(mulTree.summary)-1)/2*2)), length.out = (ncol(mulTree.summary)-1)/2))
+    }
+
+
+    #PLOTTING THE RESULTS
+    #Set up the space between terms
+    terms_space <- 0.5
+    #Plot the frame
+    if (horizontal == FALSE) {
+        #Plot the horizontal frame
+        plot(1,1, xlim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
+        #plot(1,1, xlim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n",) ; warning("DEBUG MODE")
+
+        #Adding the y axis (coefficients)
+        if(!missing(cex.coeff)) {
+            axis(side = 2, cex.axis = cex.coeff)
         } else {
-            temp <- quantile.list(mulTree.mcmc[,n], CI)
+            axis(side = 2)
         }
 
-        #setting box parameters
-        box_width <- seq(from=0.1, by = 0.05, length.out=length(CI))
-
-        #plotting the boxes
-        if (horizontal == FALSE) {
-
-            for (box in 1:length(CI)) {
-                temp2 <- temp$hdr[box,]
-                polygon(c(n - box_width[box], n - box_width[box], n + box_width[box], n + box_width[box]), #x
-                  c(min(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), min(temp2[!is.na(temp2)])), #y
-                  col = colours[box]) 
-            }
-
-            #adding the average
-            if (average == "mode") {
-                points(n, temp$mode, pch=19)
-            }
-            if (average == "mean") {
-                points(n, mean(mulTree.mcmc[,n]), pch=19)
-            }
-            if (average == "median") {
-                points(n, median(mulTree.mcmc[,n]), pch=19)
-            }
-
+        #Adding the x axis (terms)
+        if(!missing(cex.terms)) {
+            axis(side = 1, at = 1:ncol(mulTree.summary), labels = terms, las = 2, cex.axis = cex.terms)
         } else {
-            for (box in 1:length(CI)) { #reverse the terms to go from top to bottom
-                temp2 <- temp$hdr[box,]
-                polygon(c(min(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), max(temp2[!is.na(temp2)]), min(temp2[!is.na(temp2)])), #x
-                  c(n - box_width[box], n - box_width[box], n + box_width[box], n + box_width[box]), #y
-                  col = colours[box])
-            }
-
-            #adding the average
-            if (average == "mode") {
-                points(temp$mode, n, pch=19)
-            }
-            if (average == "mean") {
-                points(mean(mulTree.mcmc[,n]), n, pch=19)
-            }
-            if (average == "median") {
-                points(median(mulTree.mcmc[,n]), n, pch=19)
-            }
-        }
-    } 
-
-    #Density Plot function (from densityplot.R by Andrew Jackson - a.jackson@tcd.ie)
-    fun.densityplot <- function (mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
-    {
-        #x spacement
-        xspc<-0.5
-
-        #number of boxes
-        n<-ncol(mulTree.mcmc)
-            
-        #add axis
-        if (horizontal == FALSE) {
-            #blank plot frame
-            plot(1,1 , xlab="", ylab="", xlim = c(1 - xspc, ncol(mulTree.mcmc) + xspc), ylim = coeff.lim, type = "n", xaxt = "n", yaxt="n", bty = "n", ...)
-            #coeff.estimates (is y)
-            axis(side = 2, cex.axis=cex.coeff)
-            #terms (is x)
-            axis(side = 1, at = 1:ncol(mulTree.mcmc), labels = (terms), las=2, cex.axis=cex.terms)
-        } else {
-            plot(1,1 , xlab="", ylab="", ylim = c(1 - xspc, ncol(mulTree.mcmc) + xspc), xlim = coeff.lim, type = "n", xaxt = "n", yaxt="n", bty = "n", ...)
-            #coeff.estimates (is x)
-            axis(side = 3, cex.axis=cex.coeff)
-            #terms (is y)
-            axis(side = 2, at = 1:ncol(mulTree.mcmc), labels = rev(terms), las=2, cex.axis=cex.terms) #reverse the terms to go from top to bottom
+            axis(side = 1, at = 1:ncol(mulTree.summary), labels = terms, las = 2)
         }
 
-        #set the colours for the boxplots
-        colours <- rep(colour, 5)
-
-        #creates the boxplots using hdr and add them to the plot
-        for (n in 1:ncol(mulTree.mcmc)) {
-            fun.polygon(mulTree.mcmc, n, CI, average, colours, horizontal, use.hdr)
-        } 
-    }
-
-#PLOTTING THE MCMCglmm RESULTS
-
-    if(horizontal == TRUE) {
-        fun.densityplot(rev(mulTree.mcmc), CI, average, terms, colour, coeff.lim, horizontal, ...)
     } else {
-        fun.densityplot(mulTree.mcmc, CI, average, terms, colour, coeff.lim, horizontal, ...)
+        #Plot the vertical frame
+        plot(1,1, ylim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
+        #plot(1,1, ylim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n") ; warning("DEBUG MODE")
+        
+        #Adding the y axis (terms)
+        if(!missing(cex.terms)) {
+            axis(side = 2, at = 1:ncol(mulTree.summary), labels = rev(terms), las = 2, cex.axis = cex.terms)
+        } else {
+            axis(side = 2, at = 1:ncol(mulTree.summary), labels = rev(terms), las = 2)
+        }
+
+        #Adding the x axis (coefficients)
+        if(!missing(cex.coeff)) {
+            axis(side = 3, cex.axis = cex.coeff)
+        } else {
+            axis(side = 3)
+        }
+    }
+    
+    #Setting box parameters
+    box_width <- seq(from=0.1, by = 0.05, length.out = (ncol(mulTree.summary)-1)/2)
+
+    #Drawing the polygons
+    for (term in 1:nrow(mulTree.summary)) {
+        for (CI in 1:c((ncol(mulTree.summary)-1)/2)) {
+            #Drawing the polygons
+            if(horizontal == FALSE) {
+                polygon(x = get.width(box_width, term, CI), y = get.height(mulTree.summary, term, CI), col = col)
+            } else {
+                polygon(y = get.width(box_width, nrow(mulTree.summary)-(term-1), CI), x = get.height(mulTree.summary, term, CI), col = col)
+            }
+        }
+        #Drawing the central tendencies
+        if(horizontal == FALSE) {
+            points(term, mulTree.summary[term, 1], pch = 19)
+        } else {
+            points(mulTree.summary[term, 1], nrow(mulTree.summary)-(term-1), pch = 19)
+        }
     }
 
-#OUTPUT
-
-#End
 }

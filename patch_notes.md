@@ -1,6 +1,19 @@
 Patch notes
 ----
-* ????/??/?? - **v1.1.2**
+* 2016/01/21 - **v1.2**
+  * complete new architectural structure!
+  * all the functions are now unit tested!
+  * all manuals are now written in Roxygen2 format!
+  * many functions arguments names have been modified, please check individual functions manual.
+  * `rTreeBind` is renamed to `tree.bind`.
+  * In `as.mulTree`, the argument `species` is now `taxa`.
+  * `mulTree` output: when output chain name already exists in current directory, the function now asks if user wants to overwrite the existing files.
+  * In `read.mulTree`, the argument `mulTree.mcmc` is now `mulTree.chain`.
+  * In `summary.mulTree`, the argument `mulTree.mcmc` is now `mulTree.results` and the argument `CI` is now `prob`.
+  * `summary.mulTree` now outputs a `c("matrix", "mulTree")` class object.
+  * In `plot.mulTree`, the argument `mulTree.mcmc` must now be an object returned from `summary.mulTree`.
+* 2015/11/05 - v1.1.2
+  * fixed bug with `clean.data` function
   * added the `extract` option to `read.mulTree` to extract specific elements of each models.
   * minor update on `as.mulTree`: can now intake single `phylo` objects.
 * 2015/10/02 - v1.1.1
@@ -21,3 +34,6 @@ Patch notes
 * 2014/12/19 - v1.0.1
   * NEW: `clean.data` function allows to match data and multiple trees and drop the non-shared taxa.
   * `as.mulTree` function now allows multiple specimens for any taxa and allows the user to fix the random terms to be passed to the `mulTree` function.
+
+
+Version in bold have a [release back-up](https://github.com/TGuillerme/mulTree/releases).
