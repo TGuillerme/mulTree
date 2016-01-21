@@ -29,6 +29,7 @@
 *.sqlite
 
 # LaTeX #
+*.fls
 *.aux
 *.bbl
 *.blg
