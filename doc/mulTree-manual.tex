@@ -234,9 +234,9 @@ Be warned however, that this part of the code can take several minutes to run!
     \hlkwc{G} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{G1} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{V} \hlstd{=} \hlnum{1}\hlopt{/}\hlnum{2}\hlstd{,} \hlkwc{nu} \hlstd{=} \hlnum{0.002}\hlstd{)))}
 
 \hlcom{## Running the MCMCglmm on multiple trees}
-\hlkwd{mulTree}\hlstd{(}\hlkwc{mulTree.data} \hlstd{= mulTree_data,} \hlkwc{formula} \hlstd{= my_formula,}
-     \hlkwc{parameters} \hlstd{= my_parameters,} \hlkwc{priors} \hlstd{= my_priors,}
-     \hlkwc{output} \hlstd{=} \hlstr{"longevity_example"}\hlstd{,} \hlkwc{ESS} \hlstd{=} \hlnum{50}\hlstd{,} \hlkwc{chains} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{mulTree}\hlstd{(}\hlkwc{mulTree.data} \hlstd{= mulTree_data,} \hlkwc{formula} \hlstd{= my_formula,} \hlkwc{priors} \hlstd{= my_priors,}
+     \hlkwc{parameters} \hlstd{= my_parameters,} \hlkwc{output} \hlstd{=} \hlstr{"longevity_example"}\hlstd{,} \hlkwc{ESS} \hlstd{=} \hlnum{50}\hlstd{,}
+     \hlkwc{chains} \hlstd{=} \hlnum{2}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -303,11 +303,11 @@ It is possible to summarise the results of the glmm on all chains using the \tex
 \end{alltt}
 \begin{verbatim}
 ##           Estimates(mode hdr) lower.CI(2.5) lower.CI(25) upper.CI(75) upper.CI(97.5)
-## Intercept         -0.06995898   -1.13213722  -0.44481727    0.2907520     1.01296766
-## mass               0.51832789    0.38949447   0.47446867    0.5622780     0.64498769
-## volancy            0.98968139    0.39699392   0.78557590    1.1806984     1.55656199
-## phy.var            0.91484250    0.62185245   0.81017160    1.0353887     1.28535268
-## res.var            0.04436767    0.02238371   0.03521249    0.0530371     0.07522866
+## Intercept         -0.06999296   -1.13207196  -0.44486942   0.29070469     1.01296766
+## mass               0.51833987    0.38949753   0.47446665   0.56227442     0.64498855
+## volancy            0.98967086    0.39699309   0.78557528   1.18069787     1.55656195
+## phy.var            0.91505855    0.62186635   0.81016578   1.03538270     1.28537645
+## res.var            0.04438445    0.02238516   0.03521298   0.05303724     0.07522887
 ## attr(,"class")
 ## [1] "matrix"  "mulTree"
 \end{verbatim}
@@ -331,28 +331,21 @@ It is possible to summarise the results of the glmm on all chains using the \tex
 \end{kframe}
 \end{knitrout}
 
+\newpage
+
 \subsection{Visualising the results: \texttt{plot.mulTree}}
-Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}. 
+Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}.
+Here are two examples:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlcom{## Graphical options}
+\hlkwd{quartz}\hlstd{(}\hlkwc{width} \hlstd{=} \hlnum{10}\hlstd{,} \hlkwc{height} \hlstd{=} \hlnum{5}\hlstd{) ;} \hlkwd{par}\hlstd{(}\hlkwc{mfrow} \hlstd{= (}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{)),} \hlkwc{bty} \hlstd{=} \hlstr{"n"}\hlstd{)}
+
 \hlcom{## Plotting using the default options}
 \hlkwd{plot}\hlstd{(summarised_results)}
-\end{alltt}
-\end{kframe}
 
-{\centering \includegraphics[width=.8\linewidth]{figure/minimal-plot_mulTree1-1} 
-
-}
-
-
-
-\end{knitrout}
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
 \hlcom{## Plotting using some more pretty options}
 \hlkwd{plot}\hlstd{(summarised_results,} \hlkwc{horizontal} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{cex.coeff} \hlstd{=} \hlnum{0.8}\hlstd{,}
     \hlkwc{main} \hlstd{=} \hlstr{"Posterior distributions"}\hlstd{,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{),} \hlkwc{cex.terms} \hlstd{=} \hlnum{0.5}\hlstd{,}
@@ -362,7 +355,7 @@ Finally it is possible to simply plot the results from the MCMCglmm analysis on 
 \end{alltt}
 \end{kframe}
 
-{\centering \includegraphics[width=.8\linewidth]{figure/minimal-plot_mulTree2-1} 
+{\centering \includegraphics[width=1\linewidth]{figure/minimal-plot_mulTree1-1} 
 
 }
 

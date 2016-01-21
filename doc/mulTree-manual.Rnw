@@ -115,9 +115,9 @@ my_priors <- list(R = list(V = 1/2, nu = 0.002),
     G = list(G1 = list(V = 1/2, nu = 0.002)))
 
 ## Running the MCMCglmm on multiple trees
-mulTree(mulTree.data = mulTree_data, formula = my_formula,
-     parameters = my_parameters, priors = my_priors,
-     output = "longevity_example", ESS = 50, chains = 2)
+mulTree(mulTree.data = mulTree_data, formula = my_formula, priors = my_priors,
+     parameters = my_parameters, output = "longevity_example", ESS = 50,
+     chains = 2)
 @
 
 
@@ -177,15 +177,19 @@ summarised_results
 summary(all_models, use.hdr = FALSE, cent.tend = mean, prob = c(75, 25))
 @
 
-\subsection{Visualising the results: \texttt{plot.mulTree}}
-Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}. 
+\newpage
 
-<<plot.mulTree1, fig.width=8, fig.height=8, out.width='.8\\linewidth'>>=
+\subsection{Visualising the results: \texttt{plot.mulTree}}
+Finally it is possible to simply plot the results from the MCMCglmm analysis on multiple trees using the S3 method for \texttt{plot.mulTree}.
+Here are two examples:
+
+<<plot.mulTree1, fig.width=10, fig.height=5, out.width='1\\linewidth'>>=
+## Graphical options
+quartz(width = 10, height = 5) ; par(mfrow = (c(1,2)), bty = "n")
+
 ## Plotting using the default options
 plot(summarised_results)
-@ 
 
-<<plot.mulTree2, fig.width=8, fig.height=8, out.width='.8\\linewidth'>>=
 ## Plotting using some more pretty options
 plot(summarised_results, horizontal = TRUE, ylab = "", cex.coeff = 0.8,
     main = "Posterior distributions", ylim = c(-2,2), cex.terms = 0.5,
