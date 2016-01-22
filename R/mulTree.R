@@ -100,7 +100,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     #HEADER
     #libraries
     if(!missing(parallel)) {
-        require(snow)
+        requireNamespace("snow")
     }
     #timer(start)
     start.time <- Sys.time()
