@@ -97,7 +97,7 @@ test_that("Quick mulTree example works", {
 
     #First example works
     set.seed(1)
-    mulTree_test1 <- system.time(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "mulTree_testing", verbose = FALSE))
+    mulTree_test1 <- system.time(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(100, 10, 10), chains = 2, prior = priors, output = "mulTree_testing", verbose = FALSE))
     #Generates 9 files
     expect_equal(length(list.files(pattern = "mulTree_testing")), 9)
     expect_equal(length(list.files(pattern = "mulTree_testing-tree1_chain")), 2)
@@ -111,7 +111,7 @@ test_that("Quick mulTree example works", {
 
     #Second example (parallel) works
     set.seed(1)
-    mulTree_test2 <- system.time(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "mulTree_testing", parallel = "SOCK", verbose = FALSE))
+    mulTree_test2 <- system.time(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(100, 10, 10), chains = 2, prior = priors, output = "mulTree_testing", parallel = "SOCK", verbose = FALSE))
     #Generates 9 files
     expect_equal(length(list.files(pattern = "mulTree_testing")), 9)
     expect_equal(length(list.files(pattern = "mulTree_testing-tree1_chain")), 2)
