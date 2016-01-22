@@ -37,7 +37,6 @@ mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), ch
 
 ## Reading all the models
 all_chains <- read.mulTree("quick_example")
-summary(all_chains)
 
 ## Reading the convergence diagnosis for all the trees
 read.mulTree("quick_example", convergence = TRUE)
