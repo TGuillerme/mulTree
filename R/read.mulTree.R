@@ -25,7 +25,6 @@
 #'
 #' ## Reading all the models
 #' all_chains <- read.mulTree("quick_example")
-#' summary(all_chains)
 #'
 #' ## Reading the convergence diagnosis for all the trees
 #' read.mulTree("quick_example", convergence = TRUE)
