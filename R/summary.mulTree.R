@@ -30,17 +30,10 @@
 #' summary(lifespan.mcmc)
 #' 
 #' ## Modyfing the CI
-#' summary(lifespan.mcmc, prob = 95) == summary(lifespan.mcmc, prob = 10) #Is mainly FALSE
+#' summary(lifespan.mcmc, prob = 95)
 #' 
 #' ## Using use.hdr = FALSE
 #' summary(lifespan.mcmc, use.hdr = FALSE)
-#' 
-#' ## Difference in results
-#' round(summary(lifespan.mcmc) - summary(lifespan.mcmc, use.hdr = FALSE), digit = 3)
-#' 
-#' ## Difference in time
-#' system.time(summary(lifespan.mcmc))
-#' system.time(summary(lifespan.mcmc, use.hdr = FALSE))
 #'
 #' @seealso \code{\link{mulTree}}, \code{\link{read.mulTree}}, \code{\link{plot.mulTree}}
 #' @author Thomas Guillerme
