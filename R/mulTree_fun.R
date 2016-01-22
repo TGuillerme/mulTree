@@ -13,7 +13,7 @@ read.key <- function(msg1, msg2, scan = TRUE) {
 #Runs one single (on one single tree) MCMCglmmm
 lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, warn, ...){
 
-    #requirements (for parallel running)
+    #require MCMCglmm for snow
     require(MCMCglmm)
 
     #Disable warnings (if needed)
