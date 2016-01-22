@@ -87,7 +87,7 @@ test_that("Quick mulTree example works", {
     #Not mulTree format
     expect_error(mulTree(data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100))
     #Not matching formula
-    #expect_error(mulTree(mulTree.data, formula = var1 ~ var3, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100))
+    expect_error(mulTree(mulTree.data, formula = var1 ~ var3, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100))
     #Not enough parameters
     expect_error(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(1,1), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100))
     #Chains are not numeric
