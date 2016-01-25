@@ -1,5 +1,8 @@
 # To do list
 
+### Get a function for measuring the posterior phylo signal from individual models.
+`lambda <- model$VCV[, "phylo"] / (model$VCV[, "phylo"] + model$VCV[, "units"])`
+
 ## One day...
 Properly test the effect of using multiple trees.
 
