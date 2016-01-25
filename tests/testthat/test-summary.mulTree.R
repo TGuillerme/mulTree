@@ -14,7 +14,7 @@ test_that("is.wholenumber works", {
 })
 
 # Testing if prob.converter works
-test_that("is.wholenumber works", {
+test_that("prob.converter works", {
     # Error 
     expect_error(prob.converter("a"))
     # Transforming one CI

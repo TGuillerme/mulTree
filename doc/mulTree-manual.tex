@@ -118,7 +118,9 @@ Stay tuned!
 
 {\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: MCMCglmm}}
 
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: Matrix}}\begin{alltt}
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: Matrix}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: snow}}\begin{alltt}
 \hlcom{## Loading the lifespan data}
 \hlkwd{data}\hlstd{(lifespan)}
 \end{alltt}
@@ -303,11 +305,11 @@ It is possible to summarise the results of the glmm on all chains using the \tex
 \end{alltt}
 \begin{verbatim}
 ##           Estimates(mode hdr) lower.CI(2.5) lower.CI(25) upper.CI(75) upper.CI(97.5)
-## Intercept         -0.06999296   -1.13207196  -0.44486942   0.29070469     1.01296766
-## mass               0.51833987    0.38949753   0.47446665   0.56227442     0.64498855
-## volancy            0.98967086    0.39699309   0.78557528   1.18069787     1.55656195
-## phy.var            0.91505855    0.62186635   0.81016578   1.03538270     1.28537645
-## res.var            0.04438445    0.02238516   0.03521298   0.05303724     0.07522887
+## Intercept         -0.06998610   -1.13208516  -0.44485793   0.29071331     1.01296766
+## mass               0.51833434    0.38949558   0.47446737   0.56227627     0.64498845
+## volancy            0.98968793    0.39699455   0.78557659   1.18069855     1.55656202
+## phy.var            0.91499147    0.62185688   0.81016755   1.03538468     1.28537639
+## res.var            0.04437394    0.02238432   0.03521267   0.05303716     0.07522866
 ## attr(,"class")
 ## [1] "matrix"  "mulTree"
 \end{verbatim}
