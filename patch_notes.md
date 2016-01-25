@@ -2,6 +2,7 @@ Patch notes
 ----
 * 2016/01/25 - v1.2.1
   * minor bug fix in `summary.mulTree` that can now deal with multiple hdr for each probabilities.
+  * minor bug fix in `plot.mulTree` with the number of terms used
 * 2016/01/21 - **v1.2**
   * complete new architectural structure!
   * all the functions are now unit tested!
