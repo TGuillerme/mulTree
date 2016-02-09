@@ -215,7 +215,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
                 cat("Convergence diagnosis:\n")
                 cat("Effective sample size is > ", ESS, ": ", all(effectiveSize(model$Sol[]) > ESS), "\n", sep = "")
                 cat(unlist(lapply(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))), ESS.lapply)), sep="; ")
-                cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
+                cat("\nAll levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
                 cat(converge.test$psrf[,1], sep="; ") ; cat("\n")
                 cat("Individual models saved as: ", output, "-tree", ntree, "_chain*.rda\n", sep = "")
                 cat("Convergence diagnosis saved as: ", output, "-tree", ntree, "_conv.rda", "\n", sep = "")
