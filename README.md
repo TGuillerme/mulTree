@@ -10,6 +10,7 @@ Please send me an [email](mailto:guillert@tcd.ie) or a pull request if you find/
 ## Installing mulTree
 ```r
 if(!require(devtools)) install.packages("devtools")
+library(devtools)
 install_github("TGuillerme/mulTree", ref = "release")
 library(mulTree)
 ```
