@@ -2,7 +2,6 @@
 % Please edit documentation in R/mulTree-package.R
 \docType{package}
 \name{mulTree-package}
-\alias{mulTree}
 \alias{mulTree-package}
 \title{Performs MCMCglmm On Multiple Phylogenetic Trees.}
 \description{
