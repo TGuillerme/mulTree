@@ -97,9 +97,9 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
 
         #Adding the x axis (terms)
         if(!missing(cex.terms)) {
-            axis(side = 1, at = 1:ncol(mulTree.summary), labels = terms, las = 2, cex.axis = cex.terms)
+            axis(side = 1, at = 1:nrow(mulTree.summary), labels = terms, las = 2, cex.axis = cex.terms)
         } else {
-            axis(side = 1, at = 1:ncol(mulTree.summary), labels = terms, las = 2)
+            axis(side = 1, at = 1:nrow(mulTree.summary), labels = terms, las = 2)
         }
 
     } else {
@@ -109,9 +109,9 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
         
         #Adding the y axis (terms)
         if(!missing(cex.terms)) {
-            axis(side = 2, at = 1:ncol(mulTree.summary), labels = rev(terms), las = 2, cex.axis = cex.terms)
+            axis(side = 2, at = 1:nrow(mulTree.summary), labels = rev(terms), las = 2, cex.axis = cex.terms)
         } else {
-            axis(side = 2, at = 1:ncol(mulTree.summary), labels = rev(terms), las = 2)
+            axis(side = 2, at = 1:nrow(mulTree.summary), labels = rev(terms), las = 2)
         }
 
         #Adding the x axis (coefficients)

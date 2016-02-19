@@ -112,8 +112,8 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     #mulTree.data
     #must be mulTree
     check.class(mulTree.data, "mulTree")
-    #moving the random terms to current environment
-    environment(mulTree.data$random.terms)<-environment()
+    # #moving the random terms to current environment
+    # environment(mulTree.data$random.terms)<-environment()
     
     #formula
     check.class(formula, 'formula')
@@ -162,8 +162,12 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     }
 
     #RUNNING THE MODELS
+#test.mulTree <- function(mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, parallel, output = "testing", chains= 2, ...) {
     for (ntree in 1:length(mulTree.data$phy)) {
         #For each tree...
+        #Setting up mulTre arguments
+        mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
+        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; warning("DEBUG")
 
         if(missing(parallel)) {
 #        testing_nopar <- TRUE
@@ -172,7 +176,12 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             #SEQUENTIALLY RUNNING THE CHAINS
             for(nchain in 1:chains) { # Weirdly enough, the loop is slightly more efficient in this non-parallel case!
                 #...Run each chain one by one
-                model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
+                
+                #reset the models content (security) 
+                model_tmp <-NULL ; model <- NULL
+                
+                model_tmp <- do.call(lapply.MCMCglmm, mulTree_arguments)
+                #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
                 #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, warn) ; warning("DEBUG MODE")
                 assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp)
 
@@ -185,13 +194,20 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             #PARALLEL CHAINS RUN
             #Set cluster up
             cluster <- makeCluster(chains, parallel)
+            #reset the models content (security) 
+            model_tmp <-NULL ; model <- NULL
+
+            #model_tmp <- clusterCall(cluster, do.call(lapply.MCMCglmm, mulTree_arguments))
             model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
             #model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
+            
             stopCluster(cluster)
+            
             #Assigning the models
             for (nchain in 1:chains) {
                 assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp[[nchain]])
             }
+
             #Saving models
             for (nchain in 1:chains) {
                 model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
@@ -215,7 +231,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
                 cat("Convergence diagnosis:\n")
                 cat("Effective sample size is > ", ESS, ": ", all(effectiveSize(model$Sol[]) > ESS), "\n", sep = "")
                 cat(unlist(lapply(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))), ESS.lapply)), sep="; ")
-                cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
+                cat("\nAll levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
                 cat(converge.test$psrf[,1], sep="; ") ; cat("\n")
                 cat("Individual models saved as: ", output, "-tree", ntree, "_chain*.rda\n", sep = "")
                 cat("Convergence diagnosis saved as: ", output, "-tree", ntree, "_conv.rda", "\n", sep = "")
@@ -224,6 +240,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             }
         }
     } 
+#}
 
 
 #OUTPUT

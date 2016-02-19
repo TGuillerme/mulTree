@@ -10,6 +10,7 @@ Please send me an [email](mailto:guillert@tcd.ie) or a pull request if you find/
 ## Installing mulTree
 ```r
 if(!require(devtools)) install.packages("devtools")
+library(devtools)
 install_github("TGuillerme/mulTree", ref = "release")
 library(mulTree)
 ```
@@ -21,18 +22,10 @@ The following installs the latest released version (see patch notes below). For 
 *  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.pdf).
 
 ##### Patch notes (latest version)
-* 2016/01/21 - **v1.2**
-  * complete new architectural structure!
-  * all the functions are now unit tested!
-  * all manuals are now written in Roxygen2 format!
-  * many functions arguments names have been modified, please check individual functions manual.
-  * `rTreeBind` is renamed to `tree.bind`.
-  * In `as.mulTree`, the argument `species` is now `taxa`.
-  * `mulTree` output: when output chain name already exists in current directory, the function now asks if user wants to overwrite the existing files.
-  * In `read.mulTree`, the argument `mulTree.mcmc` is now `mulTree.chain`.
-  * In `summary.mulTree`, the argument `mulTree.mcmc` is now `mulTree.results` and the argument `CI` is now `prob`.
-  * `summary.mulTree` now outputs a `c("matrix", "mulTree")` class object.
-  * In `plot.mulTree`, the argument `mulTree.mcmc` must now be an object returned from `summary.mulTree`.
+* 2016/02/19 - **v1.2.2** Bug fixes!
+  * major bug fix in `mulTree` where models saved out of `R` environment where accumulating data from former models (now fixed: each model saved out of the `R` environment contains only data for the target model).
+  * minor bug fix in `summary.mulTree` that can now deal with multiple hdr for each probabilities (implemented from v1.2.1).
+  * minor bug fix in `plot.mulTree` with the number of terms used (implemented from v1.2.1).
   
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 

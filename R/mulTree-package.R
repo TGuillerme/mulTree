@@ -6,8 +6,6 @@
 #' 
 #' @name mulTree-package
 #'
-#' @aliases mulTree
-#'
 #' @docType package
 #'
 #' @author Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
