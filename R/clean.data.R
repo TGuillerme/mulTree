@@ -95,7 +95,7 @@ clean.data<-function(taxa, data, tree) {
         #Selecting the rows to drop
         rows_to_drop <- unique(unlist(lapply(cleaned_list, function(x) x[[4]])))
         #removing NAs
-        if(anyNA(rows_to_drop) == TRUE) {rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]}
+        #if(anyNA(rows_to_drop) == TRUE) {rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]}
 
         #Combining both
         taxa_to_drop <- c(tips_to_drop, rows_to_drop)
