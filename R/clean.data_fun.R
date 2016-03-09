@@ -28,7 +28,7 @@ clean.tree.table <- function(tree, data, taxa, taxa_col) {
     #Dropping rows (if necessary)
     if(length(missing$unmatched.rows) != 0) {
         #Drop the unmatched rows
-        data_tmp <- data[-match(missing$unmatched.rows, data[,taxa_col]),]
+        data_tmp <- data[data[taxa_col] != missing2$unmatched.rows,] #data[-match(missing$unmatched.rows, data[,taxa_col]),]
         #save the dropped rows names
         dropped_rows<-missing$unmatched.rows
     } else {
