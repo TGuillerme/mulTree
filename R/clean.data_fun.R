@@ -28,7 +28,13 @@ clean.tree.table <- function(tree, data, taxa, taxa_col) {
     #Dropping rows (if necessary)
     if(length(missing$unmatched.rows) != 0) {
         #Drop the unmatched rows
-        data_tmp <- data[! data[,1] %in% c(missing$unmatched.rows),]#data[-match(missing$unmatched.rows, data[,taxa_col]),]
+        
+        data_loop_temp <- data
+        for(i in 1:(length(missing$unmatched.rows))){
+            data_loop_temp <- data_loop_temp[data_loop_temp[,1] != max.dropped[i],]
+            }
+            data_tmp <- data_loop_temp
+        #data_tmp <- data[-match(missing$unmatched.rows, data[,taxa_col]),]
         #save the dropped rows names
         dropped_rows<-missing$unmatched.rows
     } else {
