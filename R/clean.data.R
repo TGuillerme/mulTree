@@ -95,7 +95,7 @@ clean.data<-function(taxa, data, tree) {
         #Selecting the rows to drop
         rows_to_drop <- unique(unlist(lapply(cleaned_list, function(x) x[[4]])))
         #removing NAs
-        #if(anyNA(rows_to_drop) == TRUE) {rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]}
+        if(anyNA(rows_to_drop) == TRUE) {rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]}
 
         #Combining both
         taxa_to_drop <- c(tips_to_drop, rows_to_drop)
@@ -113,7 +113,11 @@ clean.data<-function(taxa, data, tree) {
         #Dropping the rows
         if(length(rows_to_drop) != 0) {
             #removing taxa from the data
-            data_new <- data[-match(rows_to_drop, data[,taxa_col]),]
+            ###instead of cleaning again for now I am just using the data from the first tree
+            ###can fix later
+         data_new <- cleaned_list[[1]]$data
+         
+            #data_new <- data[-match(rows_to_drop, data[,taxa_col]),]
         } else {
             #keep the same data
             data_new <- data
