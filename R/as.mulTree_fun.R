@@ -23,7 +23,7 @@ specimen.transform <- function(data) {
 comparative.data.test <- function(data, tree) {
     #Try lapply loop
     comparative.data.try <- function(...) {
-        return(try(comparative.data(...), silent = TRUE))
+        return(try(caper::comparative.data(...), silent = TRUE))
     }
 
     #Testing each tree

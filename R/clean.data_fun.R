@@ -11,7 +11,7 @@ clean.tree.table <- function(tree, data, taxa, taxa_col) {
     #names(dummy_data)[taxa_col] <- "species"
 
     #run comparative.data to check the non matching columns/rows
-    missing <- comparative.data(tree, dummy_data, "species", vcv = FALSE, vcv.dim = 2, na.omit = TRUE, force.root = FALSE, warn.dropped = FALSE, scope = NULL)$dropped
+    missing <- caper::comparative.data(tree, dummy_data, "species", vcv = FALSE, vcv.dim = 2, na.omit = TRUE, force.root = FALSE, warn.dropped = FALSE, scope = NULL)$dropped
 
     #Dropping tips (if necessary)
     if(length(missing$tips) != 0) {

@@ -13,16 +13,28 @@
 #' @references Healy, K., Guillerme T., Finlay, S., Kane, A., Kelly, S.B.A., McClean, D., Kelly, D.J., Donohue, I., Jackson, A.L. and Cooper, N. ,
 #' 2014. Ecology and mode of life explain lifespan variation in birds and mammals. Proceedings of the Royal Society of London B. 281(1784), 20140298, 
 #'
-#' @keywords phylogenetic correction, MCMCglmm, bayesian, tree distribution
+#' @keywords phylogenetic correction, MCMCglmm, Bayesian, tree distribution
 #'
 #' @import ape
-#' @import caper
-#' @import coda
-#' @import MCMCglmm
-#' @import hdrcde
-#' @import snow
 NULL
-
+#' @importFrom caper comparative.data
+NULL
+#' @importFrom coda as.mcmc
+NULL
+#' @importFrom coda gelman.diag
+NULL
+#' @importFrom coda effectiveSize
+NULL
+#' @importFrom MCMCglmm MCMCglmm
+NULL
+#' @importFrom hdrcde hdr
+NULL
+#' @importFrom snow makeCluster
+NULL
+#' @importFrom snow clusterCall
+NULL
+#' @importFrom snow stopCluster
+NULL
 
 #' Example Aves and Mammalia lifespan for the mulTree package
 #'

@@ -193,15 +193,15 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
         } else {
             #PARALLEL CHAINS RUN
             #Set cluster up
-            cluster <- makeCluster(chains, parallel)
+            cluster <- snow::makeCluster(chains, parallel)
             #reset the models content (security) 
             model_tmp <-NULL ; model <- NULL
 
             #model_tmp <- clusterCall(cluster, do.call(lapply.MCMCglmm, mulTree_arguments))
-            model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
-            #model_tmp <- clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
+            model_tmp <- snow::clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            #model_tmp <- snow::clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
             
-            stopCluster(cluster)
+            snow::stopCluster(cluster)
             
             #Assigning the models
             for (nchain in 1:chains) {
@@ -229,7 +229,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             cat("\n", format(Sys.Date()), " - ", format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm performed on tree ", ntree, "\n", sep = "")
             if(chains > 1) {
                 cat("Convergence diagnosis:\n")
-                cat("Effective sample size is > ", ESS, ": ", all(effectiveSize(model$Sol[]) > ESS), "\n", sep = "")
+                cat("Effective sample size is > ", ESS, ": ", all(coda::effectiveSize(model$Sol[]) > ESS), "\n", sep = "")
                 cat(unlist(lapply(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))), ESS.lapply)), sep="; ")
                 cat("\nAll levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
                 cat(converge.test$psrf[,1], sep="; ") ; cat("\n")
