@@ -1,5 +1,7 @@
 Patch notes
 ----
+* 2016/??/?? - v1.2.3
+  * External functions are now properly imported via the `NAMESPACE`.
 * 2016/02/19 - v1.2.2
   * major bug fix in `mulTree` where models saved out of `R` environment where accumulating data from former models (now fixed: each model saved out of the `R` environment contains only data for the target model).
 * 2016/01/25 - v1.2.1
