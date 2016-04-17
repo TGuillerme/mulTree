@@ -25,15 +25,18 @@
 #' ## Quick example:
 #' ## Before the analysis
 #' data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
-#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; class(tree) <- "multiPhylo"
+#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
+#' class(tree) <- "multiPhylo"
 #' mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
 #' priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
 #' ## quick example
-#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2,
+#'      prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
 #' ## Clean folder
 #' file.remove(list.files(pattern = "quick_example"))
 #' ## alternative example with parallel argument (and double the number of chains!)
-#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 4, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, parallel = "SOCK")
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 4,
+#'      prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, parallel = "SOCK")
 #' ## Clean folder
 #' file.remove(list.files(pattern = "quick_example"))
 #'
@@ -50,13 +53,16 @@
 #' ## formula
 #' test_formula <- longevity ~ mass + volant
 #' ## parameters (number of generations, thin/sampling, burnin)
-#' mcmc_parameters <- c(101000, 10, 1000) # For higher ESS run longer by increasing the number of generations
+#' mcmc_parameters <- c(101000, 10, 1000)
+#' # For higher ESS run longer by increasing the number of generations
 #' ## priors
 #' mcmc_priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
 #' 
 #' ## Running MCMCglmm on multiple trees
-#' ## WARNING: This example takes between 1 and 2 minutes two run and generates files in your current directory.
-#' mulTree(mulTree_data, formula=test_formula, parameters=mcmc_parameters, priors=mcmc_priors, output="longevity.example", ESS = 50)
+#' ## WARNING: This example takes between 1 and 2 minutes to run
+#' ## and generates files in your current directory.
+#' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters, priors = mcmc_priors,
+#'      output = "longevity.example", ESS = 50)
 #' 
 #' ## The models are saved out of R environment under the "longevity.example" chains names.
 #' ## Use read.mulTree() to read the generated models.
@@ -68,23 +74,25 @@
 #' ## Loading the snow package
 #' library(snow)
 #' ## Running the same MCMCglmm on multiple trees
-#' mulTree(mulTree_data, formula=test_formula, parameters=mcmc_parameters, priors=mcmc_priors, output="longevity.example", ESS = 50, parallel="SOCK")
+#' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters, priors = mcmc_priors,
+#'      output = "longevity.example", ESS = 50, parallel = "SOCK")
 #' ## Remove the generated files from the current directory
-#' file.remove(list.files(pattern="longevity.example"))
+#' file.remove(list.files(pattern = "longevity.example"))
 #'  
 #' ## Same example but including specimens
 #' ## Subset of the data
 #' data<-lifespan_volant[sample(nrow(lifespan_volant), 30),]
 #' ##Create a dataset with two specimen per species
-#' data<-rbind(cbind(data, specimen=rep("spec1",30)),cbind(data, specimen=rep("spec2",30)))
+#' data<-rbind(cbind(data, specimen = rep("spec1",30)), cbind(data, specimen = rep("spec2",30)))
 #' ##Cleaning the trees
-#' trees<-clean.data(taxon="species", data, combined_trees)$tree
+#' trees<-clean.data(taxon = "species", data, combined_trees)$tree
 #' 
 #' ##Creates the mulTree object
-#' mulTree_data<-as.mulTree(data, trees, species="species", rand.terms=~species+specimen)
+#' mulTree_data<-as.mulTree(data, trees, species = "species", rand.terms = ~species+specimen)
 #' 
 #' ##Running MCMCglmm on multiple trees
-#' mulTree(mulTree_data, formula=test_formula, parameters=mcmc_parameters, priors=mcmc_priors, output="longevity.example", ESS = 50)
+#' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters, priors = mcmc_priors,
+#'       output = "longevity.example", ESS = 50)
 #' ##Remove the generated files from the current directory
 #' file.remove(list.files(pattern="longevity.example"))
 #'}

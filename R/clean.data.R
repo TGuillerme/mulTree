@@ -11,9 +11,12 @@
 #'
 #' @examples
 #' ##Create a set of different trees
-#' trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
+#' trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]),
+#'      rtree(6, tip.label = LETTERS[1:6]))
+#' class(trees_list) <- "multiPhylo"
 #' ##Creates a data frame
-#' dummy_data <- data.frame(taxa_list = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep('a',2), rep('b',3)))
+#' dummy_data <- data.frame(taxa_list = LETTERS[1:5], var1 = rnorm(5),
+#'      var2 = c(rep('a',2), rep('b',3)))
 #'
 #' ##Cleaning the trees and the data
 #' cleaned <- clean.data(taxa = "taxa_list", data = dummy_data, tree = trees_list)

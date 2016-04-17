@@ -18,10 +18,12 @@
 #' @examples
 #' ## Creating some dummy mulTree models
 #' data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
-#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; class(tree) <- "multiPhylo"
+#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
+#' class(tree) <- "multiPhylo"
 #' mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
 #' priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
-#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, verbose = FALSE)
+#' mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2,
+#'      prior = priors, output = "quick_example", convergence = 1.1, ESS = 100, verbose = FALSE)
 #'
 #' ## Reading all the models
 #' all_chains <- read.mulTree("quick_example")
