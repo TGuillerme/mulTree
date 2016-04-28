@@ -19,7 +19,7 @@
 #' Generates MCMCglmm models and saves them sequentially out of \code{R} environement to minimise users RAM usage. 
 #' Use \code{\link{read.mulTree}} to reload the models back in the \code{R} environement. 
 #' Because of the calculation of the vcv matrix for each model and each tree in the MCMCglmm models, this function is really RAM demanding. 
-#' For big datasets we heavily recomend to have at least 4GB RAM DDR3 available.
+#' For big datasets we heavily recommend to have at least 4GB RAM DDR3 available.
 #' 
 #' @examples
 #' ## Quick example:
@@ -83,18 +83,18 @@
 #' ## Subset of the data
 #' data<-lifespan_volant[sample(nrow(lifespan_volant), 30),]
 #' ##Create a dataset with two specimen per species
-#' data<-rbind(cbind(data, specimen = rep("spec1",30)), cbind(data, specimen = rep("spec2",30)))
+#' data <- rbind(cbind(data, specimen = rep("spec1",30)), cbind(data, specimen = rep("spec2",30)))
 #' ##Cleaning the trees
-#' trees<-clean.data(taxon = "species", data, combined_trees)$tree
+#' trees <- clean.data(taxon = "species", data, combined_trees)$tree
 #' 
 #' ##Creates the mulTree object
-#' mulTree_data<-as.mulTree(data, trees, species = "species", rand.terms = ~species+specimen)
+#' mulTree_data <- as.mulTree(data, trees, species = "species", rand.terms = ~species+specimen)
 #' 
 #' ##Running MCMCglmm on multiple trees
 #' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters, priors = mcmc_priors,
 #'       output = "longevity.example", ESS = 50)
 #' ##Remove the generated files from the current directory
-#' file.remove(list.files(pattern="longevity.example"))
+#' file.remove(list.files(pattern = "longevity.example"))
 #'}
 #' 
 #' @seealso \code{\link[MCMCglmm]{MCMCglmm}}, \code{\link{as.mulTree}}, \code{\link{read.mulTree}}
