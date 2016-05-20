@@ -5,13 +5,13 @@ date: "27 April 2016"
 output: pdf_document
 ---
 
-This is a short example of running some simple phylogenetic comparative analysis using both pgls and MCMCglmm. Due to time constraints it will be a very quick run through but will hopefully give you a flavour of what these models look like and the basics in running them.
-You should have come across pgls models earlier today from the \href{https://cran.r-project.org/web/packages/caper/vignettes/caper.pdf}{caper package see here}
-For more on MCMCglmm see the \href{https://cran.r-project.org/web/packages/MCMCglmm/vignettes/CourseNotes.pdf}{course notes} or \href{https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf}{vignettes}. 
+This is a short example of running some simple phylogenetic comparative analysis using both PGLS and MCMCglmm. Due to time constraints it will be a very quick run through but will hopefully give you a flavour of what these models look like and the basics in running them.
+You should have come across pgls models earlier today from the [`caper` package see here](https://cran.r-project.org/web/packages/caper/vignettes/caper.pdf)
+For more on `MCMCglmm` see the [course notes](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/CourseNotes.pdf) or [vignettes](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf). 
 
-\section{Installation}
+## Installation
 
-First we need to install some packages including the ape and caper packages that run the pgls models and the MCMCglmm package to run the Bayesian version of a phylogenetic comparative analysis.
+First we need to install some packages including `ape` and `caper` that run the PGLS models and the `MCMCglmm` package to run the Bayesian version of a phylogenetic comparative analysis.
 
 ```{r install_packages, results="hide", message=FALSE, warning=FALSE}
 if(!require(ape)) install.packages("ape")
@@ -19,15 +19,16 @@ if(!require(caper)) install.packages("caper")
 if(!require(MCMCglmm)) install.packages("MCMCglmm")
 ```
 
-We will also install from GitHub the \href{https://github.com/TGuillerme/mulTree}{\texttt{MulTree} package} which is still under development (so watch out for BUGS) but contains some handy data and also will allow us to use MCMCglmm to include the error associated with building phylogenies within our analysis later in the session.
+We will also install from GitHub the [`mulTree` package](https://github.com/TGuillerme/mulTree) which is still under development (so watch out for BUGS - and please [report them](mailto:guillert@tcd.ie)) but contains some handy data and also will allow us to use `MCMCglmm` to include the error associated with building phylogenies within our analysis later in the session.
+
 To do so we need to get them from GitHub and so we need to run.
 ```{r install_mulTree, results="hide", message=FALSE}
-#if(!require(devtools)) install.packages("devtools")
+if(!require(devtools)) install.packages("devtools")
 library(devtools)
-install_github("TGuillerme/mulTree", ref = "master")
+install_github("TGuillerme/mulTree", ref = "release")
 ```
 
-Now we load up the packages, and we are good to go.
+Now we load the packages, and we are good to go.
 
 ```{r load_pakages, results="hide", message=FALSE, warning=FALSE}
 library(ape)
@@ -36,16 +37,15 @@ library(MCMCglmm)
 library(mulTree)
 ```
 
+## Data
 
-\section{Data}
-
-We will use some handy data that is part of a \href{https://github.com/TGuillerme/mulTree}{\texttt{MulTree} package} that contains some trees and data that are ready to go.
+We will use some handy data that is part of a [`mulTree` package](https://github.com/TGuillerme/mulTree) that contains some trees and data that are ready to go.
 
 ```{r load_data, message=FALSE, warning=FALSE}
 data(lifespan)
 ```
 
-This data file contains a subset of the data used in an analysis on the role of flying (volant) in the evolution of maximum lifespan in birds and mammals \href{http://rspb.royalsocietypublishing.org/content/281/1784/20140298}{Link to paper}. Note that these data have been log transformed, mean centered and expressed in units of standard deviation. The original lifespan data were taken from the \href{http://genomics.senescence.info/species/}{Anage database}.
+This data file contains a subset of the data used in an analysis on the role of flying (volant) in the evolution of maximum lifespan in birds and mammals ([link to the paper](http://rspb.royalsocietypublishing.org/content/281/1784/20140298)). Note that these data have been log transformed, mean centered and expressed in units of standard deviation. The original lifespan data were taken from the [Anage database](http://genomics.senescence.info/species/).
 
 ```{r show_data, message=FALSE, warning=FALSE}
 #data have been log transformed, mean centered and 
@@ -54,7 +54,7 @@ head(lifespan_volant)
 
 ```
 
-We will use a phylogeny of mammals constructed in \href{http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2011.00103.x/abstract}{\texttt{Kuhn et al 2011}}, were they produce 10,000 trees with each individual tree comprising one resolution of the polytomies of a previously published supertree. For now we will just use the first tree in the list, later we will return to see how we might include a range of trees.
+We will use a phylogeny of mammals constructed in [Kuhn *et al* 2011](http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2011.00103.x/abstract}), were they produce 10000 trees with each individual tree comprising one resolution of the polytomies of a previously published supertree. For now we will just use the first tree in the list, later we will return to see how we might include a range of trees.
 
 ```{r plot_mammals, message=FALSE, warning=FALSE, fig.width=8,fig.height=10}
 # The 10Ktrees from Khun et al (2011) gives a set of trees to represent different polytomies.
