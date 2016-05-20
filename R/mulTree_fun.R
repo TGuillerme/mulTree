@@ -31,9 +31,10 @@ lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, war
 convergence.test <- function(chains){
     
     #lapply wrapper
-    lapply.convergence.test <- function (X) {
+    lapply.convergence.test <- function (model) {
         #return(coda::as.mcmc(get(paste("model_tree", ntree, "_chain", chain, sep = ""))$Sol[1:(length(get(paste("model_tree", ntree, "_chain", chain, sep = ""))$Sol[, 1])), ]))
-        return(coda::as.mcmc(X$Sol[1:(length(X$Sol[, 1])), ]))
+        #return(list(terms = coda::as.mcmc(model$Sol[1:(length(model$Sol[, 1])), ]), random = coda::as.mcmc(model$Sol[1:(length(model$vcv[, 1])), ])))
+        return(coda::as.mcmc(model$Sol[1:(length(model$Sol[, 1])), ]))
     }
 
     #get the list of mcmcm

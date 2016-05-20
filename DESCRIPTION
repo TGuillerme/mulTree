@@ -1,5 +1,5 @@
 Package: mulTree
-Title: Performs MCMCglmm on Multiple Phylogenetic Trees.
+Title: Performs MCMCglmm on Multiple Phylogenetic Trees
 Author: Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 Maintainer: Thomas Guillerme <guillert@tcd.ie>
 Version: 1.2.2
@@ -17,6 +17,5 @@ License: GPL (>= 2)
 VignetteBuilder: knitr
 Suggests:
     testthat,
-    knitr,
-    snow
+    knitr
 RoxygenNote: 5.0.1

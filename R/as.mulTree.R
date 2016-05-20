@@ -16,7 +16,8 @@
 #' 
 #' @examples
 #' ##Creates a data.frame
-#' data_table <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)))
+#' data_table <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5),
+#'      var2 = c(rep("a",2), rep("b",3)))
 #' ##Creates a list of tree
 #' tree_list <- rmtree(5,5, tip.label = LETTERS[1:5])
 #' ##Creates the "mulTree" object
@@ -24,11 +25,11 @@
 #' 
 #' ##Creating a mulTree object with multiple specimens
 #' ##Creates a data.frame with taxa being labelled as "spec1"
-#' data_table_sp1 <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2),
-#'      rep("b",3)), specimen = c(rep("spec1", 5)))
+#' data_table_sp1 <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5),
+#'      var2 = c(rep("a",2), rep("b",3)), specimen = c(rep("spec1", 5)))
 #' ##Creates a data.frame with taxa being labelled as "spec2"
-#' data_table_sp2 <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2),
-#'      rep("b",3)), specimen = c(rep("spec2", 5)))
+#' data_table_sp2 <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5),
+#'      var2 = c(rep("a",2), rep("b",3)), specimen = c(rep("spec2", 5)))
 #' ##Combines both data.frames
 #' data_table <- rbind(data_table_sp1, data_table_sp2)
 #' ##Creates a list of tree
