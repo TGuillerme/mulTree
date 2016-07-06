@@ -11,12 +11,16 @@
 #'
 #' @examples
 #' ##Create a set of different trees
-#' trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
+#' trees_list <- list(rtree(5, tip.label = LETTERS[1:5]),
+#'      rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6]))
+#' class(trees_list) <- "multiPhylo"
 #' ##Creates a data frame
-#' dummy_data <- data.frame(taxa_list = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep('a',2), rep('b',3)))
+#' dummy_data <- data.frame(taxa_list = LETTERS[1:5], var1 = rnorm(5),
+#'      var2 = c(rep('a',2), rep('b',3)))
 #'
 #' ##Cleaning the trees and the data
-#' cleaned <- clean.data(taxa = "taxa_list", data = dummy_data, tree = trees_list)
+#' cleaned <- clean.data(taxa = "taxa_list", data = dummy_data,
+#'      tree = trees_list)
 #' ##The taxa that where dropped (tips and rows):
 #' c(cleaned$dropped_tips, cleaned$dropped_rows)
 #' ##The cleaned trees:
@@ -90,12 +94,12 @@ clean.data<-function(taxa, data, tree) {
         #Selecting the tips to drop
         tips_to_drop <- unique(unlist(lapply(cleaned_list, function(x) x[[3]])))
         #removing NAs
-        tips_to_drop <- tips_to_drop[-which(is.na(tips_to_drop))]
+        if(anyNA(tips_to_drop) == TRUE) {tips_to_drop <- tips_to_drop[-which(is.na(tips_to_drop))]}
 
         #Selecting the rows to drop
         rows_to_drop <- unique(unlist(lapply(cleaned_list, function(x) x[[4]])))
         #removing NAs
-        rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]
+        if(anyNA(rows_to_drop) == TRUE) {rows_to_drop <- rows_to_drop[-which(is.na(rows_to_drop))]}
 
         #Combining both
         taxa_to_drop <- c(tips_to_drop, rows_to_drop)
@@ -113,7 +117,11 @@ clean.data<-function(taxa, data, tree) {
         #Dropping the rows
         if(length(rows_to_drop) != 0) {
             #removing taxa from the data
-            data_new <- data[-match(rows_to_drop, data[,taxa_col]),]
+            ###instead of cleaning again for now I am just using the data from the first tree
+            ###can fix later
+         data_new <- cleaned_list[[1]]$data
+         
+            #data_new <- data[-match(rows_to_drop, data[,taxa_col]),]
         } else {
             #keep the same data
             data_new <- data

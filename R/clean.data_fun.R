@@ -2,11 +2,16 @@
 clean.tree.table <- function(tree, data, taxa, taxa_col) {
 
     #create a dummy data
-    dummy_data <- data
-    names(dummy_data)[taxa_col] <- "species"
+      ###this is to make sure there are no dublicate names as the comparative.data function will throw an error about multiple
+      ###entries for the same species.
+  dummy_data <- data.frame(taxa,taxa_dummy =taxa)
+  names(dummy_data)[taxa_col] <- "species"
+ 
+    #dummy_data <- data
+    #names(dummy_data)[taxa_col] <- "species"
 
     #run comparative.data to check the non matching columns/rows
-    missing <- comparative.data(tree, dummy_data, "species", vcv = FALSE, vcv.dim = 2, na.omit = TRUE, force.root = FALSE, warn.dropped = FALSE, scope = NULL)$dropped
+    missing <- caper::comparative.data(tree, dummy_data, "species", vcv = FALSE, vcv.dim = 2, na.omit = TRUE, force.root = FALSE, warn.dropped = FALSE, scope = NULL)$dropped
 
     #Dropping tips (if necessary)
     if(length(missing$tips) != 0) {
@@ -23,7 +28,13 @@ clean.tree.table <- function(tree, data, taxa, taxa_col) {
     #Dropping rows (if necessary)
     if(length(missing$unmatched.rows) != 0) {
         #Drop the unmatched rows
-        data_tmp <- data[-match(missing$unmatched.rows, data[,taxa_col]),]
+        
+        data_loop_temp <- data
+        for(i in 1:(length(missing$unmatched.rows))){
+            data_loop_temp <- data_loop_temp[data_loop_temp[,1] != missing$unmatched.rows[i],]
+            }
+            data_tmp <- data_loop_temp
+        #data_tmp <- data[-match(missing$unmatched.rows, data[,taxa_col]),]
         #save the dropped rows names
         dropped_rows<-missing$unmatched.rows
     } else {

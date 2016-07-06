@@ -1,0 +1,508 @@
+---
+title: "Adavanced Phylogenetic analyses (Vanilla flavour)"
+author: "Kevin Healy"
+date: "27 April 2016"
+output: pdf_document
+---
+
+This is a short example of running some simple phylogenetic comparative analysis using both PGLS and MCMCglmm. Due to time constraints it will be a very quick run through but will hopefully give you a flavour of what these models look like and the basics in running them.
+You should have come across pgls models earlier today from the [`caper` package see here](https://cran.r-project.org/web/packages/caper/vignettes/caper.pdf).
+For more on `MCMCglmm` see the [course notes](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/CourseNotes.pdf) or [vignettes](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf). 
+
+## Installation
+
+First we need to install some packages including `ape` and `caper` that run the PGLS models and the `MCMCglmm` package to run the Bayesian version of a phylogenetic comparative analysis.
+
+```{r install_packages, results="hide", message=FALSE, warning=FALSE}
+if(!require(ape)) install.packages("ape")
+if(!require(caper)) install.packages("caper")
+if(!require(MCMCglmm)) install.packages("MCMCglmm")
+```
+
+We will also install from GitHub the [`mulTree` package](https://github.com/TGuillerme/mulTree) which is still under development (so watch out for BUGS - and please [report them](mailto:guillert@tcd.ie)) but contains some handy data and also will allow us to use `MCMCglmm` to include the error associated with building phylogenies within our analysis later in the session.
+
+To do so we need to get them from GitHub and so we need to run.
+```{r install_mulTree, results="hide", message=FALSE}
+if(!require(devtools)) install.packages("devtools")
+library(devtools)
+install_github("TGuillerme/mulTree", ref = "release")
+```
+
+Now we load the packages, and we are good to go.
+
+```{r load_pakages, results="hide", message=FALSE, warning=FALSE}
+library(ape)
+library(caper)
+library(MCMCglmm)
+library(mulTree)
+```
+
+## Data
+
+We will use some handy data that is part of a [`mulTree` package](https://github.com/TGuillerme/mulTree) that contains some trees and data that are ready to go.
+
+```{r load_data, message=FALSE, warning=FALSE}
+data(lifespan)
+```
+
+This data file contains a subset of the data used in an analysis on the role of flying (volant) in the evolution of maximum lifespan in birds and mammals ([link to the paper](http://rspb.royalsocietypublishing.org/content/281/1784/20140298)).
+Note that these data have been log transformed, mean centered and expressed in units of standard deviation.
+The original lifespan data were taken from the [Anage database](http://genomics.senescence.info/species/).
+
+```{r show_data, message=FALSE, warning=FALSE}
+# Data have been log transformed, mean centered and expressed in units of
+# standard deviation.
+head(lifespan_volant)
+
+```
+
+We will use a phylogeny of mammals constructed in [Kuhn *et al* 2011](http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2011.00103.x/abstract}), were they produce 10000 trees with each individual tree comprising one resolution of the polytomies of a previously published supertree.
+For now we will just use the first tree in the list, later we will return to see how we might include a range of trees.
+
+```{r plot_mammals, message=FALSE, warning=FALSE, fig.width=8,fig.height=10}
+# The 10Ktrees from Khun et al (2011) gives a set of trees to represent
+# different polytomies. For now let just take one.
+mammal_tree <- trees_mammalia[[1]]
+plot(mammal_tree, cex = 0.3)
+
+# The number of species
+Ntip(mammal_tree)
+
+# We can also check that its ultrametric
+is.ultrametric(mammal_tree)
+```
+
+## Lets run some models
+
+Lets first start off running a simple **glm** for a subset of data for mammals
+```{r setting formula, message=FALSE, warning=FALSE}
+# Subset for mammals
+lifespan_mammals <- lifespan_volant[lifespan_volant$class == "Mammalia",]
+
+# lets define our fixed factors
+formula_a <- longevity ~ mass + volant
+
+#  and run a simple glm
+glm_mod <- glm(formula = formula_a, family = "gaussian",
+      data = lifespan_mammals)
+summary(glm_mod)
+```
+
+So far our simple model assumes that each data point is independent.
+We assume that even if two species are closely related to each other that their lifespans are in no way related.
+We know however that the traits of two very closely related species are likely to be related.
+For example, a close relative of a large animal, like a whale, would also be expected to be large, especially if the two species split in recent evolutionary time.
+To include the non-independent nature of our data we will first turn to Phylogenetic generalized linear models (PGLS).
+
+### PGLS
+
+In phylogenetic comparative methods we try to deal with this non-independence by using the structure of a phylogeny to weight the error term so that our model fit is no longer blind to the non-independence of our data. 
+
+The first step is to make sure that our data and phylogeny match up correctly.
+We will use the comparative.data function from the caper package to make sure that the species in the dataset are matched up to the species in the phylogeny.
+To do so we need to give the phylogeny (`phy` argument); the dataset and the name of the column in the dataset with the species names (`names.col` argument). 
+As we want to calculated a variance-covariance matrix of the phylogeny we set `vcv = true`.
+ 
+
+```{r comparative.data, message=FALSE, warning=FALSE}
+# Create the comparative data
+comp_data <- comparative.data(phy = mammal_tree, data =lifespan_volant,
+      names.col = species, vcv = TRUE)
+head(comp_data$data)
+
+# Note that in the comp_data$data that there are now no birds;
+# these have been dropped
+head(comp_data$dropped)
+```
+
+We can now run some models, first lets run two models with lambda set to 1 and something close to 0.
+
+```{r fixed lambda, message=FALSE, warning=FALSE}
+# We have the formula and the comparative.data object comp_data which contains
+# but the phylogeny and the data. Lets set the lambda in this case to 1. 
+pgls_l1 <- pgls(formula = formula_a, data = comp_data, lambda = c(1))
+pgls_l0 <- pgls(formula = formula_a, data = comp_data, lambda = c(0.01))
+summary(pgls_l1)
+summary(pgls_l0)
+```
+
+The outputs looks similar to our glm with the estimates of the Coefficients, adjusted R-squared etc.
+However lets run a model were lambda is no longer fixed.
+We can do this by specifying `lambda = "ML"` which tells the model to estimate it using Maximum Likelihood.
+
+```{r running pgls, message=FALSE, warning=FALSE}
+# Finally we also need to set the lambda in this case to ML. This means the we
+# will using Maximum Likelihood to calculate the lambda.
+pgls_mod <- pgls(formula = formula_a, data = comp_data, lambda = "ML")
+summary(pgls_mod)
+```
+
+
+Now under branch length transformations we also now get the estimated branch transformation under maximum likelihood.
+As we are only interested in fitting only lambda for now the other types of transformations, (kappa and delta), are held fixed.
+
+Lambda here estimated as :
+```{r lambda, message=FALSE, warning=FALSE}
+pgls_mod$param["lambda"]
+```
+
+As it is close to 1 the traits in this model are correlated under Brownian motion.
+If our value was 0 it would indicate that our data points are essentially independent.
+We can then go a check various elements of the model such as the likelihood profile for lambda.
+
+```{r lambda_profile, message=FALSE, warning=FALSE}
+mod_profile <- pgls.profile(pgls_mod)
+plot(mod_profile)
+```
+
+Which looks good as the profile shows a nice clear peak. 
+
+
+We would also then go ahead and check our residuals etc. but for now we will assume everything is good and move onto running a similar model using `MCMCglmm`.
+
+
+### MCMCglmm
+
+So far we have fitted a very simple **glm** and a **PGLS** model that included phylogeny to account for non-independence. 
+Now we will use a Bayesian approach were we include phylogeny as a random term using the animal model in the `MCMCglmm` package.
+
+As we are using a Bayesian approach we will first set up the priors.
+In most cases we want to use a non-informative prior that doesn’t influence the estimated posterior distribution.
+For the random effect variance prior we will use an inverse-Gamma distribution.
+In `MCMCglmm` this is described by two parameters: `nu` and `V`.
+These terms are related to the shape (alpha) and scale (beta) parameters on an inverse-Gamma with `alpha = nu/2`, and `Beta = (nu*V)/2`.
+As we don’t want our estimates to be heavily influenced by our prior we will use weakly informative prior values such as descripted as `V = 1` and `nu = 0.002`.
+For more on priors for the animal model see the [`MCMCglmm` course notes](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/CourseNotes.pdf).
+
+```{r priors, message=FALSE, warning=FALSE}
+prior <- list(R = list(V=1, nu=0.002),
+              G = list(G1 = list(V=1, nu=0.002)))
+```
+
+We describe our prior as above for the random (G) and residual variances (R) each of them as a list, which we will in turn put within a list.
+If we wanted to include more random terms we would include a G2, G3 etc for each additional random term within the G list.
+We could also specify priors for the fixed terms using B, however `MCMCglmm` will automatically do that for us and as it usually does a good job at it we will ignore it here. 
+
+Next we need to decide on the parameters relating to running the mcmc chain in the model.
+We need to include how many iterations we want to run the the chain for (`nitt` argument), the burnin we want to discard at the start of the chain (`burnin` argument) and also how often we want to sample and store from the chain (`thin` argument).
+We discard a burnin as we don't want the starting point of the chain to over-influence our final estimates.
+For now lets just use a burnin of 1/6 of the nitt, just to be safe.
+The thinning is used to help reduce autocorrelation in our sample, how much you use often depends on how much autocorrelation you find.
+
+To save time we will only run this model over 12000 iterations (however, much larger nitt is often required).
+
+```{r parameters, message=FALSE, warning=FALSE}
+# Number of interations
+nitt <- 12000
+
+# Length of burnin
+burnin <- 2000
+
+# Amount of thinning
+thin <- 5
+```
+
+Now we need to set up the data. We have already cleaned and matched up our data earlier using the `comparative.data` function but we need to now add an extra column into our dataset called `"animal"` which contains the species matched between the tree and the data.
+
+```{r MCMCglmm_data, message=FALSE, warning=FALSE}
+#Matched data
+mcmc_data <- comp_data$data
+
+#As MCMCglmm requires a colume named animal for it to identify it as a phylo
+# model we include an extra colume with the species names in it.
+mcmc_data <- cbind(animal = rownames(mcmc_data), mcmc_data)
+mcmc_tree <- comp_data$phy
+```
+
+`MCMCglmm` reserves the random variable `"animal"` to call a model that includes the phylogeny as an additive genetic effect.
+If we name it something else, like say `"species"`, `MCMCglmm` will either throw an error looking for `"animal"`, or if we do not provide a phylogeny under pedigree it will run `"species"` like a standard random term.
+Now we can run the model.
+
+```{r MCMCglmm_run, message=FALSE, warning=FALSE, verbose = FALSE}
+
+mod_mcmc <- MCMCglmm(fixed = formula_a, 
+                     random = ~ animal, 
+                     family = "gaussian",
+                     pedigree = mcmc_tree, 
+                     data = mcmc_data,
+                     nitt = nitt,
+                     burnin = burnin,
+                     thin = thin,
+                     prior = prior)
+```
+
+As the model runs we see the iterations print out.
+These chains can take some time to run, depending on the model, however, since we only ran our chains for 12000 iterations it doesn't take long here.
+
+Before we even look at our model we need to check if the model ran appropriately.
+We can do this by visually inspecting the chains to make sure there has been no unruly behaviour!
+We can extract the full chains using `model$Sol` for the fixed effects and `model$VCV` for the random effect variances.
+So `Sol[,1]` will give you the first fixed term, in this case the intercept, and `VCV[,1]` will give you the first random term, which is `"animal"` and so on.
+As our model is an mcmc object when we use the plot function we get a trace plot.
+
+```{r MCMCglmm_plot, message=FALSE, warning=FALSE, verbose = FALSE}
+plot(mod_mcmc$Sol)
+plot(mod_mcmc$VCV)
+```
+
+On the right hand side of the plots is the posterior distributions for each of the terms.
+On the left side of these plots are the traces of the mcmc chain for each estimate.
+What we want to see in these trace plots is "hairy caterpillars" (not my phrase!).
+That is a trace with no obvious trend that is bouncing around some stable point. 
+
+What we don't want to see in the trace plots can be demonstrated if we only run our model over a very short chain (`itt == 1000`).
+Notice that without a burnin the start of trace is well outside the area that the chain will converges towards.
+
+```{r MCMCglmm_crap_run, message=FALSE, warning=FALSE, verbose = FALSE, echo=FALSE}
+mod_mcmc_short_run <- MCMCglmm(fixed = formula_a, 
+                     random= ~ animal, 
+                     family="gaussian",
+                     pedigree = mcmc_tree, 
+                     data = mcmc_data,
+                     nitt = c(1000),
+                     burnin = c(1),
+                     thin = c(1),
+                     prior = prior,
+                     verbose=FALSE)
+
+traceplot(mod_mcmc_short_run$VCV[,2])
+```
+
+So in our longer run model everything looks good visually, however we also want to check the level of autocorrelation in these traces.
+We can do this using the `autocorr.diag` function which gives the level of correlation along the chain between some lag sizes.
+
+```{r check auto correlation, message=FALSE, warning=FALSE, verbose = FALSE}
+autocorr.diag(mod_mcmc$Sol)
+autocorr.diag(mod_mcmc$VCV)
+```
+
+or we can look at autocorrelation plots for each of the traces, we'll look at just one using the `acf` function here.
+
+```{r acf, message=FALSE, warning=FALSE, verbose = FALSE}
+# acf plot for the first fixed estimate in our model (the intercept)
+acf(mod_mcmc$Sol[,1], lag.max = 20)
+
+# acf plot for the first random term in our model (the animal term)
+acf(mod_mcmc$VCV[,1], lag.max = 20)
+```
+
+For our intercept the autocorrelation plot looks good, however the animal term still shows some autocorrelation.
+One quick way to deal with this is to simply increase the thinning. 
+
+```{r long run, message=FALSE, warning=FALSE}
+
+nitt2 <- 240000
+burnin2 = 40000
+thin2 = 100
+
+mod_mcmc_long <- MCMCglmm(fixed = formula_a, 
+                     random= ~ animal, 
+                     family="gaussian",
+                     pedigree = mcmc_tree, 
+                     data = mcmc_data,
+                     nitt = nitt2,
+                     burnin = burnin2,
+                     thin = thin2,
+                     prior = prior,
+                     verbose = FALSE)
+
+acf(mod_mcmc_long$VCV[,1], lag.max = 20)
+```
+
+That looks better now.
+Noticed I also increased the number of iterations.
+One rough and ready rule that I like to use is to aim for an effective sample size of my chains, which is the number of iterations used in the posterior after the burnin, thinning and accounting for autocorrelation, somewhere between 1000-2000.
+
+```{r effective sample size, message=FALSE, warning=FALSE, verbose = FALSE}
+# acf plot for the first fixed estimate in our model (the intercept)
+effectiveSize(mod_mcmc_long$Sol)
+effectiveSize(mod_mcmc_long$VCV)
+```
+
+* One thing to note is that while thinning might help autocorrelation it wont solve it and you might have to use parameter expanded priors.
+These are priors that help weight the chain away from zero, a common problem when variance is low or with certain phylogenetic structures.
+They work by splitting the prior into 2 components with one component weighing the chain away from zero.
+
+
+One last thing to check is that our MCMC chain has properly converged and that our estimate is not the result of some type of transitional behaviour.
+That is have our chains "found" the optimum or do we need to let them run longer before they settle around some estimate.
+To check this we will run a second model and see if it converges on the same estimates as our first model. 
+
+```{r second mcmc mod, message=FALSE, warning=FALSE, verbose = FALSE}
+mod_mcmc_2 <- MCMCglmm(fixed = formula_a, 
+                     random = ~ animal, 
+                     family ="gaussian",
+                     pedigree = mcmc_tree, 
+                     data = mcmc_data,
+                     nitt = nitt2,
+                     burnin = burnin2,
+                     thin = thin2,
+                     prior = prior,
+                     verbose = FALSE)
+```
+
+We can now check the convergence of the two chains using the Gelman and Rubin Multiple Sequence Diagnostic.
+This calculates the within-chain and between-chain variance of the chains and then gives a scale reduced factor, ([see here for more](http://svitsrv25.epfl.ch/R-doc/library/coda/html/gelman.diag.html)).
+When this number is close to one (say below 1.1) the chains are indistinguishable and hence can be considered to be converged.
+
+```{r convergance test, message=FALSE, warning=FALSE, verbose = FALSE}
+# Checking convergence for our fixed factors
+gelman.diag(mcmc.list(mod_mcmc_long$Sol, mod_mcmc_2$Sol))
+
+# Checking convergence for our random terms
+gelman.diag(mcmc.list(mod_mcmc_long$VCV, mod_mcmc_2$VCV))
+```
+
+Since everything looks good, we will finally look at the results of our model.
+
+```{r MCMCglmm_summay, message=FALSE, warning=FALSE, verbose = FALSE}
+summary(mod_mcmc_long)
+```
+
+First off we can find the estimates for the fixed factors are under the Location effects section (again notice the similarity to our PGLS model).
+Each parameter has a measure of the effect size using the post.mean and a lower and higher 95% credible interval (CI).
+These are simply calculated from the posterior distributions we looked at in the above plots, so if you would rather calculated the median instead of using the mean we can simple use
+
+```{r MCMCglmm_median, message=FALSE, warning=FALSE, verbose = FALSE}
+median(mod_mcmc_long$Sol[,1])
+```
+
+We also have the effective sample size (`eff.samp`) and the `pMCMC` which calculated as two times the probability that the estimate is either > or <  0, using which ever one is smaller.
+However since our data has been mean centred and expressed in units of standard deviation we can look at what proportion of our posterior is on either side of zero.
+
+For the random terms we have the posterior distribution for our G-structure which includes or phylogenetic effect and the R-structure which is our residual variation.
+
+We also have the DIC which is a Bayesian version of AIC.
+Like AIC it is a measure of the trade-off between the "fit" of the model and the number of parameters, with a lower number better.
+
+Finally, we can also calculate the H^2 which is comparable to Pagel's lambda as
+
+```{r heritability, message=FALSE, warning=FALSE, verbose = FALSE}
+H <- ( var(mod_mcmc_long$VCV[,"animal"]))/
+      (var(mod_mcmc_long$VCV[,"animal"]) + var(mod_mcmc_long$VCV[,"units"]))
+H
+```
+
+Before moving on to the next section try running the above analysis subsetted for birds as opposed to mammals.
+
+```{r , message=FALSE, warning=FALSE, fig.width=8,fig.height=10}
+#aves tree from Jetz et al 2012
+aves_tree <- trees_aves[[1]]
+```
+
+
+
+That seems like a lot of work to get the same result so why bother.
+One reason is that you are fundamentally team Bayesian.
+Another is that `MCMCglmm` can give you a lot of flexibility in your models.
+As I mentioned above this is the vanilla model and it can we can create much more complex models by such as including extra random terms, include multiple responses and a bunch of other things.
+One quick thing I will do (if we have the time) is to run an analysis over a range of phylogenies.
+
+## Extending MCMCglmm: including multiple trees
+
+So far we have run our analysis over one single phylogeny.
+However we know phylogenies do not exist without uncertainty.
+For example, we only used a single tree from 10000 in Kuhn *et al* (2011) and other phylogenies are now starting to be given as distributions such as the [Jetz *et al* (2012) bird phylogeny](http://birdtree.org/}).
+One of the nice features about using `MCMCglmm` is that as the output is a posterior distribution we can simple run multiple models, one for each tree, and combine the output.
+This is starting to become more common (for example this paper came out just last week) and is a nice way to include the uncertainty relating to the phylogeny itself.
+
+As an example of doing this we will use some `mulTree` code (which is still in development at the moment and hence not on CRAN yet) that makes running these analysis easier for us.
+
+For fun lets run a model over both birds and mammal using a subset of 2 trees from both Kuhn *et al* 2011 and Jetz *et al* 2012.
+
+```{r mammal and aves trees, message=FALSE, warning=FALSE, verbose = FALSE}
+trees_aves
+trees_mammalia
+```
+
+We need to graft these different phylogenies together, in this case we will use a root age of 250 million years ago.
+If we only wanted one combined tree we would set the argument `sample = 1`.
+
+```{r combine trees, message=FALSE, warning=FALSE, verbose = FALSE}
+combined_trees <- tree.bind(trees_mammalia, trees_aves, sample = 2,
+                            root.age = 250)
+```
+
+We will use the same data as before but this time we will keep the birds in it
+
+```{r show data again, message=FALSE, warning=FALSE}
+data(lifespan)
+# Data have been log transformed, mean centered and expressed in units of
+# standard deviation.
+head(lifespan_volant)
+
+##lets package all the data up into one mulTree object 
+mulTree_data <- as.mulTree(data = lifespan_volant, tree = combined_trees,
+                           taxa = "species")
+```
+
+We need to set up our parameters as before.
+```{r set up multree, message=FALSE, warning=FALSE}
+# The formula
+mul_formula <- longevity ~ mass + volant
+# The MCMC parameters (iterations, thining, burnin)
+mul_parameters <- c(nitt2, thin2, burnin2)
+# The MCMCglmm priors
+mul_priors <- list(R = list(V = 1, nu = 0.002),
+                   G = list(G1 = list(V = 1, nu = 0.002)))
+```
+
+As running multiple MCMCglmm models can quickly cause issues with memory storage in `R` (100 trees would require at least 200 chains in order to test for convergence) so `mulTree` exports each set of chains to you working directory only reading them back in when required.
+So make sure you are happy with wherever you are sending your models.
+
+```{r getwd, message=FALSE, warning=FALSE}
+getwd()
+```
+
+If we are all happy with that we can finally send our model going.
+In this case we don’t want to run the models for too long so we will only use 2 chains.
+As way to keep a general eye on all our models `mulTree` will check whether the effective sample size (ESS) of each model is above some number across all parameters.
+
+```{r running multree, message=FALSE, warning=FALSE}
+mulTree(mulTree.data = mulTree_data, formula = mul_formula, priors = mul_priors,
+        parameters = mul_parameters, output = "longevity_example", ESS = 1000,
+        chains = 2)
+```
+
+Now that we have run the model lets read the trees back in.
+
+```{r reading back in multree, message=FALSE, warning=FALSE}
+# Reading only one specific model
+one_model <- read.mulTree("longevity_example-tree1_chain1", model = TRUE)
+
+# This model is a normal MCMCglmm object that has been ran on one single tree
+class(one_model) ; names(one_model)
+
+# Reading the convergence diagnosis test to see if the two chains converged for
+# each tree
+read.mulTree("longevity_example", convergence = TRUE)
+# As indicated here, the chains converged for both chains!
+
+# Reading all the models to perform the MCMCglmm analysis on multiple trees
+all_models <- read.mulTree("longevity_example")
+str(all_models)
+# This object contains 39600 estimations of the Intercept and the terms!
+
+# If you want to remove the chains from the current directory run the following:
+# file.remove(list.files(pattern="longevity_example"))
+# However when doing your actual analysis you should keep all your models stored
+# somewhere!
+```
+
+Great it looks similar to what we've seen before.
+
+```{r summary all models from multree, message=FALSE, warning=FALSE}
+summarised_results <- summary(all_models, use.hdr = FALSE, cent.tend = mean,
+                              prob = c(75, 25))
+
+```
+
+And just for fun we can make some density plots
+
+```{r mulTree plots, message=FALSE, warning=FALSE}
+plot(summarised_results, horizontal = TRUE, ylab = "", cex.coeff = 0.8,
+     main = "Posterior distributions", ylim = c(-2,2), cex.terms = 0.5,
+     terms = c("Intercept", "Body Mass", "Volancy", "Phylogeny", "Residuals"),
+     col = "grey", cex.main = 0.8)
+```
+

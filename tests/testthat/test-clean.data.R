@@ -26,7 +26,7 @@ test_that("clean.tree.table works", {
     	)
     # ...with three taxa.
     expect_equal(
-    	Ntip(test[[1]]), 4
+    	Ntip(test[[1]]), 3
     	)
     # Second element is a table...
     expect_is(
@@ -38,7 +38,7 @@ test_that("clean.tree.table works", {
     	)
     # Third element contains "F" and "A"
     expect_equal(
-    	sort(test[[3]]), c("A", "F")
+    	sort(test[[3]]), c("A", "E", "F")
     	)
     # Forth element contains NA
     expect_equal(
@@ -71,9 +71,9 @@ test_that("clean.data works", {
     expect_is(
     	cleaned[[2]], "data.frame"
     	)
-    # ...with four rows.
+    # ...with five rows.
     expect_equal(
-    	nrow(cleaned[[2]]), 4
+    	nrow(cleaned[[2]]), 5
     	)
     # Third element contains "F"
     expect_equal(

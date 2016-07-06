@@ -14,8 +14,8 @@ Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 Healy, K., Guillerme T., Finlay, S., Kane, A., Kelly, S.B.A., McClean, D., Kelly, D.J., Donohue, I., Jackson, A.L. and Cooper, N. ,
 2014. Ecology and mode of life explain lifespan variation in birds and mammals. Proceedings of the Royal Society of London B. 281(1784), 20140298,
 }
+\keyword{Bayesian,}
 \keyword{MCMCglmm,}
-\keyword{bayesian,}
 \keyword{correction,}
 \keyword{distribution}
 \keyword{phylogenetic}

@@ -35,7 +35,7 @@ smooth.hdr <- function(hdr_out, prob, name) {
 #Calculate the hdr from a vector (for lapply)
 lapply.hdr <- function(X, name, prob, ...) {
     #Calculate the hdr
-    hdr_out <- hdr(X, prob, ...)
+    hdr_out <- hdrcde::hdr(X, prob, ...)
 
     #Smooth the results (if needed)
     hdr_out <- smooth.hdr(hdr_out, prob, name)

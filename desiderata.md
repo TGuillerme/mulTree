@@ -1,4 +1,6 @@
 # To do list
+* Add the shuffle-tree algorithm to MCMCglmm
+* Allow different functions to be used for the tree-by-tree algorithm (`MCMCglmm`, `pgls`, `pic`)
 
 ### Get a function for measuring the posterior phylo signal from individual models.
 `lambda <- model$VCV[, "phylo"] / (model$VCV[, "phylo"] + model$VCV[, "units"])`
