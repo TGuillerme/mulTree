@@ -7,6 +7,9 @@ and runs a MCMCglmm analysis on multiple trees.
 This code has been used prior to this package release in [Healy et. al. (2014)](http://rspb.royalsocietypublishing.org/content/281/1784/20140298.full.pdf?ijkey=gPt28ElSAYBvRhZ&keytype=ref).
 Please send me an [email](mailto:guillert@tcd.ie) or a pull request if you find/have any issue using this package.
 
+<a href="https://figshare.com/articles/Guillerme_BESMacro2016_pdf/3478922"><img src="http://tguillerme.github.io/images/logo-FS.png" height="15" widht="15"/></a> 
+Check out the [presentation](https://figshare.com/articles/Guillerme_BESMacro2016_pdf/3478922) of some aspects of the package.
+
 ## Installing mulTree
 ```r
 if(!require(devtools)) install.packages("devtools")
