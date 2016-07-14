@@ -19,6 +19,12 @@ library(mulTree)
 ```
 The following installs the latest released version (see patch notes below). For the piping hot development version (not recommended), replace the `ref="release"` option by `ref="master"`. If you're using the `master` branch, see the latest developement in the [patch note](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
+#### Warning note:
+If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix it by installing them manualy using the following:
+```r
+install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
+```
+
 ###### Note that many code architecture have changed from version `1.2` onwards (including proper testing!). If you wish to use older "clunky" version, you can download former releases [here](https://github.com/TGuillerme/mulTree/releases).
 
 #### Vignettes
