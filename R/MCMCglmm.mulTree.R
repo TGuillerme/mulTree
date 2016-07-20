@@ -67,8 +67,9 @@
 #' ## Running MCMCglmm on multiple trees
 #' ## WARNING: This example takes between 1 and 2 minutes to run
 #' ## and generates files in your current directory.
-#' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters,
-#'      priors = mcmc_priors, output = "longevity.example", ESS = 50)
+#' MCMCglmm.mulTree(mulTree_data, formula = test_formula,
+#'      parameters = mcmc_parameters, priors = mcmc_priors,
+#'      output = "longevity.example", ESS = 50)
 #' 
 #' ## The models are saved out of R environment under the "longevity.example"
 #' ## chains names.
@@ -81,9 +82,9 @@
 #' ## Loading the snow package
 #' library(snow)
 #' ## Running the same MCMCglmm on multiple trees
-#' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters,
-#'      priors = mcmc_priors, output = "longevity.example", ESS = 50,
-#'      parallel = "SOCK")
+#' MCMCglmm.mulTree(mulTree_data, formula = test_formula,
+#'      parameters = mcmc_parameters, priors = mcmc_priors,
+#'      output = "longevity.example", ESS = 50, parallel = "SOCK")
 #' ## Remove the generated files from the current directory
 #' file.remove(list.files(pattern = "longevity.example"))
 #'  
@@ -101,8 +102,9 @@
 #'      rand.terms = ~species+specimen)
 #' 
 #' ##Running MCMCglmm on multiple trees
-#' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters,
-#'      priors = mcmc_priors, output = "longevity.example", ESS = 50)
+#' MCMCglmm.mulTree(mulTree_data, formula = test_formula,
+#'      parameters = mcmc_parameters, priors = mcmc_priors,
+#'      output = "longevity.example", ESS = 50)
 #' ##Remove the generated files from the current directory
 #' file.remove(list.files(pattern = "longevity.example"))
 #'}
@@ -113,7 +115,7 @@
 
 
 
-mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., convergence=1.1, ESS=1000, verbose=TRUE, output="mulTree_models", warn=FALSE, parallel) {  
+MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., convergence = 1.1, ESS = 1000, verbose = TRUE, output = "mulTree_models", warn = FALSE, parallel) {  
 
     #HEADER
     #libraries

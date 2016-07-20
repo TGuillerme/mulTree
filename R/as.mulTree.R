@@ -41,7 +41,7 @@
 #' @author Thomas Guillerme
 #' @export
 
-as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
+as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
     #Get the match call
     match_call <- match.call()
@@ -55,7 +55,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
     check.class(data, "data.frame")
     #testing the length of the dataset
     if(length(data) < 3) {
-        stop(paste(as.expression(match_call$data," must contain one taxa name column and at least two variables.", sep=""), call.=FALSE))
+        stop(paste(as.expression(match_call$data," must contain one taxa name column and at least two variables.", sep = ""), call. = FALSE))
     }
 
     #tree
@@ -105,7 +105,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         if(any(is.na(terms_list_match))) {
             no_match <- terms_list[which(is.na(terms_list_match))]
             for (i in 1:length(no_match)) {
-                stop("In rand.terms, \"",no_match[i], "\" is not matching with any column name in the provided data.")    
+                stop("In rand.terms, '",no_match[i], "' is not matching with any column name in the provided data.")    
             }
         }
         #check if at least of the terms is the phylogeny (i.e. animal)
@@ -193,7 +193,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
             if(length(terms_list) == 9) {
                 rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
             }
-            message("The random terms formula has been updated to \"", rand.terms,"\".\nThe column \"", taxa, "\" has been duplicated into a new column called \"animal\".") 
+            message("The random terms formula has been updated to '", rand.terms,"'.\nThe column '", taxa, "' has been duplicated into a new column called 'animal'.") 
         }
     }
 

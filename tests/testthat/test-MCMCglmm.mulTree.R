@@ -1,5 +1,5 @@
 # TEST as.mulTree
-context("mulTree")
+context("MCMCglmm.mulTree")
 
 # Testing select.tip.labels
 test_that("read.key works - scan option deactivated!", {
@@ -128,23 +128,23 @@ test_that("Quick mulTree example works", {
     #Errors
     #Not mulTree format
     expect_error(
-    	mulTree(data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
+    	MCMCglmm.mulTree(data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
     	)
     #Not matching formula
 #    expect_error(
-#    	mulTree(mulTree.data, formula = var1 ~ var3, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
+#    	MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var3, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
 #		)
     #Not enough parameters
     expect_error(
-    	mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(1,1), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
+    	MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(1,1), chains = 2, prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
     	)
     #Chains are not numeric
     expect_error(
-    	mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = "plenty", prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
+    	MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = "plenty", prior = priors, output = "quick_example", convergence = 1.1, ESS = 100)
     	)
     #Priors are not a lits
     expect_error(
-    	mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = 1, output = "quick_example", convergence = 1.1, ESS = 100)
+    	MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = 1, output = "quick_example", convergence = 1.1, ESS = 100)
     	)
 
     #
@@ -153,7 +153,7 @@ test_that("Quick mulTree example works", {
     
     # #First example works
     # set.seed(1)
-    # mulTree_test1 <- system.time(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(100, 10, 10), chains = 2, prior = priors, output = "mulTree_testing", verbose = FALSE))
+    # mulTree_test1 <- system.time(MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(100, 10, 10), chains = 2, prior = priors, output = "mulTree_testing", verbose = FALSE))
     # #Generates 9 files
     # expect_equal(
  	#  	length(list.files(pattern = "mulTree_testing")), 9
@@ -182,7 +182,7 @@ test_that("Quick mulTree example works", {
 
     # #Second example (parallel) works
     # set.seed(1)
-    # mulTree_test2 <- system.time(mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(100, 10, 10), chains = 2, prior = priors, output = "mulTree_testing", parallel = "SOCK", verbose = FALSE))
+    # mulTree_test2 <- system.time(MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(100, 10, 10), chains = 2, prior = priors, output = "mulTree_testing", parallel = "SOCK", verbose = FALSE))
     # #Generates 9 files
     # expect_equal(
     #	length(list.files(pattern = "mulTree_testing")), 9

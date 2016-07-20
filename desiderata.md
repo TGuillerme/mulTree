@@ -14,9 +14,9 @@
 
 # Backtrack compatibilities
 
-## `as.mulTree`
+## `mulTree`
 
-`as.mulTree` function is now called `setMulTreeData` but the list of arguments and arguments names are conserved.
+`mulTree` function is now called `MCMC.glmm` but the list of arguments and arguments names are conserved.
 
 ## `clean.data`
 

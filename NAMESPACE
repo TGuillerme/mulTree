@@ -2,9 +2,9 @@
 
 S3method(plot,mulTree)
 S3method(summary,mulTree)
+export(MCMCglmm.mulTree)
 export(as.mulTree)
 export(clean.data)
-export(mulTree)
 export(read.mulTree)
 export(tree.bind)
 import(ape)

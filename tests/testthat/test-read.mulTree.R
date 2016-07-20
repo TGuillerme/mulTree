@@ -8,7 +8,7 @@ tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE) ; cla
 mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
 priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
 file.remove(list.files(pattern="read.mulTree_testing"))
-mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "read.mulTree_testing", convergence = 1.1, ESS = 100, verbose = FALSE)
+MCMCglmm.mulTree(mulTree.data, formula = var1 ~ var2, parameters = c(10000, 10, 1000), chains = 2, prior = priors, output = "read.mulTree_testing", convergence = 1.1, ESS = 100, verbose = FALSE)
 
 # Testing get.mulTree.model to get individual models
 test_that("get.mulTree.model works", {

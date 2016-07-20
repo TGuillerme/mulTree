@@ -1,7 +1,8 @@
 Patch notes
 ----
 * 2016/??/?? - v1.3 - **mulTree extended!**
-  * Stay tuned
+  * New function `pgls.mulTree` for applying PGLS on multiple trees!
+  * **modified** the function `mulTree` (v < 1.3) is now renamed `MCMCglmm.mulTree`. It's arguments remains unchanged though.
 * 2016/07/06 - v1.2.3
   * External functions are now properly imported via the `NAMESPACE`.
   * New phylogenetic analysis markdown vignette!
