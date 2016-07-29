@@ -45,5 +45,5 @@ convergence.test <- function(chains){
 }
 
 ESS.lapply <- function(X) {
-    coda::effectiveSize(X$Sol[])
+    coda::effectiveSize(X$VCV[])
 }

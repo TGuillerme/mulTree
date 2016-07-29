@@ -118,7 +118,7 @@ test_that("ESS.lapply works", {
     	ESS.lapply(model_tree1_chain1), "numeric"
     	)
     expect_equal(
-    	names(ESS.lapply(model_tree1_chain1)), c("(Intercept)","var2")
+    	names(ESS.lapply(model_tree1_chain1)), c("animal","units")
     	)
 })
 
