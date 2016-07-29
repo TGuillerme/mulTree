@@ -272,21 +272,7 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
     #verbose
     if(verbose==TRUE) {
         cat("\n",format(Sys.Date())," - ",format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm successfully performed on ", length(mulTree.data$phy), " trees.\n",sep = "")
-        if (execution.time[[1]] < 60) {
-            cat("Total execution time: ", execution.time[[1]], " secs.\n", sep = "")
-        } else {
-            if (execution.time[[1]] > 60 & execution.time[[1]] < 3600) {
-                cat("Total execution time: ", execution.time[[1]]/60, " mins.\n", sep = "") 
-            } else {
-                if (execution.time[[1]] > 3600 & execution.time[[1]] < 86400) {
-                   cat("Total execution time: ", execution.time[[1]]/3600, " hours.\n", sep = "")
-                } else {
-                    if (execution.time[[1]] > 86400) {
-                        cat("Total execution time: ", execution.time[[1]]/86400, " days.\n", sep = "")
-                    }
-                }
-            }
-        }
+        get.timer(execution.time)
         cat("Use read.mulTree() to read the data as 'mulTree' data.\nUse summary.mulTree() and plot.mulTree() for plotting or summarizing the 'mulTree' data.\n", sep = "")
     }
 

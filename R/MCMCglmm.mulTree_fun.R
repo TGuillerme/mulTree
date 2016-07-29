@@ -49,3 +49,22 @@ convergence.test <- function(chains){
 ESS.lapply <- function(X) {
     coda::effectiveSize(X$Sol[])
 }
+
+#Get the timer
+get.timer <- function(execution.time) {
+    if (execution.time[[1]] < 60) {
+        cat("Total execution time: ", execution.time[[1]], " secs.\n", sep = "")
+    } else {
+        if (execution.time[[1]] > 60 & execution.time[[1]] < 3600) {
+            cat("Total execution time: ", execution.time[[1]]/60, " mins.\n", sep = "") 
+        } else {
+            if (execution.time[[1]] > 3600 & execution.time[[1]] < 86400) {
+               cat("Total execution time: ", execution.time[[1]]/3600, " hours.\n", sep = "")
+            } else {
+                if (execution.time[[1]] > 86400) {
+                    cat("Total execution time: ", execution.time[[1]]/86400, " days.\n", sep = "")
+                }
+            }
+        }
+    }
+}
