@@ -113,6 +113,24 @@
 #' @author Thomas Guillerme
 #' @export
 
+# DEBUG
+# warning("DEBUG MCMCglmm.mulTree")
+# source("sanitizing.R")
+# source("MCMCglmm.mulTree_fun.R")
+
+# data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
+# tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
+# class(tree) <- "multiPhylo"
+# mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
+# priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
+# formula = var1 ~ var2
+# parameters = c(10000, 10, 1000)
+# chains = 2
+# output = "quick_example"
+# convergence = 1.1
+# ESS = 100
+# warn = TRUE
+# verbose = TRUE
 
 
 MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., convergence = 1.1, ESS = 1000, verbose = TRUE, output = "mulTree_models", warn = FALSE, parallel) {  
@@ -190,19 +208,14 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
         #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; warning("DEBUG")
 
         if(missing(parallel)) {
-#        testing_nopar <- TRUE
-#        if(testing_nopar == TRUE) {
-#            warning("DEBUG MODE")
             #SEQUENTIALLY RUNNING THE CHAINS
-            for(nchain in 1:chains) { # Weirdly enough, the loop is slightly more efficient in this non-parallel case!
+            for(nchain in 1:chains) {
                 #...Run each chain one by one
                 
                 #reset the models content (security) 
                 model_tmp <-NULL ; model <- NULL
                 
                 model_tmp <- do.call(lapply.MCMCglmm, mulTree_arguments)
-                #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
-                #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, warn) ; warning("DEBUG MODE")
                 assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp)
 
                 #Saving the model out of R environment
@@ -239,7 +252,7 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
         #RUNNING THE CONVERGENCE DIAGNOSIS (if more than one chain)
         if(chains > 1) {
             #Running the convergence test
-            converge.test <- convergence.test(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))))
+            converge.test <- convergence.test(lapply(as.list(seq(1:chains)), extract.chain, ntree))
             #Saving the convergence test
             save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
         }
@@ -260,7 +273,6 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
             }
         }
     } 
-#}
 
 
 #OUTPUT

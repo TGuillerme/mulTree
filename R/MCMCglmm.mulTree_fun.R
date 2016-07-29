@@ -27,18 +27,24 @@ lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, war
     return(model)
 }
 
+#Extracting a chain
+extract.chain <- function(chain, ntree) {
+    return(get(paste("model_tree", ntree, "_chain", chain, sep = "")))
+}
+
 #Runs a convergence test
 convergence.test <- function(chains){
     
     #lapply wrapper
-    lapply.convergence.test <- function (model) {
-        #return(coda::as.mcmc(get(paste("model_tree", ntree, "_chain", chain, sep = ""))$Sol[1:(length(get(paste("model_tree", ntree, "_chain", chain, sep = ""))$Sol[, 1])), ]))
-        #return(list(terms = coda::as.mcmc(model$Sol[1:(length(model$Sol[, 1])), ]), random = coda::as.mcmc(model$Sol[1:(length(model$vcv[, 1])), ])))
-        return(coda::as.mcmc(model$Sol[1:(length(model$Sol[, 1])), ]))
+    get.VCV <- function (model) {
+        return(coda::as.mcmc(model$VCV[1:(length(model$VCV[, 1])), ]))
+        #return(
+        coda::as.mcmc(model$VCV[1:(length(model$VCV[, 1])), ])
+        # ++ random terms
     }
 
     #get the list of mcmcm
-    list_mcmc <- lapply(chains, lapply.convergence.test)
+    list_mcmc <- lapply(chains, get.VCV)
 
     #Convergence check using Gelman and Rubins diagnoses set to return true or false based on level of scale reduction set (default = 1.1)
     convergence <- coda::gelman.diag(mcmc.list(list_mcmc))
