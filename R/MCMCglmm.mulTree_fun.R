@@ -38,9 +38,6 @@ convergence.test <- function(chains){
     #lapply wrapper
     get.VCV <- function (model) {
         return(coda::as.mcmc(model$VCV[1:(length(model$VCV[, 1])), ]))
-        #return(
-        coda::as.mcmc(model$VCV[1:(length(model$VCV[, 1])), ])
-        # ++ random terms
     }
 
     #get the list of mcmcm
