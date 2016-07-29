@@ -32,11 +32,11 @@ install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla flavoured phylogenetic analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2016/02/19 - **v1.2.2** Bug fixes!
-  * major bug fix in `mulTree` where models saved out of `R` environment where accumulating data from former models (now fixed: each model saved out of the `R` environment contains only data for the target model).
-  * minor bug fix in `summary.mulTree` that can now deal with multiple hdr for each probabilities (implemented from v1.2.1).
-  * minor bug fix in `plot.mulTree` with the number of terms used (implemented from v1.2.1).
-  
+* 2016/07/06 - **v1.2.3** *Vanilla Vignette*
+  * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
+  * External functions are now properly imported via the `NAMESPACE`.
+  * New phylogenetic analysis markdown vignette!
+
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors
