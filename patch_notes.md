@@ -1,5 +1,7 @@
 Patch notes
 ----
+* 2016/??/?? - v1.3
+  * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
 * 2016/07/06 - v1.2.3
   * External functions are now properly imported via the `NAMESPACE`.
   * New phylogenetic analysis markdown vignette!
