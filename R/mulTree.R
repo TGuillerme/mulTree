@@ -239,6 +239,12 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             converge.test <- convergence.test(models)
             #Saving the convergence test
             save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
+            #Calculate the ESS
+            ESS_results <- lapply(models, ESS.lapply)
+            names(ESS_results) <- paste("C", 1:chains, sep = "")
+            ESS_results <- unlist(ESS_results)
+            #reset the models content (for safety) 
+            models <- NULL
         }
 
         #BE VERBOSE
@@ -246,10 +252,6 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             cat("\n", format(Sys.Date()), " - ", format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm performed on tree ", ntree, "\n", sep = "")
             if(chains > 1) {
                 cat("Convergence diagnosis:\n")
-                #Calculate the ESS
-                ESS_results <- lapply(models, ESS.lapply)
-                names(ESS_results) <- paste("C", 1:chains, sep = "")
-                ESS_results <- unlist(ESS_results)
                 if(all(ESS_results > ESS)) {
                     cat("Effective sample size is > ", ESS, ": TRUE\n", sep = "")
                     cat(ESS_results, sep="; ") ; cat("\n")
