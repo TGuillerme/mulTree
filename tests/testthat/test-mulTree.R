@@ -115,10 +115,10 @@ test_that("ESS.lapply works", {
     	)
     # ESS is a numeric vector (length 2)
     expect_is(
-    	ESS.lapply(model_tree1_chain1), "numeric"
+    	ESS.lapply(model_tree1_chain1), "list"
     	)
     expect_equal(
-    	names(ESS.lapply(model_tree1_chain1)), c("animal","units")
+    	names(ESS.lapply(model_tree1_chain1)), c("Sol","VCV")
     	)
 })
 
