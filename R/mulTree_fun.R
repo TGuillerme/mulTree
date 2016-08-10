@@ -57,7 +57,7 @@ convergence.test <- function(models){
 ESS.lapply <- function(model) {
     Sol <- coda::effectiveSize(model$Sol[])
     VCV <- coda::effectiveSize(model$VCV[])
-    return(list(Sol, VCV))
+    return(list("Sol"=Sol, "VCV"=VCV))
 }
 
 #Get the timer

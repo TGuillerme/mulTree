@@ -250,10 +250,20 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             cat("\n", format(Sys.Date()), " - ", format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm performed on tree ", ntree, "\n", sep = "")
             if(chains > 1) {
                 cat("Convergence diagnosis:\n")
-                cat("Effective sample size is > ", ESS, ": ", all(unlist(lapply(models, ESS.lapply)) > ESS), "\n", sep = "")
-                cat(unlist(lapply(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))), ESS.lapply)), sep="; ")
-                cat("\nAll levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
-                cat(converge.test$psrf[,1], sep="; ") ; cat("\n")
+                #Calculate the ESS
+                ESS_results <- lapply(models, ESS.lapply)
+                names(ESS_results) <- paste("C", 1:chains, sep = "")
+                ESS_results <- unlist(ESS_results)
+                if(all(ESS_results > ESS)) {
+                    cat("Effective sample size is > ", ESS, ": TRUE\n", sep = "")
+                    cat(ESS_results, sep="; ") ; cat("\n")
+                } else {
+                    cat("Effective sample size is > ", ESS, ": FALSE\n", sep = "")
+                    cat(ESS_results, sep="; ") ; cat("\n")
+                    cat(paste(names(which(ESS_results < ESS)), collapse =", "), " < ", ESS, "\n", sep = "")
+                }
+                cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,c(1:2)] < convergence), "\n", sep = "")
+                cat(converge.test$psrf[,c(1:2)], sep="; ") ; cat("\n")
                 cat("Individual models saved as: ", output, "-tree", ntree, "_chain*.rda\n", sep = "")
                 cat("Convergence diagnosis saved as: ", output, "-tree", ntree, "_conv.rda", "\n", sep = "")
             } else {
@@ -266,7 +276,6 @@ if(!missing(parallel)) {
     #Stop the cluster
     snow::stopCluster(cluster)
 }
-
 
 #OUTPUT
 
