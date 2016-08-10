@@ -25,18 +25,16 @@ If you're using a PC and the package doesn't install correctly, it might be due 
 install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
 ```
 
-###### Note that many code architecture have changed from version `1.2` onwards (including proper testing!). If you wish to use older "clunky" version, you can download former releases [here](https://github.com/TGuillerme/mulTree/releases).
-
 #### Vignettes
 *  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.pdf).
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla flavoured phylogenetic analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2016/07/06 - **v1.2.3** *Vanilla Vignette*
+* 2016/08/10 - v1.2.4
   * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
-  * External functions are now properly imported via the `NAMESPACE`.
-  * New phylogenetic analysis markdown vignette!
-
+  * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
+  * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
+ 
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors
