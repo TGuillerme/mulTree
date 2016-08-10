@@ -27,16 +27,25 @@ lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, war
     return(model)
 }
 
+#get the name of a model
+get.model.name <- function(nchain, ntree, output){
+    return(paste(output, "-tree", ntree, "_chain", nchain, ".rda", sep = ""))
+}
+
+#get the chains of a model
+extract.chains <- function(nchain, ntree, output) {
+    return(get.mulTree.model(get.model.name(nchain, ntree, output)))
+}
+
 #Runs a convergence test
-convergence.test <- function(chains){
-    
+convergence.test <- function(models){
     #lapply wrapper
     get.VCV <- function (model) {
         return(coda::as.mcmc(model$VCV[1:(length(model$VCV[, 1])), ]))
     }
 
     #get the list of mcmcm
-    list_mcmc <- lapply(chains, get.VCV)
+    list_mcmc <- lapply(models, get.VCV)
 
     #Convergence check using Gelman and Rubins diagnoses set to return true or false based on level of scale reduction set (default = 1.1)
     convergence <- coda::gelman.diag(mcmc.list(list_mcmc))
@@ -44,8 +53,11 @@ convergence.test <- function(chains){
     return(convergence)
 }
 
-ESS.lapply <- function(X) {
-    coda::effectiveSize(X$Sol[])
+#Extract the ESS of a model
+ESS.lapply <- function(model) {
+    Sol <- coda::effectiveSize(model$Sol[])
+    VCV <- coda::effectiveSize(model$VCV[])
+    return(list(Sol, VCV))
 }
 
 #Get the timer
