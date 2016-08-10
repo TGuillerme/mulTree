@@ -111,6 +111,9 @@
 #' @author Thomas Guillerme
 #' @export
 
+#DEBUG
+# source("sanitizing.R")
+# source("mulTree_fun.R")
 
 
 mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., convergence=1.1, ESS=1000, verbose=TRUE, output="mulTree_models", warn=FALSE, parallel) {  
@@ -194,19 +197,20 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             #SEQUENTIALLY RUNNING THE CHAINS
             for(nchain in 1:chains) { # Weirdly enough, the loop is slightly more efficient in this non-parallel case!
                 #...Run each chain one by one
-                
-                #reset the models content (security) 
-                model_tmp <-NULL ; model <- NULL
-                
+                                
                 model_tmp <- do.call(lapply.MCMCglmm, mulTree_arguments)
                 #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, ..., warn)
                 #model_tmp <- lapply.MCMCglmm(ntree, mulTree.data, formula, priors, parameters, warn) ; warning("DEBUG MODE")
-                assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp)
+                #save(assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp), file = "bla")
 
                 #Saving the model out of R environment
-                model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
+                #model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
                 name <- paste(output, "-tree", ntree, "_chain", nchain, ".rda", sep = "")
-                save(model, file = name)
+                save(model_tmp, file = name)
+
+                #reset the models content (security) 
+                model_tmp <-NULL# ; model <- NULL ; 
+
             }
         } else {
             #PARALLEL CHAINS RUN
@@ -222,22 +226,22 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
             snow::stopCluster(cluster)
             
             #Assigning the models
-            for (nchain in 1:chains) {
-                assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp[[nchain]])
-            }
+            # for (nchain in 1:chains) {
+            #     assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp[[nchain]])
+            # }
 
             #Saving models
             for (nchain in 1:chains) {
-                model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
+                # model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
                 name <- paste(output, "-tree", ntree, "_chain", nchain, ".rda", sep = "")
-                save(model, file = name)
+                save(model_tmp[[nchain]], file = name)
             }
         }
 
         #RUNNING THE CONVERGENCE DIAGNOSIS (if more than one chain)
         if(chains > 1) {
             #Running the convergence test
-            converge.test <- convergence.test(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))))
+            converge.test <- convergence.test(lapply(as.list(seq(1:chains)), extract.chain, ntree))
             #Saving the convergence test
             save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
         }
@@ -270,23 +274,9 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     #verbose
     if(verbose==TRUE) {
         cat("\n",format(Sys.Date())," - ",format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm successfully performed on ", length(mulTree.data$phy), " trees.\n",sep = "")
-        if (execution.time[[1]] < 60) {
-            cat("Total execution time: ", execution.time[[1]], " secs.\n", sep = "")
-        } else {
-            if (execution.time[[1]] > 60 & execution.time[[1]] < 3600) {
-                cat("Total execution time: ", execution.time[[1]]/60, " mins.\n", sep = "") 
-            } else {
-                if (execution.time[[1]] > 3600 & execution.time[[1]] < 86400) {
-                   cat("Total execution time: ", execution.time[[1]]/3600, " hours.\n", sep = "")
-                } else {
-                    if (execution.time[[1]] > 86400) {
-                        cat("Total execution time: ", execution.time[[1]]/86400, " days.\n", sep = "")
-                    }
-                }
-            }
-        }
+        get.timer(execution.time)
         cat("Use read.mulTree() to read the data as 'mulTree' data.\nUse summary.mulTree() and plot.mulTree() for plotting or summarizing the 'mulTree' data.\n", sep = "")
-    }
+}
 
 #End
 }
