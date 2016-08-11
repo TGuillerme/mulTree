@@ -4,6 +4,8 @@
 
 A brand new version of `mulTree` is being developped on this branch with more functionalities and improved data management. However, because this branch is still being developped, it's **chuck full of bugs**.
 
+I suggest you use the `release` or `master` version for more safety:
+
 ## Installing mulTree
 ```r
 if(!require(devtools)) install.packages("devtools")
@@ -11,10 +13,7 @@ library(devtools)
 install_github("TGuillerme/mulTree", ref = "release")
 library(mulTree)
 ```
-or the master branch by using `ref = "master"`.
-
-## Novelties
-For back-up compatibilities issues or just for looking ahead what will the new functionalities be, please have a look at the [patch note](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
+(or the master branch by using `ref = "master"`.)
 
 Authors
 -------

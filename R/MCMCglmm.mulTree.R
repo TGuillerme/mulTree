@@ -118,20 +118,6 @@
 # source("sanitizing.R")
 # source("MCMCglmm.mulTree_fun.R")
 
-# data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
-# tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
-# class(tree) <- "multiPhylo"
-# mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
-# priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
-# formula = var1 ~ var2
-# parameters = c(10000, 10, 1000)
-# chains = 2
-# output = "quick_example"
-# convergence = 1.1
-# ESS = 100
-# warn = TRUE
-# verbose = TRUE
-
 
 MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., convergence = 1.1, ESS = 1000, verbose = TRUE, output = "mulTree_models", warn = FALSE, parallel) {  
 
@@ -147,12 +133,8 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
     mulTree_env <- new.env()
 
     #SANITIZING
-    #mulTree.data
-    #must be mulTree
     check.class(mulTree.data, "mulTree")
-    # #moving the random terms to current environment
-    # environment(mulTree.data$random.terms)<-environment()
-    
+
     #formula
     check.class(formula, 'formula')
 
@@ -200,61 +182,59 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
     }
 
     #RUNNING THE MODELS
-#test.mulTree <- function(mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, parallel, output = "testing", chains= 2, ...) {
     for (ntree in 1:length(mulTree.data$phy)) {
-        #For each tree...
-        #Setting up mulTre arguments
+        #Setting up mulTree arguments
         mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
         #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; warning("DEBUG")
 
         if(missing(parallel)) {
-            #SEQUENTIALLY RUNNING THE CHAINS
             for(nchain in 1:chains) {
-                #...Run each chain one by one
-                
-                #reset the models content (security) 
-                model_tmp <-NULL ; model <- NULL
-                
-                model_tmp <- do.call(lapply.MCMCglmm, mulTree_arguments)
-                assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp)
+
+                #Run the model
+                model <- do.call(lapply.MCMCglmm, mulTree_arguments)
 
                 #Saving the model out of R environment
-                model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
-                name <- paste(output, "-tree", ntree, "_chain", nchain, ".rda", sep = "")
-                save(model, file = name)
+                save(model, file = get.model.name(nchain, ntree, output))
+
+                #reset the model's content (for safety) 
+                model <- NULL
             }
+
         } else {
-            #PARALLEL CHAINS RUN
             #Set cluster up
             cluster <- snow::makeCluster(chains, parallel)
-            #reset the models content (security) 
-            model_tmp <-NULL ; model <- NULL
 
-            #model_tmp <- clusterCall(cluster, do.call(lapply.MCMCglmm, mulTree_arguments))
+            #Run the models
             model_tmp <- snow::clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
             #model_tmp <- snow::clusterCall(cluster, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
-            
-            snow::stopCluster(cluster)
-            
-            #Assigning the models
+                        
+            #Saving the models
             for (nchain in 1:chains) {
-                assign(paste("model_tree", ntree, "_chain", nchain, sep = ""), model_tmp[[nchain]])
+                #Save on model for one chain
+                model <- model_tmp[[nchain]]
+                save(model, file = get.model.name(nchain, ntree, output))
+                #Reset the model's content (for safety) 
+                model <- NULL
             }
 
-            #Saving models
-            for (nchain in 1:chains) {
-                model <- get(paste("model_tree", ntree, "_chain", nchain, sep = ""))
-                name <- paste(output, "-tree", ntree, "_chain", nchain, ".rda", sep = "")
-                save(model, file = name)
-            }
+            #Reset the models for both chains (safety)
+            model_tmp <- NULL
         }
 
         #RUNNING THE CONVERGENCE DIAGNOSIS (if more than one chain)
         if(chains > 1) {
-            #Running the convergence test
-            converge.test <- convergence.test(lapply(as.list(seq(1:chains)), extract.chain, ntree))
+            #Get the models
+            models <- lapply(as.list(seq(1:chains)), extract.chains, ntree, output)
+            #Run the convergence test
+            converge.test <- convergence.test(models)
             #Saving the convergence test
             save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
+            #Calculate the ESS
+            ESS_results <- lapply(models, ESS.lapply)
+            names(ESS_results) <- paste("C", 1:chains, sep = "")
+            ESS_results <- unlist(ESS_results)
+            #reset the models content (for safety) 
+            models <- NULL
         }
 
         #BE VERBOSE
@@ -262,10 +242,16 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
             cat("\n", format(Sys.Date()), " - ", format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm performed on tree ", ntree, "\n", sep = "")
             if(chains > 1) {
                 cat("Convergence diagnosis:\n")
-                cat("Effective sample size is > ", ESS, ": ", all(coda::effectiveSize(model$Sol[]) > ESS), "\n", sep = "")
-                cat(unlist(lapply(lapply(as.list(seq(1:chains)), function(X) get(paste("model_tree", ntree, "_chain", X, sep = ""))), ESS.lapply)), sep="; ")
-                cat("\nAll levels converged < ", convergence, ": ", all(converge.test$psrf[,1] < convergence), "\n", sep = "")
-                cat(converge.test$psrf[,1], sep="; ") ; cat("\n")
+                if(all(ESS_results > ESS)) {
+                    cat("Effective sample size is > ", ESS, ": TRUE\n", sep = "")
+                    cat(ESS_results, sep="; ") ; cat("\n")
+                } else {
+                    cat("Effective sample size is > ", ESS, ": FALSE\n", sep = "")
+                    cat(ESS_results, sep="; ") ; cat("\n")
+                    cat(paste(names(which(ESS_results < ESS)), collapse =", "), " < ", ESS, "\n", sep = "")
+                }
+                cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,c(1:2)] < convergence), "\n", sep = "")
+                cat(converge.test$psrf[,c(1:2)], sep="; ") ; cat("\n")
                 cat("Individual models saved as: ", output, "-tree", ntree, "_chain*.rda\n", sep = "")
                 cat("Convergence diagnosis saved as: ", output, "-tree", ntree, "_conv.rda", "\n", sep = "")
             } else {
@@ -274,19 +260,24 @@ MCMCglmm.mulTree <- function(mulTree.data, formula, parameters, chains = 2, prio
         }
     } 
 
+    if(!missing(parallel)) {
+        #Stop the cluster
+        snow::stopCluster(cluster)
+    }
 
-#OUTPUT
+    #OUTPUT
 
-    #timer (end)
-    end.time <- Sys.time()
-    execution.time <- difftime(end.time,start.time, units = "secs")
+        #timer (end)
+        end.time <- Sys.time()
+        execution.time <- difftime(end.time,start.time, units = "secs")
 
-    #verbose
-    if(verbose==TRUE) {
-        cat("\n",format(Sys.Date())," - ",format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm successfully performed on ", length(mulTree.data$phy), " trees.\n",sep = "")
-        get.timer(execution.time)
-        cat("Use read.mulTree() to read the data as 'mulTree' data.\nUse summary.mulTree() and plot.mulTree() for plotting or summarizing the 'mulTree' data.\n", sep = "")
+        #verbose
+        if(verbose==TRUE) {
+            cat("\n",format(Sys.Date())," - ",format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm successfully performed on ", length(mulTree.data$phy), " trees.\n",sep = "")
+            get.timer(execution.time)
+            cat("Use read.mulTree() to read the data as 'mulTree' data.\nUse summary.mulTree() and plot.mulTree() for plotting or summarizing the 'mulTree' data.\n", sep = "")
     }
 
 #End
 }
+

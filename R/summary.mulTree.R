@@ -40,6 +40,10 @@
 #' 
 #' @export 
 
+# DEBUG
+# source("sanitizing.R")
+# source("summary.mulTree_fun.R")
+
 summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, cent.tend = median, ...) {
     #Set method
     #UseMethod(summary, mulTree)
@@ -73,10 +77,15 @@ summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, c
         #mulTree_results <- lapply(mulTree.results, lapply.quantile, prob, cent.tend) ; warning("DEBUG MODE")
     } else {
         #Calculate the hdr
-        #mulTree_results <- lapply(mulTree.results, lapply.hdr, prob, ...)
-        #mulTree_results <- lapply(mulTree.results, lapply.hdr, prob) ; warning("DEBUG MODE")
-        mulTree_results <- mapply(lapply.hdr, mulTree.results, as.list(names(mulTree.results)), MoreArgs=list(prob, ...), SIMPLIFY=FALSE)
-        #mulTree_results <- mapply(lapply.hdr, mulTree.results, as.list(names(mulTree.results)), MoreArgs=list(prob), SIMPLIFY=FALSE) ; warning("DEBUG MODE")
+        mulTree_results <- try(mapply(lapply.hdr, mulTree.results, as.list(names(mulTree.results)), MoreArgs=list(prob, ...), SIMPLIFY=FALSE), silent = TRUE)
+        #mulTree_results <- try(mapply(lapply.hdr, mulTree.results, as.list(names(mulTree.results)), MoreArgs=list(prob), SIMPLIFY=FALSE), silent = TRUE) ; warning("DEBUG MODE")
+        if(class(mulTree_results) == "try-error") {
+            stop(paste("Impossible to calculate the HDR!\n",
+                "Try using the option 'use.hdr = FALSE' for calculating the quantiles instead.\n",
+                "'hdr' function gave the following error:\n",
+                mulTree_results[[1]],
+                sep = ""))
+        }
     }
 
     #Transform the results into a table

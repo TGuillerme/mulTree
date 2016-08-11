@@ -1,8 +1,13 @@
 Patch notes
 ----
-* 2016/??/?? - v1.3 - **mulTree extended!**
+* 2016/??/?? - *v1.3 - **mulTree extended!*
   * New function `pgls.mulTree` for applying PGLS on multiple trees!
   * **modified** the function `mulTree` (v < 1.3) is now renamed `MCMCglmm.mulTree`. It's arguments remains unchanged though.
+* 2016/08/10 - v1.2.4
+  * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
+  * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
+  * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
+  * Fixed bug with `plot.mulTree` that didn't allow to plot more than 5 parameters.
 * 2016/07/06 - v1.2.3
   * External functions are now properly imported via the `NAMESPACE`.
   * New phylogenetic analysis markdown vignette!
