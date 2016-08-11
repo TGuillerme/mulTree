@@ -18,7 +18,14 @@
 #' Generates \code{pgls} models. 
 #' 
 #' @examples
-#' 
+#' data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
+#' tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
+#' class(tree) <- "multiPhylo"
+#' mulTree.data <- as.mulTree(data, tree, taxa = "sp.col")
+
+
+
+
 #' @seealso \code{\link[coda]{pgls}}, \code{\link{as.mulTree}}, \code{\link{read.mulTree}},  \code{\link{MCMCglmm.mulTree}}
 #' @author Thomas Guillerme
 #' @export
@@ -32,9 +39,6 @@ pgls.mulTree <- function(mulTree.data, formula, parameters, ..., verbose = TRUE,
     }
     #timer(start)
     start.time <- Sys.time()
-
-    #Set working environment
-    mulTree_env <- new.env()
 
     #SANITIZING
     #mulTree.data
@@ -99,6 +103,16 @@ pgls.mulTree <- function(mulTree.data, formula, parameters, ..., verbose = TRUE,
     }
 
     #RUNNING THE MODELS
+
+
+
+    #Run one pgls on one tree
+
+
+
+
+
+
 #test.mulTree <- function(mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, parallel, output = "testing", chains= 2, ...) {
     for (ntree in 1:length(mulTree.data$phy)) {
         #For each tree...
