@@ -34,7 +34,8 @@ install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
   * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
   * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
   * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
- 
+  * Fixed bug with `plot.mulTree` that didn't allow to plot more than 5 parameters.
+
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors

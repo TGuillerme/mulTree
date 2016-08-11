@@ -12,7 +12,6 @@
 #' @param ... Any additional arguments to be passed to \code{\link[graphics]{plot}}.
 #' 
 #' @examples
-#' \dontrun{
 #' ## read in the data
 #' data(lifespan.mcmc)
 #' 
@@ -23,16 +22,20 @@
 #' plot(summarized_data)
 #' 
 #' ## Same plot using more options
-#' plot(summarized_data, horizontal = TRUE, ylab = "", main = "Posterior distributions",
-#'    terms = c("Intercept", "Body Mass", "Volancy", "Phylogeny", "Residuals"),
-#'    ylim = c(-2,2), cex.terms = 0.5, cex.coeff = 0.8, col = c("red"), cex.main = 0.8)
+#' plot(summarized_data, horizontal = TRUE, ylab = "", ylim = c(-2,2),
+#'      main = "Posterior distributions", cex.terms = 0.5, cex.coeff = 0.8.
+#'      terms = c("Intercept", "BodyMass", "Volancy", "Phylogeny", "Residuals"),
+#'      col = c("red"), cex.main = 0.8)
 #' abline(v = 0, lty = 3)
-#' }
 #'
 #' @seealso \code{\link{mulTree}}, \code{\link{read.mulTree}}, \code{\link{summary.mulTree}}
 #' @author Thomas Guillerme
 #' 
 #' @export 
+
+#DEBUG 
+# source("sanitizing.R")
+# source("plot.mulTree_fun.R")
 
 plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizontal = FALSE, ylim, col, ...) {
 
@@ -85,8 +88,8 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
     #Plot the frame
     if (horizontal == FALSE) {
         #Plot the horizontal frame
-        plot(1,1, xlim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
-        #plot(1,1, xlim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n",) ; warning("DEBUG MODE")
+        plot(1,1, xlim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
+        #plot(1,1, xlim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n",) ; warning("DEBUG MODE")
 
         #Adding the y axis (coefficients)
         if(!missing(cex.coeff)) {
@@ -104,8 +107,8 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
 
     } else {
         #Plot the vertical frame
-        plot(1,1, ylim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
-        #plot(1,1, ylim = c(1 - terms_space, ncol(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n") ; warning("DEBUG MODE")
+        plot(1,1, ylim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
+        #plot(1,1, ylim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n") ; warning("DEBUG MODE")
         
         #Adding the y axis (terms)
         if(!missing(cex.terms)) {

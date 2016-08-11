@@ -4,6 +4,7 @@ Patch notes
   * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
   * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
   * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
+  * Fixed bug with `plot.mulTree` that didn't allow to plot more than 5 parameters.
 * 2016/07/06 - v1.2.3
   * External functions are now properly imported via the `NAMESPACE`.
   * New phylogenetic analysis markdown vignette!
