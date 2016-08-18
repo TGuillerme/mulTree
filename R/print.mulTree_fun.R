@@ -25,7 +25,11 @@ print.mulTree.head <- function(mulTree.data) {
         cat(paste(taxa_names, collapse=", "), ".", sep="")
     }
     #Variable names
-    variables_names <- colnames(mulTree.data$data)[-c(1, nvar+length(mulTree.data$random.terms))]
+
+    as.character(mulTree.data$random.terms[2][[1]])
+
+    var_terms <- which(colnames(mulTree.data$data) == mulTree.data$random.terms[2][[1]])
+    variables_names <- colnames(mulTree.data$data)[-c(1)]
     cat("\nVariables:\n")
     if(length(taxa_names) > 5) {
         cat(paste(variables_names[1:5], collapse=", "),"...")
