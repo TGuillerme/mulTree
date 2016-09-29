@@ -1,6 +1,7 @@
 Patch notes
 ----
 * 2016/??/?? - v1.2.5
+  * Added minor sanitising function to `mulTree` the formula now has to match the data set column names.
   * Fixed a bug with the `parallel` option in `mulTree`: only one cluster is now generated at the start of the function rather than one at each iteration.
 * 2016/08/10 - v1.2.4
   * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
