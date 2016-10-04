@@ -94,7 +94,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
 
     #rand.terms
     if(missing(rand.terms)) {
-        set_rand_terms <- "auto"
+        set_rand_terms <- TRUE
     } else {
         #Checking random terms class
         check.class(rand.terms, "formula")
@@ -110,7 +110,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         }
         #check if at least of the terms is the phylogeny (i.e. animal)
         if(!is.na(match(taxa, terms_list))) {
-            set_rand_terms <- "manual"
+            set_rand_terms <- FALSE
         } else {
             stop("The provided random terms should at least contain the taxa column (phylogeny).")
         }
@@ -149,11 +149,11 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
     }
 
     #Setting the random terms
-    if(set_rand_terms == "auto") {
+    if(set_rand_terms) {
         #adding the "animal" column for MCMCglmm() random phylogenetic effect
         data_new["animal"] <- NA
         data_new$animal <- data_new$sp.col
-        rand.terms <- ~animal
+        rand.terms <- substitute(~animal)
     } else {
         #Check which term corresponds to the phylogeny (i.e. animal)
         phylo_term <- terms_list[which(terms_list == taxa)]
@@ -201,7 +201,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
     taxa_column <- paste("renamed column ", taxa, " into 'sp.col'", sep = "")
     output <- list(phy = tree_new, data = data_new, random.terms = rand.terms, taxa.column = taxa_column)
     #Assign class
-    class(output)<-"mulTree"
+    class(output) <- "mulTree"
 
     return(output)
 }

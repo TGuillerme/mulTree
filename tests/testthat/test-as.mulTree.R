@@ -120,9 +120,9 @@ test_that("example works", {
     expect_is(
     	as.mulTree(data_table, tree_list, taxa = "taxa")$data, "data.frame"
     	)
-    # third being a formula object
+    # third being a call (formula) object
     expect_is(
-    	as.mulTree(data_table, tree_list, taxa = "taxa")$random.terms, "formula"
+    	as.mulTree(data_table, tree_list, taxa = "taxa")$random.terms, "call"
     	)
     # forth being some text
     expect_is(
