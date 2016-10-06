@@ -1,6 +1,6 @@
 # mulTree
 [![Build Status](https://travis-ci.org/TGuillerme/mulTree.svg?branch=release)](https://travis-ci.org/TGuillerme/mulTree)
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.31742.svg)](http://dx.doi.org/10.5281/zenodo.31742)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.45097.svg)](https://doi.org/10.5281/zenodo.45097)
 
 This package is based on the [MCMCglmm](http://cran.r-project.org/web/packages/MCMCglmm/index.html) package
 and runs a MCMCglmm analysis on multiple trees.
