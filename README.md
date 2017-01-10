@@ -1,11 +1,14 @@
 # mulTree
 [![Build Status](https://travis-ci.org/TGuillerme/mulTree.svg?branch=release)](https://travis-ci.org/TGuillerme/mulTree)
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.31742.svg)](http://dx.doi.org/10.5281/zenodo.31742)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.45097.svg)](https://doi.org/10.5281/zenodo.45097)
 
 This package is based on the [MCMCglmm](http://cran.r-project.org/web/packages/MCMCglmm/index.html) package
 and runs a MCMCglmm analysis on multiple trees.
 This code has been used prior to this package release in [Healy et. al. (2014)](http://rspb.royalsocietypublishing.org/content/281/1784/20140298.full.pdf?ijkey=gPt28ElSAYBvRhZ&keytype=ref).
 Please send me an [email](mailto:guillert@tcd.ie) or a pull request if you find/have any issue using this package.
+
+<a href="https://figshare.com/articles/Guillerme_BESMacro2016_pdf/3478922"><img src="http://tguillerme.github.io/images/logo-FS.png" height="15" widht="15"/></a> 
+Check out the [presentation](https://figshare.com/articles/Guillerme_BESMacro2016_pdf/3478922) of some aspects of the package.
 
 ## Installing mulTree
 ```r
@@ -16,18 +19,23 @@ library(mulTree)
 ```
 The following installs the latest released version (see patch notes below). For the piping hot development version (not recommended), replace the `ref="release"` option by `ref="master"`. If you're using the `master` branch, see the latest developement in the [patch note](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
-###### Note that many code architecture have changed from version `1.2` onwards (including proper testing!). If you wish to use older "clunky" version, you can download former releases [here](https://github.com/TGuillerme/mulTree/releases).
+#### Warning note:
+If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix it by installing them manualy using the following:
+```r
+install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
+```
 
 #### Vignettes
 *  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.pdf).
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla flavoured phylogenetic analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2016/02/19 - **v1.2.2** Bug fixes!
-  * major bug fix in `mulTree` where models saved out of `R` environment where accumulating data from former models (now fixed: each model saved out of the `R` environment contains only data for the target model).
-  * minor bug fix in `summary.mulTree` that can now deal with multiple hdr for each probabilities (implemented from v1.2.1).
-  * minor bug fix in `plot.mulTree` with the number of terms used (implemented from v1.2.1).
-  
+* 2016/08/10 - v1.2.4
+  * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
+  * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
+  * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
+  * Fixed bug with `plot.mulTree` that didn't allow to plot more than 5 parameters.
+
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors

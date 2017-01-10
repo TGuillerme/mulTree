@@ -1,5 +1,14 @@
 Patch notes
 ----
+* 2017/01/09 - v1.2.5
+  * Added minor sanitising function to `mulTree` the formula now has to match the data set column names.
+  * Fixed a bug with the `parallel` option in `mulTree`: only one cluster is now generated at the start of the function rather than one at each iteration.
+  * Fixed a minor bug with `as.mulTree`: the random terms formula's environment is not anymore exported by the function when set up by default.
+* 2016/08/10 - v1.2.4
+  * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
+  * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
+  * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
+  * Fixed bug with `plot.mulTree` that didn't allow to plot more than 5 parameters.
 * 2016/07/06 - v1.2.3
   * External functions are now properly imported via the `NAMESPACE`.
   * New phylogenetic analysis markdown vignette!

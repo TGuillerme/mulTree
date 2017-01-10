@@ -28,7 +28,6 @@
 Plots a boxplots of the terms of a \code{mulTree} analysis.
 }
 \examples{
-\dontrun{
 ## read in the data
 data(lifespan.mcmc)
 
@@ -39,11 +38,11 @@ summarized_data <- summary(lifespan.mcmc)
 plot(summarized_data)
 
 ## Same plot using more options
-plot(summarized_data, horizontal = TRUE, ylab = "", main = "Posterior distributions",
-   terms = c("Intercept", "Body Mass", "Volancy", "Phylogeny", "Residuals"),
-   ylim = c(-2,2), cex.terms = 0.5, cex.coeff = 0.8, col = c("red"), cex.main = 0.8)
+plot(summarized_data, horizontal = TRUE, ylab = "", ylim = c(-2,2),
+     main = "Posterior distributions", cex.terms = 0.5, cex.coeff = 0.8,
+     terms = c("Intercept", "BodyMass", "Volancy", "Phylogeny", "Residuals"),
+     col = c("red"), cex.main = 0.8)
 abline(v = 0, lty = 3)
-}
 
 }
 \author{

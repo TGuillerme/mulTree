@@ -11,7 +11,7 @@ prob.converter <- function(prob) {
 #Calculate the quantiles from a vector (for lapply)
 lapply.quantile <- function(X, prob, cent.tend, ...) {
     #Get the quantiles
-    quantile_out <- quantile(X, probs = prob.converter(prob), ...)
+    quantile_out <- stats::quantile(X, probs = prob.converter(prob), ...)
     #Calculate the central tendency
     return(list("quantiles" = quantile_out, "central" = cent.tend(X)))
 }
