@@ -30,11 +30,10 @@ install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla flavoured phylogenetic analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2016/08/10 - v1.2.4
-  * Fixed a bug in the convergence test where the convergence was not ran on the VCV matrix.
-  * Models memory management is now safer and is done only out of R environment leading to minor speed improvements in `mulTree` function.
-  * Some errors are now more verbose in `mulTree` and `summary.mulTree`.
-  * Fixed bug with `plot.mulTree` that didn't allow to plot more than 5 parameters.
+* 2017/01/09 - v1.2.5
+  * Added minor sanitising function to `mulTree` the formula now has to match the data set column names.
+  * Fixed a bug with the `parallel` option in `mulTree`: only one cluster is now generated at the start of the function rather than one at each iteration.
+  * Fixed a minor bug with `as.mulTree`: the random terms formula's environment is not anymore exported by the function when set up by default.
 
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
