@@ -148,7 +148,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     #formula
     check.class(formula, 'formula')
     #Check the terms
-    formula_terms <- as.character(attr(terms(formula), "variables"))[-1]
+    formula_terms <- as.character(attr(stats::terms(formula), "variables"))[-1]
     check_formula <- match(formula_terms, colnames(mulTree.data$data))
     if(any(is.na(check_formula))) {
         stop(paste(paste(formula_terms[which(is.na(check_formula))], collapse = ", "), "terms in the formula do not match dataset column names."))

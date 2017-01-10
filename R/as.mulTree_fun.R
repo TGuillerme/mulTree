@@ -15,7 +15,7 @@ specimen.transform <- function(data) {
         return(data)
     } else {
         #remove the duplicated names (create a dummy data)
-        return(data.frame("sp.col"=unique(data$sp.col), "dummy"=rnorm(length(unique(data$sp.col)))))
+        return(data.frame("sp.col"=unique(data$sp.col), "dummy"=stats::rnorm(length(unique(data$sp.col)))))
     }
 }
 

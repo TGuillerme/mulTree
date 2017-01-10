@@ -44,7 +44,7 @@
 # source("sanitizing.R")
 # source("summary.mulTree_fun.R")
 
-summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, cent.tend = median, ...) {
+summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, cent.tend = stats::median, ...) {
     #Set method
     #UseMethod(summary, mulTree)
     match_call <- match.call()
@@ -62,7 +62,7 @@ summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, c
     #cent.tend
     check.class(cent.tend, c("function", "standardGeneric"))
     #check if the function properly outputs a single value
-    try(test_cent.tend <- cent.tend(rnorm(100)), silent = TRUE)
+    try(test_cent.tend <- cent.tend(stats::rnorm(10)), silent = TRUE)
     if(length(test_cent.tend) != 1 & class(test_cent.tend) != "numeric") {
         stop(paste(match_call$cent.tend, " cannot calculate a central tendency of a distribution."))
     }

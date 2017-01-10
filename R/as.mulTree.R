@@ -99,7 +99,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         #Checking random terms class
         check.class(rand.terms, "formula")
         #Checking if the element of rand.terms are present in the table
-        terms_list <- labels(terms(rand.terms))
+        terms_list <- labels(stats::terms(rand.terms))
         #Checking if the terms are column names
         terms_list_match <- match(terms_list, colnames(data))
         if(any(is.na(terms_list_match))) {

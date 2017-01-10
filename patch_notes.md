@@ -1,6 +1,6 @@
 Patch notes
 ----
-* 2016/??/?? - v1.2.5
+* 2017/01/09 - v1.2.5
   * Added minor sanitising function to `mulTree` the formula now has to match the data set column names.
   * Fixed a bug with the `parallel` option in `mulTree`: only one cluster is now generated at the start of the function rather than one at each iteration.
   * Fixed a minor bug with `as.mulTree`: the random terms formula's environment is not anymore exported by the function when set up by default.

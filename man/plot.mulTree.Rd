@@ -39,7 +39,7 @@ plot(summarized_data)
 
 ## Same plot using more options
 plot(summarized_data, horizontal = TRUE, ylab = "", ylim = c(-2,2),
-     main = "Posterior distributions", cex.terms = 0.5, cex.coeff = 0.8.
+     main = "Posterior distributions", cex.terms = 0.5, cex.coeff = 0.8,
      terms = c("Intercept", "BodyMass", "Volancy", "Phylogeny", "Residuals"),
      col = c("red"), cex.main = 0.8)
 abline(v = 0, lty = 3)

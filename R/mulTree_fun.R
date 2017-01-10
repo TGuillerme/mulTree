@@ -21,7 +21,7 @@ lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, war
 
     #Formula check
     if(class(mulTree.data$random.terms) == "call") {
-        mulTree.data$random.terms <- as.formula(mulTree.data$random.terms)
+        mulTree.data$random.terms <- stats::as.formula(mulTree.data$random.terms)
     }
 
     #MCMCglmm
@@ -55,7 +55,7 @@ convergence.test <- function(models){
     list_mcmc <- lapply(models, get.VCV)
 
     #Convergence check using Gelman and Rubins diagnoses set to return true or false based on level of scale reduction set (default = 1.1)
-    convergence <- coda::gelman.diag(mcmc.list(list_mcmc))
+    convergence <- coda::gelman.diag(coda::mcmc.list(list_mcmc))
 
     return(convergence)
 }

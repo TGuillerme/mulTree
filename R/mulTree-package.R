@@ -17,6 +17,16 @@
 #'
 #' @import ape
 NULL
+#' @importFrom stats terms
+NULL
+#' @importFrom stats rnorm
+NULL
+#' @importFrom stats as.formula
+NULL
+#' @importFrom stats quantile
+NULL
+#' @importFrom stats median
+NULL
 #' @importFrom caper comparative.data
 NULL
 #' @importFrom coda as.mcmc
@@ -24,6 +34,8 @@ NULL
 #' @importFrom coda gelman.diag
 NULL
 #' @importFrom coda effectiveSize
+NULL
+#' @importFrom coda mcmc.list
 NULL
 #' @importFrom MCMCglmm MCMCglmm
 NULL
@@ -35,6 +47,19 @@ NULL
 NULL
 #' @importFrom snow stopCluster
 NULL
+#' @importFrom grDevices gray
+NULL
+#' @importFrom graphics plot
+NULL
+#' @importFrom graphics points
+NULL
+#' @importFrom graphics polygon
+NULL
+#' @importFrom graphics axis
+NULL
+
+
+
 
 #' Example Aves and Mammalia lifespan for the mulTree package
 #'
