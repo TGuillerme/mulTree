@@ -220,9 +220,11 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
 
         } else {
             #Run the models
-            model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            #model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            
             #model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
-                        
+            model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, mulTree_arguments)
+            
             #Saving the models
             for (nchain in 1:chains) {
                 #Save on model for one chain
