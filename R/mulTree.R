@@ -221,7 +221,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
         } else {
             #Run the models
             #model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
-            if (exists('pr')) {
+            if (!exists('pr')) {
             model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
             } else {
             model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn, pr=pr) ; warning("DEBUG MODE")
