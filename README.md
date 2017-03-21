@@ -27,7 +27,7 @@ install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
 
 #### Vignettes
 *  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.pdf).
-*  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla flavoured phylogenetic analyses.Rmd).
+*  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla\ flavoured\ phylogenetic\ analyses.Rmd).
 
 ##### Patch notes (latest version)
 * 2017/01/09 - v1.2.5
