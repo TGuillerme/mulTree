@@ -12,6 +12,12 @@ Check out the [presentation](https://figshare.com/articles/Guillerme_BESMacro201
 
 ## Installing mulTree
 ```r
+## TEMPORARY FIX - these packages somehow fail to instal, you can install the manually:
+if(!require(curl)) install.packages("curl")
+if(!require(corpcor)) install.packages("corpcor")
+if(!require(cape)) install.packages("caper")
+
+## Installing the package
 if(!require(devtools)) install.packages("devtools")
 library(devtools)
 install_github("TGuillerme/mulTree", ref = "release")
@@ -20,9 +26,10 @@ library(mulTree)
 The following installs the latest released version (see patch notes below). For the piping hot development version (not recommended), replace the `ref="release"` option by `ref="master"`. If you're using the `master` branch, see the latest developement in the [patch note](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 #### Warning note:
-If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix it by installing them manualy using the following:
+If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix buy downloading `R`'s latest version and installing the missing packages manualy:
 ```r
-install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
+## Install the missing packages
+install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape", "corpcor", "curl"))
 ```
 
 #### Vignettes
