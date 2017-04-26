@@ -1,48 +1,48 @@
-#Reads a single model
+## Reads a single model
 get.mulTree.model <- function(mcmc.file) {
     model <- get(load(mcmc.file))
-    #Testing if the mcmc.file is the right object class
+    ## Testing if the mcmc.file is the right object class
     if(class(model) != "MCMCglmm") {
         stop(paste("No MCMCglmm model found in file", mcmc.file))
     }
     return(model)
 }
 
-#Get the convergence diagnosis file
+## Get the convergence diagnosis file
 get.convergence <- function(conv.file){
     conv.name <- load(conv.file)
     converge <- get(conv.name)
-    #Testing if the converge object is the right object class
+    ## Testing if the converge object is the right object class
     check.class(converge, "gelman.diag")
     return(converge)
 }
 
-#Extracting some specific elements from the chain
+## Extracting some specific elements from the chain
 get.element <- function(element, chain) {
-    #Getting the right files
+    ## Getting the right files
     mcmc_files <- list.files(pattern = chain)
     mcmc_files <- mcmc_files[grep("_chain", mcmc_files)]
 
-    #Extracting all the models
+    ## Extracting all the models
     all_models <- lapply(as.list(mcmc_files), get.mulTree.model)
-    #Extracting the element
+    ## Extracting the element
     all_elements <- sapply(all_models, "[[", element, simplify = FALSE)
 
-    #applying the names of to the list
+    ## applying the names of to the list
     names(all_elements) <- paste(mcmc_files, element, sep="$")
 
     return(all_elements)
 }
 
-#Isolate the fixed terms (model$Sol) and the random terms (model$VCV) from a single model
+## Isolate the fixed terms (model$Sol) and the random terms (model$VCV) from a single model
 get.table.mulTree <- function(mcmc.file) {
-    #Getting the fixed terms
+    ## Getting the fixed terms
     table_mcmc <- as.data.frame(mcmc.file$Sol)
-    #Adding the random terms
+    ## Adding the random terms
     random_terms <- c("phylogenetic.variance","residual.variance")
-    table_mcmc[random_terms[1]]<-as.vector(mcmc.file$VCV[,1])
-    table_mcmc[random_terms[2]]<-as.vector(mcmc.file$VCV[,2])
-    #Output
+    table_mcmc[random_terms[1]] <- as.vector(mcmc.file$VCV[,1])
+    table_mcmc[random_terms[2]] <- as.vector(mcmc.file$VCV[,2])
+    ## Output
     return(as.list(table_mcmc))
 }
 

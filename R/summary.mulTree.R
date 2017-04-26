@@ -45,38 +45,37 @@
 # source("summary.mulTree_fun.R")
 
 summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, cent.tend = stats::median, ...) {
-    #Set method
-    #UseMethod(summary, mulTree)
+    
     match_call <- match.call()
 
-    #SANITIZING
-    #mulTree.results
+    ## SANITIZING
+    ## mulTree.results
     check.class(mulTree.results, "mulTree", " is not of class mulTree.\nUse read.mulTree() to properly load the data.")
 
-    #prob
+    ## prob
     check.class(prob, "numeric")
     if(any(prob > 100) | any(prob < 0)) {
         stop("prob argument must percentages (between 0 and 100).")
     }
 
-    #cent.tend
+    ## cent.tend
     check.class(cent.tend, c("function", "standardGeneric"))
-    #check if the function properly outputs a single value
+    ## check if the function properly outputs a single value
     try(test_cent.tend <- cent.tend(stats::rnorm(10)), silent = TRUE)
     if(length(test_cent.tend) != 1 & class(test_cent.tend) != "numeric") {
         stop(paste(match_call$cent.tend, " cannot calculate a central tendency of a distribution."))
     }
 
-    #use.hdr
+    ## use.hdr
     check.class(use.hdr, "logical")
 
-    #SUMMARISING
+    ## SUMMARISING
     if(use.hdr == FALSE) {
-        #Calculate the quantiles
+        ## Calculate the quantiles
         mulTree_results <- lapply(mulTree.results, lapply.quantile, prob, cent.tend, ...)
         #mulTree_results <- lapply(mulTree.results, lapply.quantile, prob, cent.tend) ; warning("DEBUG MODE")
     } else {
-        #Calculate the hdr
+        ## Calculate the hdr
         mulTree_results <- try(mapply(lapply.hdr, mulTree.results, as.list(names(mulTree.results)), MoreArgs=list(prob, ...), SIMPLIFY=FALSE), silent = TRUE)
         #mulTree_results <- try(mapply(lapply.hdr, mulTree.results, as.list(names(mulTree.results)), MoreArgs=list(prob), SIMPLIFY=FALSE), silent = TRUE) ; warning("DEBUG MODE")
         if(class(mulTree_results) == "try-error") {
@@ -88,9 +87,9 @@ summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, c
         }
     }
 
-    #Transform the results into a table
+    ## Transform the results into a table
     results_out <- result.list.to.table(mulTree_results)
-    #Add the names
+    ## Add the names
     if(use.hdr == FALSE) {
         if(is.null(match_call$cent.tend)) {
             estimate <- "Estimates(median)"
@@ -103,7 +102,7 @@ summary.mulTree <- function(mulTree.results, prob = c(50, 95), use.hdr = TRUE, c
     colnames(results_out) <- c(estimate, paste(c(rep("lower.CI(", length(prob)), rep("upper.CI(", length(prob))), prob.converter(prob)*100, ")", sep=""))
     rownames(results_out) <- names(mulTree.results)
 
-    #Set class
+    ## Set class
     class(results_out) <- c("matrix", "mulTree")
 
     return(results_out)

@@ -1,6 +1,6 @@
 #' @title Combines a data table and a "multiPhylo" object into a list to be used by the mulTree function
 #'
-#' @description Combines a table and a multiple phylogenies using \code{\link[caper]{comparative.data}} function. Changes the name of the taxa column into "sp.col" to be read by \code{\link[caper]{comparative.data}} and \code{\link[MCMCglmm]{MCMCglmm}}.
+#' @description Combines a data table and a multiple phylogenies. Changes the name of the taxa column into "sp.col" to be read by \code{\link[MCMCglmm]{MCMCglmm}}.
 #'
 #' @param data A \code{data.frame} or \code{matrix} containing at least two variable and taxa names.
 #' @param tree A \code{phylo} or \code{multiPhylo} object.
@@ -41,33 +41,33 @@
 #' @author Thomas Guillerme
 #' @export
 
-as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
+as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
-    #Get the match call
+    ## Get the match call
     match_call <- match.call()
 
-    #SANITIZING
-    #data
-    #converting into a data.frame (if matrix)
+    ## SANITIZING
+    ## data
+    ## converting into a data.frame (if matrix)
     if (class(data) == "matrix") {
         data <- as.data.frame(data)
     }
     check.class(data, "data.frame")
-    #testing the length of the dataset
+    ## testing the length of the dataset
     if(length(data) < 3) {
         stop(paste(as.expression(match_call$data," must contain one taxa name column and at least two variables.", sep=""), call.=FALSE))
     }
 
-    #tree
-    #convert to multiPhylo if is phylo
+    ## tree
+    ## convert to multiPhylo if is phylo
     if(class(tree) == "phylo") {
         tree <- list(tree)
         class(tree) <- "multiPhylo"
     }
-    #must be multiPhylo
+    ## must be multiPhylo
     check.class(tree, "multiPhylo", " must be of class phylo or multiPhylo.")
 
-    #taxa
+    ## taxa
     if (class(taxa) == "numeric") {
         taxa.column.num = TRUE
     } else {
@@ -78,7 +78,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         }
     }
 
-    #is provided column present in data?
+    ## is provided column present in data?
     if(taxa.column.num == TRUE) {
         if(taxa > length(data)) {
             stop(paste("taxa column not found in ", as.expression(match_call$data), sep = ""), call. = FALSE)
@@ -92,15 +92,15 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         }
     }
 
-    #rand.terms
+    ## rand.terms
     if(missing(rand.terms)) {
         set_rand_terms <- TRUE
     } else {
-        #Checking random terms class
+        ## Checking random terms class
         check.class(rand.terms, "formula")
-        #Checking if the element of rand.terms are present in the table
+        ## Checking if the element of rand.terms are present in the table
         terms_list <- labels(stats::terms(rand.terms))
-        #Checking if the terms are column names
+        ## Checking if the terms are column names
         terms_list_match <- match(terms_list, colnames(data))
         if(any(is.na(terms_list_match))) {
             no_match <- terms_list[which(is.na(terms_list_match))]
@@ -108,7 +108,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
                 stop("In rand.terms, \"",no_match[i], "\" is not matching with any column name in the provided data.")    
             }
         }
-        #check if at least of the terms is the phylogeny (i.e. animal)
+        ## check if at least of the terms is the phylogeny (i.e. animal)
         if(!is.na(match(taxa, terms_list))) {
             set_rand_terms <- FALSE
         } else {
@@ -116,14 +116,14 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         }
     }
 
-    #clean.data
+    ## clean.data
     check.class(clean.data, "logical")
 
-    #BUILDING THE "mulTree" OBJECT LIST
+    ## BUILDING THE "mulTree" OBJECT LIST
 
-    #cleaning the data (optional)
+    ## cleaning the data (optional)
     if(clean.data == TRUE) {
-        data_cleaned <- clean.data(taxa, data, tree)
+        data_cleaned <- clean.data(data, tree)
         tree_new <- data_cleaned$tree
         data_new <- data_cleaned$data
         if(all(is.na(c(data_cleaned$dropped_tips, data_cleaned$dropped_rows)))) {
@@ -136,34 +136,24 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         data_new <- data
     }
 
-    #renaming the taxa column in the data.frame
-    #(this is because of the weird way comparative.data() deals with it's arguments (names.col <- as.character(substitute(names.col))), taxa as to be replaced by just "sp.col" instead of the more cleaner way: (taxa, list(taxa = taxa))) as in names.col <- as.character(substitute(taxa, list(taxa = taxa))).)
+    ## renaming the taxa column in the data.frame
+    ## (this is because of the weird way comparative.data() deals with it's arguments (names.col <- as.character(substitute(names.col))), taxa as to be replaced by just "sp.col" instead of the more cleaner way: (taxa, list(taxa = taxa))) as in names.col <- as.character(substitute(taxa, list(taxa = taxa))).)
     names(data_new) <- sub(taxa,"sp.col",names(data_new))
 
-    #Running the comparative tests
-    test_comp_data <- comparative.data.test(specimen.transform(data_new), tree_new)
-
-    #Stop the testing if results is FALSE
-    if(test_comp_data == FALSE) {
-        stop("Impossible to use the comparative.data function on the data and the tree(s). Possible reasons:\n-Check if the taxa argument corresponds to column in data containing the taxa names.\n-Check if the data matches the tree(s) using the clean.data function.")
-    }
-
-    #Setting the random terms
+    ## Setting the random terms
     if(set_rand_terms) {
-        #adding the "animal" column for MCMCglmm() random phylogenetic effect
+        ## adding the "animal" column for MCMCglmm() random phylogenetic effect
         data_new["animal"] <- NA
         data_new$animal <- data_new$sp.col
         rand.terms <- substitute(~animal)
     } else {
-        #Check which term corresponds to the phylogeny (i.e. animal)
+        ## Check which term corresponds to the phylogeny (i.e. animal)
         phylo_term <- terms_list[which(terms_list == taxa)]
         data_new[phylo_term] <- NA
         data_new[phylo_term] <- data_new[,which(names(data_new) == "sp.col")]
 
-        #Modify the formula and the column name to correspond to animal (phylogeny) for MCMCglmm (unless the phylo term is already called animal)
-        #
-        # THIS PART OF THE CODE IS A BIT CLUMSY! MIGHT WANT TO MODIFY THAT IN THE FUTURE
-        #
+        ## Modify the formula and the column name to correspond to animal (phylogeny) for MCMCglmm (unless the phylo term is already called animal)
+        #TG: THIS PART OF THE CODE IS A BIT CLUMSY! MIGHT WANT TO MODIFY THAT IN THE FUTURE
         if(phylo_term != "animal") {
             names(data_new)[which(names(data_new) == phylo_term)] <- "animal"
             if(length(terms_list) == 1) {
@@ -197,10 +187,10 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data=FALSE) {
         }
     }
 
-    #Creating the mulTree object
+    ## Creating the mulTree object
     taxa_column <- paste("renamed column ", taxa, " into 'sp.col'", sep = "")
     output <- list(phy = tree_new, data = data_new, random.terms = rand.terms, taxa.column = taxa_column)
-    #Assign class
+    ## Assign class
     class(output) <- "mulTree"
 
     return(output)

@@ -21,7 +21,7 @@ as.mulTree(data, tree, taxa, rand.terms, clean.data = FALSE)
 A \code{mulTree} object the data to be passed to the \code{\link{mulTree}} function.
 }
 \description{
-Combines a table and a multiple phylogenies using \code{\link[caper]{comparative.data}} function. Changes the name of the taxa column into "sp.col" to be read by \code{\link[caper]{comparative.data}} and \code{\link[MCMCglmm]{MCMCglmm}}.
+Combines a data table and a multiple phylogenies. Changes the name of the taxa column into "sp.col" to be read by \code{\link[MCMCglmm]{MCMCglmm}}.
 }
 \details{
 If \code{rand.terms} is specified by the user, the first element is forced to be called "animal".

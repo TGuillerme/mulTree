@@ -4,14 +4,14 @@
 \alias{clean.data}
 \title{Cleaning phylogenetic data}
 \usage{
-clean.data(taxa, data, tree)
+clean.data(data, tree, data.col = FALSE)
 }
 \arguments{
-\item{taxa}{A \code{vector} of taxa to keep or a \code{numerical} or \code{character} value refering to the column in \code{data} containing the taxa list.}
-
-\item{data}{A \code{data.frame} or \code{matrix}.}
+\item{data}{A \code{data.frame} or \code{matrix} with the elements names as row names.}
 
 \item{tree}{A \code{phylo} or \code{multiPhylo} object.}
+
+\item{data.col}{Optional, the number (\code{numeric}) or name (\code{character}) of the column in \code{data} that contains the tip labels to match. If left missing, the \code{data}'s rownames are used (default is \code{FALSE}).}
 }
 \value{
 A \code{list} containing the cleaned data and tree(s) and information on the eventual dropped tips and rows.
@@ -20,17 +20,17 @@ A \code{list} containing the cleaned data and tree(s) and information on the eve
 Cleans a table/tree to match with a given table/tree
 }
 \examples{
-##Create a set of different trees
-trees_list <- list(rtree(5, tip.label = LETTERS[1:5]),
-     rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6]))
+##Creating a set of different trees
+trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4,
+     tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6]))
 class(trees_list) <- "multiPhylo"
-##Creates a data frame
-dummy_data <- data.frame(taxa_list = LETTERS[1:5], var1 = rnorm(5),
-     var2 = c(rep('a',2), rep('b',3)))
+
+##Creating a matrix
+dummy_data <- matrix(c(rnorm(5), runif(5)), 5, 2,
+    dimnames = list(LETTERS[1:5], c("var1", "var2")))
 
 ##Cleaning the trees and the data
-cleaned <- clean.data(taxa = "taxa_list", data = dummy_data,
-     tree = trees_list)
+cleaned <- clean.data(data = dummy_data, tree = trees_list)
 ##The taxa that where dropped (tips and rows):
 c(cleaned$dropped_tips, cleaned$dropped_rows)
 ##The cleaned trees:
@@ -40,6 +40,6 @@ cleaned$data
 
 }
 \author{
-Thomas Guillerme & Kevin Healy
+Thomas Guillerme
 }
 

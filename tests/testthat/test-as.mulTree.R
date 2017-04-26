@@ -53,33 +53,33 @@ test_that("specimen.transform works", {
 })
 
 
-# Testing comparative.data.test
-data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)))
-tree1 <- rmtree(1,5, tip.label = LETTERS[1:5])
-tree2 <- tree1 ; tree2[[2]] <- rtree(5)
-test_that("comparative.data.test works", {
-    # Errors
-    expect_error(
-    	comparative.data.test("a")
-    	)
-    expect_error(
-    	comparative.data.test(tree1)
-    	)
-    expect_error(
-    	comparative.data.test(data)
-    	)
-    # Must be TRUE
-    expect_true(
-    	comparative.data.test(data, tree1)
-    	)
-    # Must be FALSE
-    expect_false(
-    	comparative.data.test(data, tree2)
-    	)
-    expect_false(
-    	comparative.data.test(tree1, tree2)
-    	)
-})
+# # Testing comparative.data.test
+# data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)))
+# tree1 <- rmtree(1,5, tip.label = LETTERS[1:5])
+# tree2 <- tree1 ; tree2[[2]] <- rtree(5)
+# test_that("comparative.data.test works", {
+#     # Errors
+#     expect_error(
+#     	comparative.data.test("a")
+#     	)
+#     expect_error(
+#     	comparative.data.test(tree1)
+#     	)
+#     expect_error(
+#     	comparative.data.test(data)
+#     	)
+#     # Must be TRUE
+#     expect_true(
+#     	comparative.data.test(data, tree1)
+#     	)
+#     # Must be FALSE
+#     expect_false(
+#     	comparative.data.test(data, tree2)
+#     	)
+#     expect_false(
+#     	comparative.data.test(tree1, tree2)
+#     	)
+# })
 
 
 # Testing example

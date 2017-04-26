@@ -10,10 +10,9 @@
 #' If \code{x}, \code{y} and \code{sample} are \eqn{>1}, the function returns a \code{multiPhylo} object; else it returns a \code{phylo} object.
 #'
 #' @examples
-#' ##Combines 2 randomly chosen trees from x and from y into z putting the root age at 12.
+#' ## Combines 2 randomly chosen trees from x and from y into z putting the root age at 12.
 #' x <- rmtree(10, 5) ; y <- rmtree(5, 5)
-#' z <- tree.bind(x, y, sample = 3, root.age = 12)
-#' z # 3 phylogenetic trees
+#' tree.bind(x, y, sample = 3, root.age = 12)
 #' 
 #' ##Combines one mammal and and one bird tree and setting the root age at 250 Mya.
 #' data(lifespan)
@@ -23,54 +22,54 @@
 #' @author Thomas Guillerme
 #' @export
 
-tree.bind<-function(x, y, sample, root.age) {
-    #SANITIZING
-    #trees
-    # getting the class of each tree object (and checking their class)
+tree.bind <- function(x, y, sample, root.age) {
+    ## SANITIZING
+    ## trees
+    ## getting the class of each tree object (and checking their class)
     x_class <- check.class(x, c("multiPhylo", "phylo"))
     y_class <- check.class(y, c("multiPhylo", "phylo"))
 
-    # transforming the trees into multiPhylo objects
+    ## transforming the trees into multiPhylo objects
     if(x_class == "phylo") x <- list(x) ; class(x) <- "multiPhylo"
     if(y_class == "phylo") y <- list(y) ; class(y) <- "multiPhylo"
 
-    #sample
+    ## sample
     if(missing(sample)) {
         sample <- 1
     } else {
         check.class(sample, "numeric")
     }
 
-    #root age
+    ## root age
     if(missing(root.age)) {
         root.age <- 0
     } else {
         check.class(root.age, "numeric")
     }
 
-    #RANDOMLY BINDING THE TREES
-    # Sample draws (using get.replace to set replace or not with verbose warning)
+    ## RANDOMLY BINDING THE TREES
+    ## Sample draws (using get.replace to set replace or not with verbose warning)
     rand_x <- sample.trees(x, sample, get.replace(x, sample, TRUE))
     rand_y <- sample.trees(y, sample, get.replace(y, sample, TRUE))
     sample_list <- as.list(seq(1:sample)) # number of samples to draw
 
-    # Bind the trees
+    ## Bind the trees
     binded_trees <- lapply(sample_list, lapply.bind.tree, x, y, rand_x, rand_y, root.age)
 
-    #OUTPUT
+    ## OUTPUT
 
-    # Check if the trees can be converted into phylo/multiPhylo
+    ## Check if the trees can be converted into phylo/multiPhylo
     if(all(unlist(lapply(binded_trees, Ntip)) == unlist(lapply(binded_trees, function(x) length(unique(x$tip.label)))))) {
-        # output a tree if length = 1
+        ## output a tree if length = 1
         if(length(binded_trees) == 1) {
             binded_trees <- binded_trees[[1]] ; class(binded_trees) <- "phylo"
         } else {
-            # output is a multiPhylo
+            ## output is a multiPhylo
             class(binded_trees) <- "multiPhylo"
         }
         return(binded_trees)
     } else {
-        # Some trees have duplicated names
+        ## Some trees have duplicated names
         warning("Some trees have duplicated tip labels.\nThe output can not be converted into phylo or multiPhylo objects.")
         return(binded_trees)
     }

@@ -16,8 +16,8 @@
 #' @param parallel An optional vector containing the virtual connection process type for running the chains in parallel (requires \code{snow} package).
 #'
 #' @return
-#' Generates MCMCglmm models and saves them sequentially out of \code{R} environement to minimise users RAM usage. 
-#' Use \code{\link{read.mulTree}} to reload the models back in the \code{R} environement. 
+#' Generates MCMCglmm models and saves them sequentially out of \code{R} environment to minimise users RAM usage. 
+#' Use \code{\link{read.mulTree}} to reload the models back in the \code{R} environment. 
 #' Because of the calculation of the vcv matrix for each model and each tree in the MCMCglmm models, this function is really RAM demanding. 
 #' For big datasets we heavily recommend to have at least 4GB RAM DDR3 available.
 #' 
@@ -75,7 +75,7 @@
 #' ## Use read.mulTree() to read the generated models.
 #' 
 #' ## Remove the generated files from the current directory
-#' file.remove(list.files(pattern="longevity.example"))
+#' file.remove(list.files(pattern = "longevity.example"))
 #' 
 #' ## Parallel example
 #' ## Loading the snow package
@@ -89,12 +89,12 @@
 #'  
 #' ## Same example but including specimens
 #' ## Subset of the data
-#' data<-lifespan_volant[sample(nrow(lifespan_volant), 30),]
+#' data <- lifespan_volant[sample(nrow(lifespan_volant), 30),]
 #' ##Create a dataset with two specimen per species
-#' data <- rbind(cbind(data, specimen = rep("spec1",30)), cbind(data,
-#'      specimen = rep("spec2",30)))
+#' data <- rbind(cbind(data, specimen = rep("spec1", 30)), cbind(data,
+#'      specimen = rep("spec2", 30)))
 #' ##Cleaning the trees
-#' trees <- clean.data(taxon = "species", data, combined_trees)$tree
+#' trees <- clean.data(data, combined_trees, data.col = "species")$tree
 #' 
 #' ##Creates the mulTree object
 #' mulTree_data <- as.mulTree(data, trees, species = "species",
@@ -129,130 +129,130 @@
 # verbose = TRUE
 # warn = FALSE
 
-mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., convergence=1.1, ESS=1000, verbose=TRUE, output="mulTree_models", warn=FALSE, parallel) {  
+mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., convergence = 1.1, ESS = 1000, verbose = TRUE, output = "mulTree_models", warn = FALSE, parallel) {  
 
-    #HEADER
-    #libraries
+    ## HEADER
+    ## libraries
     if(!missing(parallel)) {
         requireNamespace("snow")
     }
-    #timer(start)
+    ## timer(start)
     start.time <- Sys.time()
 
-    #Set working environment
+    ## Set working environment
     mulTree_env <- new.env()
 
-    #SANITIZING
+    ## SANITIZING
     check.class(mulTree.data, "mulTree")
 
-    #formula
+    ## formula
     check.class(formula, 'formula')
-    #Check the terms
+    ## Check the terms
     formula_terms <- as.character(attr(stats::terms(formula), "variables"))[-1]
     check_formula <- match(formula_terms, colnames(mulTree.data$data))
     if(any(is.na(check_formula))) {
         stop(paste(paste(formula_terms[which(is.na(check_formula))], collapse = ", "), "terms in the formula do not match dataset column names."))
     }
 
-    #chains
+    ## chains
     check.class(chains, 'numeric')
     check.length(chains, 1, " must be a single value.")
     if(chains == 1) {
         message("Only one chain has been called: the convergence test can't be performed.")
     }
 
-    #parameters
+    ## parameters
     check.class(parameters, 'numeric')
     check.length(parameters, 3, " must be a vector of three elements: (1) the number of generations, (2) the sampling and (3) the burnin.")
 
-    #priors
+    ## priors
     if(!missing(priors)) {
         check.class(priors, 'list')
     }
 
-    #convergence
+    ## convergence
     check.class(convergence, 'numeric')
     check.length(convergence, 1, " must be a single value.")
 
-    #ESS
+    ## ESS
     check.class(ESS, 'numeric')
     check.length(ESS, 1, " must be a single value.")
 
-    #verbose
+    ## verbose
     check.class(verbose, 'logical')
 
-    #output
+    ## output
     check.class(output, 'character')
     check.length(output, 1, " must be a single chain of characters.")
-    #Check if the output chain name is already present in the current directory
+    ## Check if the output chain name is already present in the current directory
     if(length(grep(output, list.files())) > 0) {
         read.key(paste("Output chain name \"", output, "\" already exists!\nPress [enter] if you wish to overwrite the models or [esc] to cancel.", sep = ""), "Models will be overwritten...")
     }
 
-    #warn
+    ## warn
     check.class(warn, 'logical', " must be logical.")
 
-    #parallel
+    ## parallel
     if(!missing(parallel)) {
         check.class(parallel, "character")
-        #Set up the cluster
+        ## Set up the cluster
         cluster_ID <- snow::makeCluster(chains, parallel)
     }
 
-    #RUNNING THE MODELS
+    ## RUNNING THE MODELS
     for (ntree in 1:length(mulTree.data$phy)) {
-        #Setting up mulTree arguments
+        ## Setting up mulTree arguments
         mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
         #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; warning("DEBUG")
 
         if(missing(parallel)) {
             for(nchain in 1:chains) {
 
-                #Run the model
+                ## Run the model
                 model <- do.call(lapply.MCMCglmm, mulTree_arguments)
 
-                #Saving the model out of R environment
+                ## Saving the model out of R environment
                 save(model, file = get.model.name(nchain, ntree, output))
 
-                #reset the model's content (for safety) 
+                ## reset the model's content (for safety) 
                 model <- NULL
             }
 
         } else {
-            #Run the models
+            ## Run the models
             model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
             #model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
                         
-            #Saving the models
+            ## Saving the models
             for (nchain in 1:chains) {
-                #Save on model for one chain
+                ## Save on model for one chain
                 model <- model_tmp[[nchain]]
                 save(model, file = get.model.name(nchain, ntree, output))
-                #Reset the model's content (for safety) 
+                ## Reset the model's content (for safety) 
                 model <- NULL
             }
 
-            #Reset the models for both chains (safety)
+            ## Reset the models for both chains (safety)
             model_tmp <- NULL
         }
 
-        #RUNNING THE CONVERGENCE DIAGNOSIS (if more than one chain)
+        ## RUNNING THE CONVERGENCE DIAGNOSIS (if more than one chain)
         if(chains > 1) {
-            #Get the models
+            ## Get the models
             models <- lapply(as.list(seq(1:chains)), extract.chains, ntree, output)
-            #Run the convergence test
+            ## Run the convergence test
             converge.test <- convergence.test(models)
-            #Saving the convergence test
+            ## Saving the convergence test
             save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
-            #Calculate the ESS
+            ## Calculate the ESS
             ESS_results <- lapply(models, ESS.lapply)
             names(ESS_results) <- paste("C", 1:chains, sep = "")
             ESS_results <- unlist(ESS_results)
-            #reset the models content (for safety) 
+            ## reset the models content (for safety) 
             models <- NULL
         }
 
-        #BE VERBOSE
+        ## BE VERBOSE
         if(verbose == TRUE) {
             cat("\n", format(Sys.Date()), " - ", format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm performed on tree ", ntree, "\n", sep = "")
             if(chains > 1) {
@@ -276,22 +276,22 @@ mulTree <- function(mulTree.data, formula, parameters, chains=2, priors, ..., co
     } 
 
     if(!missing(parallel)) {
-        #Stop the cluster
+        ## Stop the cluster
         snow::stopCluster(cluster_ID)
     }
 
-#OUTPUT
+    ## OUTPUT
 
-    #timer (end)
+    ## timer (end)
     end.time <- Sys.time()
     execution.time <- difftime(end.time,start.time, units = "secs")
 
-    #verbose
+    ## verbose
     if(verbose==TRUE) {
         cat("\n",format(Sys.Date())," - ",format(Sys.time(), "%H:%M:%S"), ":", " MCMCglmm successfully performed on ", length(mulTree.data$phy), " trees.\n",sep = "")
         get.timer(execution.time)
         cat("Use read.mulTree() to read the data as 'mulTree' data.\nUse summary.mulTree() and plot.mulTree() for plotting or summarizing the 'mulTree' data.\n", sep = "")
-}
-
-#End
+    }
+    
+    return(invisible())
 }

@@ -27,8 +27,8 @@ NULL
 NULL
 #' @importFrom stats median
 NULL
-#' @importFrom caper comparative.data
-NULL
+# #' @importFrom caper comparative.data
+# NULL
 #' @importFrom coda as.mcmc
 NULL
 #' @importFrom coda gelman.diag
