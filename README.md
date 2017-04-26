@@ -1,5 +1,6 @@
 # mulTree
 [![Build Status](https://travis-ci.org/TGuillerme/mulTree.svg?branch=release)](https://travis-ci.org/TGuillerme/mulTree)
+[![codecov](https://codecov.io/gh/TGuillerme/mulTree/branch/master/graph/badge.svg)](https://codecov.io/gh/TGuillerme/mulTree)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.45097.svg)](https://doi.org/10.5281/zenodo.45097)
 
 This package is based on the [MCMCglmm](http://cran.r-project.org/web/packages/MCMCglmm/index.html) package
