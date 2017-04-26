@@ -16,7 +16,7 @@ Check out the [presentation](https://figshare.com/articles/Guillerme_BESMacro201
 ## TEMPORARY FIX - these packages somehow fail to instal, you can install the manually:
 if(!require(curl)) install.packages("curl")
 if(!require(corpcor)) install.packages("corpcor")
-if(!require(cape)) install.packages("caper")
+if(!require(caper)) install.packages("caper")
 
 ## Installing the package
 if(!require(devtools)) install.packages("devtools")
