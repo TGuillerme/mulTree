@@ -20,10 +20,9 @@ If \code{x}, \code{y} and \code{sample} are \eqn{>1}, the function returns a \co
 Randomly binds trees together with a provided number of trees and a root age.
 }
 \examples{
-##Combines 2 randomly chosen trees from x and from y into z putting the root age at 12.
+## Combines 2 randomly chosen trees from x and from y into z putting the root age at 12.
 x <- rmtree(10, 5) ; y <- rmtree(5, 5)
-z <- tree.bind(x, y, sample = 3, root.age = 12)
-z # 3 phylogenetic trees
+tree.bind(x, y, sample = 3, root.age = 12)
 
 ##Combines one mammal and and one bird tree and setting the root age at 250 Mya.
 data(lifespan)

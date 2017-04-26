@@ -41,13 +41,13 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
 
     match_call <- match.call()
 
-    #SANITIZING
-    #mulTree.results
+    ## SANITIZING
+    ## mulTree.results
     if(!all(class(mulTree.summary) == c("matrix","mulTree"))) {
         stop(match_call$mulTree.summary, " is not mulTree matrix.\nUse summary.mulTree() to properly generate the data.", sep = "")   
     }
 
-    #terms
+    ## terms
     if(!missing(terms)) {
         check.class(terms, "character")
         check.length(terms, nrow(mulTree.summary), paste(" must have the same number of terms as ", match_call$mulTree.summary, sep = ""), errorif = FALSE)
@@ -55,50 +55,50 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
         terms <- rownames(mulTree.summary)
     }
 
-    #cex.terms
+    ## cex.terms
     if(!missing(cex.terms)) {
         check.class(cex.terms, "numeric")
         check.length(cex.terms, 1, " must be a single value for the size of the terms labels.")
     }
 
-    #cex.terms
+    ## cex.terms
     if(!missing(cex.coeff)) {
         check.class(cex.coeff, "numeric")
         check.length(cex.coeff, 1, " must be a single value for the size of the coefficients labels.")
     }
 
-    #horizontal
+    ## horizontal
     check.class(horizontal, "logical")
 
-    #default optional arguments
-    #Get the automatic ylimits
+    ## default optional arguments
+    ## Get the automatic ylimits
     if(missing(ylim)) {
         ylim <- get.ylim(mulTree.summary)
     }
 
-    #Get the automatic colours
+    ## Get the automatic colours
     if(missing(col)) {
         col <- grDevices::gray(seq(from = 1-(1/((ncol(mulTree.summary)-1)/2*2)), to = 0+(1/((ncol(mulTree.summary)-1)/2*2)), length.out = (ncol(mulTree.summary)-1)/2))
     }
 
 
-    #PLOTTING THE RESULTS
-    #Set up the space between terms
+    ## PLOTTING THE RESULTS
+    ## Set up the space between terms
     terms_space <- 0.5
-    #Plot the frame
+    ## Plot the frame
     if (horizontal == FALSE) {
-        #Plot the horizontal frame
+        ## Plot the horizontal frame
         graphics::plot(1,1, xlim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
         #graphics::plot(1,1, xlim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), ylim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n",) ; warning("DEBUG MODE")
 
-        #Adding the y axis (coefficients)
+        ## Adding the y axis (coefficients)
         if(!missing(cex.coeff)) {
             graphics::axis(side = 2, cex.axis = cex.coeff)
         } else {
             graphics::axis(side = 2)
         }
 
-        #Adding the x axis (terms)
+        ## Adding the x axis (terms)
         if(!missing(cex.terms)) {
             graphics::axis(side = 1, at = 1:nrow(mulTree.summary), labels = terms, las = 2, cex.axis = cex.terms)
         } else {
@@ -106,18 +106,18 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
         }
 
     } else {
-        #Plot the vertical frame
+        ## Plot the vertical frame
         graphics::plot(1,1, ylim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n", ...)
         #graphics::plot(1,1, ylim = c(1 - terms_space, nrow(mulTree.summary) + terms_space), xlim = ylim, type = "n", xaxt = "n", yaxt = "n", bty = "n") ; warning("DEBUG MODE")
         
-        #Adding the y axis (terms)
+        ## Adding the y axis (terms)
         if(!missing(cex.terms)) {
             graphics::axis(side = 2, at = 1:nrow(mulTree.summary), labels = rev(terms), las = 2, cex.axis = cex.terms)
         } else {
             graphics::axis(side = 2, at = 1:nrow(mulTree.summary), labels = rev(terms), las = 2)
         }
 
-        #Adding the x axis (coefficients)
+        ## Adding the x axis (coefficients)
         if(!missing(cex.coeff)) {
             graphics::axis(side = 3, cex.axis = cex.coeff)
         } else {
@@ -125,20 +125,20 @@ plot.mulTree <- function(mulTree.summary, terms, cex.terms, cex.coeff, horizonta
         }
     }
     
-    #Setting box parameters
+    ## Setting box parameters
     box_width <- seq(from=0.1, by = 0.05, length.out = (ncol(mulTree.summary)-1)/2)
 
-    #Drawing the polygons
+    ## Drawing the polygons
     for (term in 1:nrow(mulTree.summary)) {
         for (CI in 1:c((ncol(mulTree.summary)-1)/2)) {
-            #Drawing the polygons
+            ## Drawing the polygons
             if(horizontal == FALSE) {
                 graphics::polygon(x = get.width(box_width, term, CI), y = get.height(mulTree.summary, term, CI), col = col)
             } else {
                 graphics::polygon(y = get.width(box_width, nrow(mulTree.summary)-(term-1), CI), x = get.height(mulTree.summary, term, CI), col = col)
             }
         }
-        #Drawing the central tendencies
+        ## Drawing the central tendencies
         if(horizontal == FALSE) {
             graphics::points(term, mulTree.summary[term, 1], pch = 19)
         } else {
