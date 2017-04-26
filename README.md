@@ -16,7 +16,6 @@ Check out the [presentation](https://figshare.com/articles/Guillerme_BESMacro201
 ## TEMPORARY FIX - these packages somehow fail to instal, you can install the manually:
 if(!require(curl)) install.packages("curl")
 if(!require(corpcor)) install.packages("corpcor")
-if(!require(caper)) install.packages("caper")
 
 ## Installing the package
 if(!require(devtools)) install.packages("devtools")
@@ -30,7 +29,7 @@ The following installs the latest released version (see patch notes below). For 
 If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix buy downloading `R`'s latest version and installing the missing packages manualy:
 ```r
 ## Install the missing packages
-install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape", "corpcor", "curl"))
+install.packages(c("MCMCglmm", "coda", "hdrcde", "snow", "ape", "corpcor", "curl"))
 ```
 
 #### Vignettes
@@ -38,11 +37,10 @@ install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape", "corpco
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla_flavoured_phylogenetic_analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2017/01/09 - v1.2.5
-  * Added minor sanitising function to `mulTree` the formula now has to match the data set column names.
-  * Fixed a bug with the `parallel` option in `mulTree`: only one cluster is now generated at the start of the function rather than one at each iteration.
-  * Fixed a minor bug with `as.mulTree`: the random terms formula's environment is not anymore exported by the function when set up by default.
-
+* 2017/04/26 - v1.2.6
+  * Removed `caper` dependencies.
+  * Minor fixes to code internal documentation.
+  
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors
