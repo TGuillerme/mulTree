@@ -1,5 +1,6 @@
 # mulTree
 [![Build Status](https://travis-ci.org/TGuillerme/mulTree.svg?branch=release)](https://travis-ci.org/TGuillerme/mulTree)
+[![codecov](https://codecov.io/gh/TGuillerme/mulTree/branch/master/graph/badge.svg)](https://codecov.io/gh/TGuillerme/mulTree)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.45097.svg)](https://doi.org/10.5281/zenodo.45097)
 
 This package is based on the [MCMCglmm](http://cran.r-project.org/web/packages/MCMCglmm/index.html) package
@@ -12,6 +13,12 @@ Check out the [presentation](https://figshare.com/articles/Guillerme_BESMacro201
 
 ## Installing mulTree
 ```r
+## TEMPORARY FIX - these packages somehow fail to instal, you can install the manually:
+if(!require(curl)) install.packages("curl")
+if(!require(corpcor)) install.packages("corpcor")
+if(!require(cape)) install.packages("caper")
+
+## Installing the package
 if(!require(devtools)) install.packages("devtools")
 library(devtools)
 install_github("TGuillerme/mulTree", ref = "release")
@@ -20,14 +27,15 @@ library(mulTree)
 The following installs the latest released version (see patch notes below). For the piping hot development version (not recommended), replace the `ref="release"` option by `ref="master"`. If you're using the `master` branch, see the latest developement in the [patch note](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 #### Warning note:
-If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix it by installing them manualy using the following:
+If you're using a PC and the package doesn't install correctly, it might be due to the fact that dependencies are not installed correctly. You can fix buy downloading `R`'s latest version and installing the missing packages manualy:
 ```r
-install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape"))
+## Install the missing packages
+install.packages(c("MCMCglmm", "caper", "coda", "hdrcde", "snow", "ape", "corpcor", "curl"))
 ```
 
 #### Vignettes
 *  The package manual [here (in .Rnw)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.Rnw) or [here (in .pdf)](https://github.com/TGuillerme/mulTree/blob/master/doc/mulTree-manual.pdf).
-*  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla flavoured phylogenetic analyses.Rmd).
+*  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla_flavoured_phylogenetic_analyses.Rmd).
 
 ##### Patch notes (latest version)
 * 2017/01/09 - v1.2.5
@@ -51,5 +59,7 @@ If you are using this package, please cite:
 
 Used in
 -------
-* Healy, K., Guillerme, T., Finlay, S., Kane, A., Kelly, S, B, A., McClean, D., Kelly, D, J., Donohue, I., Jackson, A, L., Cooper, N. (**2014**) Ecology and mode-of-life explain lifespan variation in birds and mammals. *Proceedings of the Royal Society B* 281, 20140298. [DOI:10.1098/rspb.2014.0298](http://rspb.royalsocietypublishing.org/content/281/1784/20140298?ijkey=1d6acd5357bbd6b611bd0d38b7cacd7a03d83dd1&keytype2=tf_ipsecsha)
+* Guitiérez J.S., Rakhimberdiev E., Piersma T., Thieltges D.W. (**2017**) Migration and parasitism: habitat use, not migration distance, inﬂuences helminth species richness in Charadriiform birds. *Journal of Biogeography*. [DOI: 10.1111/jbi.12956](http://onlinelibrary.wiley.com/doi/10.1111/jbi.12956/full)
+* Zhang G., Zhao Q., Møller A.P., J. Komdeur J., Lu X. (**2017**) Climate predicts which sex acts as helpers among cooperatively breeding bird species. *Biology Letters* 13:1. [DOI: 10.1098/rsbl.2016.0863](http://rsbl.royalsocietypublishing.org/content/13/1/20160863)
 * Healy, K. (**2015**) Eusociality but not fossoriality drives longevity in small mammals. *Proceedings of the Royal Society B* 282, 20142917. [DOI: 10.1098/rspb.2014.2917](http://rspb.royalsocietypublishing.org/content/282/1806/20142917)
+* Healy, K., Guillerme, T., Finlay, S., Kane, A., Kelly, S, B, A., McClean, D., Kelly, D, J., Donohue, I., Jackson, A, L., Cooper, N. (**2014**) Ecology and mode-of-life explain lifespan variation in birds and mammals. *Proceedings of the Royal Society B* 281, 20140298. [DOI:10.1098/rspb.2014.0298](http://rspb.royalsocietypublishing.org/content/281/1784/20140298?ijkey=1d6acd5357bbd6b611bd0d38b7cacd7a03d83dd1&keytype2=tf_ipsecsha)
