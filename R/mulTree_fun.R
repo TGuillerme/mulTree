@@ -55,7 +55,13 @@ convergence.test <- function(models){
     list_mcmc <- lapply(models, get.VCV)
 
     ## Convergence check using Gelman and Rubins diagnoses set to return true or false based on level of scale reduction set (default = 1.1)
-    convergence <- coda::gelman.diag(coda::mcmc.list(list_mcmc))
+    convergence <- try(coda::gelman.diag(coda::mcmc.list(list_mcmc)), silent = TRUE)
+
+    ## Print error messages if convergence didn't run
+    if(class(convergence) == "try-error") {
+        warning(paste("Convergence test failed.\nError probably originated from coda::gelman.diag.\n", paste(convergence, collapse = "\n"), sep = ""), call. = FALSE)
+        convergence <- NULL
+    }
 
     return(convergence)
 }

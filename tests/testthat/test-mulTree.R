@@ -83,7 +83,7 @@ test_that("convergence.test works", {
     	convergence.test(model_tree1_chain1)
     	)
     # Not enough chains
-    expect_error(
+    expect_warning(
     	convergence.test(list(model_tree1_chain1))
     	)
     # Missing arguments (error + message)
