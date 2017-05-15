@@ -1,6 +1,6 @@
 Patch notes
 ----
-* 2017/04/26 - v1.2.6
+* 2017/05/15 - v1.2.6
   * Removed `caper` dependencies.
   * Minor fixes to code internal documentation.
   * `coda::gelman.diag` in `mulTree` now only outputs a warning rather than a stop message
