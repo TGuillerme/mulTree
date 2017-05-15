@@ -3,6 +3,8 @@ Patch notes
 * 2017/04/26 - v1.2.6
   * Removed `caper` dependencies.
   * Minor fixes to code internal documentation.
+  * `coda::gelman.diag` in `mulTree` now only outputs a warning rather than a stop message
+  * Allows R-structure's standrad multi-response model in `as.mulTree` (e.g. `rand.terms  = ~taxa + specimen + us(trait):observation`).
 * 2017/01/09 - v1.2.5
   * Added minor sanitising function to `mulTree` the formula now has to match the data set column names.
   * Fixed a bug with the `parallel` option in `mulTree`: only one cluster is now generated at the start of the function rather than one at each iteration.

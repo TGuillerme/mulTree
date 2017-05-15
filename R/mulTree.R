@@ -114,6 +114,7 @@
 #DEBUG
 # source("sanitizing.R")
 # source("mulTree_fun.R")
+# source("read.mulTree_fun")
 # data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
 # tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
 # class(tree) <- "multiPhylo"
@@ -203,7 +204,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     for (ntree in 1:length(mulTree.data$phy)) {
         ## Setting up mulTree arguments
         mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
-        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; warning("DEBUG")
+        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; stop("DEBUG")
 
         if(missing(parallel)) {
             for(nchain in 1:chains) {
@@ -242,8 +243,10 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
             models <- lapply(as.list(seq(1:chains)), extract.chains, ntree, output)
             ## Run the convergence test
             converge.test <- convergence.test(models)
-            ## Saving the convergence test
-            save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
+            if(!is.null(converge.test)) {
+                ## Saving the convergence test
+                save(converge.test, file = paste(output, "-tree", ntree, "_conv", ".rda", sep = ""))
+            }
             ## Calculate the ESS
             ESS_results <- lapply(models, ESS.lapply)
             names(ESS_results) <- paste("C", 1:chains, sep = "")
@@ -265,8 +268,10 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
                     cat(ESS_results, sep="; ") ; cat("\n")
                     cat(paste(names(which(ESS_results < ESS)), collapse =", "), " < ", ESS, "\n", sep = "")
                 }
-                cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,c(1:2)] < convergence), "\n", sep = "")
-                cat(converge.test$psrf[,c(1:2)], sep="; ") ; cat("\n")
+                if(!is.null(converge.test)) {
+                    cat("All levels converged < ", convergence, ": ", all(converge.test$psrf[,c(1:2)] < convergence), "\n", sep = "")
+                    cat(converge.test$psrf[,c(1:2)], sep="; ") ; cat("\n")
+                }
                 cat("Individual models saved as: ", output, "-tree", ntree, "_chain*.rda\n", sep = "")
                 cat("Convergence diagnosis saved as: ", output, "-tree", ntree, "_conv.rda", "\n", sep = "")
             } else {
