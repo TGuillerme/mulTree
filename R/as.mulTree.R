@@ -103,9 +103,24 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
         ## Checking if the terms are column names
         terms_list_match <- match(terms_list, colnames(data))
         if(any(is.na(terms_list_match))) {
-            no_match <- terms_list[which(is.na(terms_list_match))]
-            for (i in 1:length(no_match)) {
-                stop("In rand.terms, \"",no_match[i], "\" is not matching with any column name in the provided data.")    
+
+            ## Check if the non-matching terms are correlation terms
+            no_match <- terms_list[is.na(terms_list_match)]
+            is_cor <- grep("us\\(", no_match)
+
+            if(length(is_cor) != length(no_match)) {
+                ## At leas one wrong term anyway!
+                stop("The following random terms do not match with any column name provided in data:\n    ", paste(no_match[-is_cor], sep = ", "), ".", sep = "")
+            } else {
+                ## Check if the correlation terms exist
+                cor_term_tmp <- strsplit(no_match, split = ":")[[1]]
+                is_us <- grep("us\\(", cor_term_tmp)
+                cor_term <- c(strsplit(strsplit(cor_term_tmp[is_us], split = "\\(")[[1]][2], "\\)")[[1]][1], cor_term_tmp[-is_us])
+                cor_terms_list_match <- match(cor_term, colnames(data))
+
+                if(any(is.na(cor_terms_list_match))) {
+                    stop("The following random terms do not match with any column name provided in data:\n    ", paste(cor_term[is.na(cor_terms_list_match)], sep = ", "), ".", sep = "")
+                }
             }
         }
         ## check if at least of the terms is the phylogeny (i.e. animal)

@@ -161,4 +161,42 @@ test_that("example works", {
     expect_is(
     	test2$taxa.column, "character"
     	)
+
+
+    #Example 3 (with correlation)
+    # outputs a mulTree...
+    test3 <- suppressMessages(as.mulTree(data_table2, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen+var2:us(var1)))
+    test3.1 <- suppressMessages(as.mulTree(data_table2, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen+us(var1):var2))
+    expect_is(
+        test3, "mulTree"
+        )
+    # ...of for objects:
+    expect_equal(
+        length(test3), 4
+        ) 
+    # first being a multiphylo object
+    expect_is(
+        test3$phy, "multiPhylo"
+        ) 
+    # second being a data.frame object
+    expect_is(
+        test3$data, "data.frame"
+        )
+    expect_equal(
+        dim(test3$data), c(10,5)
+        )
+    # third being a formula object
+    expect_is(
+        test3$random.terms, "formula"
+        )
+    expect_equal(
+        test3$random.terms, ~animal + specimen + var2:us(var1)
+        )
+    expect_equal(
+        test3.1$random.terms, ~animal + specimen + us(var1):var2
+        )    
+    # forth being some text
+    expect_is(
+        test3$taxa.column, "character"
+        )
 })
