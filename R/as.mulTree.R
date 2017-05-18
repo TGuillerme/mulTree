@@ -119,7 +119,9 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
                 cor_terms_list_match <- match(cor_term, colnames(data))
 
                 if(any(is.na(cor_terms_list_match))) {
-                    stop("The following random terms do not match with any column name provided in data:\n    ", paste(cor_term[is.na(cor_terms_list_match)], sep = ", "), ".", sep = "")
+                    if(cor_term[is.na(cor_terms_list_match)] != "units") {
+                        stop("The following random terms do not match with any column name provided in data:\n    ", paste(cor_term[is.na(cor_terms_list_match)], sep = ", "), ".", sep = "")
+                    }
                 }
             }
         }
