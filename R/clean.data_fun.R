@@ -28,7 +28,6 @@ clean.tree.table <- function(tree, data, data.col) {
         } else {
             dropped_rows <- rownames(data)[rows_numbers]
         }
-        dropped_rows <- rownames(data)[rows_numbers]
         data <- data[-c(rows_numbers),]
     }
 
