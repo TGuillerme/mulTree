@@ -38,9 +38,9 @@ clean.data <- function(data, tree, data.col = FALSE) {
 
     ## SANITIZING
     ## data
-    silent <- check.class(data, c("matrix", "data.frame"), " must be a data.frame or matrix object.")
-    ##  must have row names
-    if(is.null(rownames(data))) {
+    data_class <- check.class(data, c("matrix", "data.frame"), " must be a data.frame or matrix object.")
+    ## if matrix, it must have row names
+    if(data_class == "matrix" && is.null(rownames(data))) {
         stop(paste(match_call$data, "must have row names."))
     }
 
@@ -48,26 +48,20 @@ clean.data <- function(data, tree, data.col = FALSE) {
     tree_class <- check.class(tree, c("phylo", "multiPhylo"), " must be a phylo or multiPhylo object.")
 
     ## data.col
-    is_data_tmp <- FALSE
-    if(missing(data.col)) {
-        data.col <- FALSE
-    } else {
+    if(data.col != FALSE) {
         check.length(data.col, 1, " must be either a numeric value or a character string.", errorif = FALSE)
         data_col_class <- check.class(data.col, c("numeric", "character"))
 
+        ## Sort out data.col's class
         if(data_col_class == "numeric") {
             ## Data.col is numeric
-            if(data.col <= ncol(data)) {
-                is_data_tmp <- TRUE
-            } else {
+            if(data.col > ncol(data)) {
                 stop(paste("Column", match_call$data.col, "is not present in", match_call$data))
             }
         } else {
             ## Data.col is character
             data.col <- match(data.col, colnames(data))
-            if(!is.na(data.col)) {
-                is_data_tmp <- TRUE
-            } else {
+            if(is.na(data.col)) {
                 stop(paste("Column", match_call$data.col, "is not present in", match_call$data))
             }
         }
