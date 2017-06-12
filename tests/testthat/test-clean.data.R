@@ -48,7 +48,7 @@ test_that("clean.tree.table works", {
 trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
 dummy_data <- matrix(c(rnorm(5), runif(5)), 5, 2, dimnames = list(LETTERS[1:5], c("var1", "var2")))
 cleaned <- clean.data(data = dummy_data, tree = trees_list)
-test_that("clean.data works", {
+test_that("clean.data works with a matrix", {
     # Output is a list...
     expect_is(
         cleaned, "list"
@@ -68,6 +68,46 @@ test_that("clean.data works", {
     # Second element is a table...
     expect_is(
         cleaned[[2]], "matrix"
+        )
+    # ...with four rows.
+    expect_equal(
+        nrow(cleaned[[2]]), 4
+        )
+    # Third element contains "F"
+    expect_equal(
+        cleaned[[3]], "F"
+        )
+    # Forth element contains "E"
+    expect_equal(
+        cleaned[[4]], "E"
+        )
+})
+
+#Testing clean.data on data.frames
+trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
+dummy_data <- data.frame(LETTERS[1:5], matrix(c(rnorm(5), runif(5)), 5, 2))
+colnames(dummy_data) <- c("species", "var1", "var2")
+cleaned <- clean.data(data = dummy_data, tree = trees_list, data.col = "species")
+test_that("clean.data works with a data.frame", {
+    # Output is a list...
+    expect_is(
+        cleaned, "list"
+        )
+    # ... of 4 elements.
+    expect_equal(
+        length(cleaned), 4
+        )
+    # First element are trees...
+    expect_is(
+        cleaned[[1]], "multiPhylo"
+        )
+    # ...with 4 taxa each.
+    expect_equal(
+        unique(unlist(lapply(cleaned[[1]], Ntip))), 4
+        )
+    # Second element is a table...
+    expect_is(
+        cleaned[[2]], "data.frame"
         )
     # ...with four rows.
     expect_equal(
