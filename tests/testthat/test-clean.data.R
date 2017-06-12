@@ -48,7 +48,7 @@ test_that("clean.tree.table works", {
 trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
 dummy_data <- matrix(c(rnorm(5), runif(5)), 5, 2, dimnames = list(LETTERS[1:5], c("var1", "var2")))
 cleaned <- clean.data(data = dummy_data, tree = trees_list)
-test_that("clean.data works", {
+test_that("clean.data works with a matrix", {
     # Output is a list...
     expect_is(
         cleaned, "list"
@@ -84,12 +84,12 @@ test_that("clean.data works", {
 })
 
 
-#Testing clean.data
+#Testing clean.data on data.frames
 trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
 dummy_data <- data.frame(LETTERS[1:5], matrix(c(rnorm(5), runif(5)), 5, 2))
 colnames(dummy_data) <- c("species", "var1", "var2")
 cleaned <- clean.data(data = dummy_data, tree = trees_list, data.col = "species")
-test_that("clean.data works", {
+test_that("clean.data works with a data.frame", {
     # Output is a list...
     expect_is(
         cleaned, "list"
