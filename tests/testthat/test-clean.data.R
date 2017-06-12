@@ -83,6 +83,7 @@ test_that("clean.data works with a matrix", {
         )
 })
 
+
 #Testing clean.data on data.frames
 trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(4, tip.label = LETTERS[1:4]), rtree(6, tip.label = LETTERS[1:6])) ; class(trees_list) <- "multiPhylo"
 dummy_data <- data.frame(LETTERS[1:5], matrix(c(rnorm(5), runif(5)), 5, 2))
