@@ -109,9 +109,9 @@ clean.data <- function(data, tree, data.col = FALSE) {
         if(length(rows_to_drop) != 0) {
             ## removing taxa from the data
             if(data.col != FALSE) {
-                data_new <- data[-match(rows_to_drop, data[,data.col]),]
+                data_new <- data[!(data[,data.col] %in% rows_to_drop), ] 
             } else {
-                data_new <- data[-match(rows_to_drop, rownames(data)),]
+                data_new <- data[!(rownames(data) %in% rows_to_drop), ] 
             }
         } else {
             ## keep the same data
