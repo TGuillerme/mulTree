@@ -24,11 +24,10 @@ clean.tree.table <- function(tree, data, data.col) {
     } else {
         rows_numbers <- which(!data_match)
         if(data.col != FALSE) {
-            dropped_rows <- data[,data.col][rows_numbers]
+            dropped_rows <- as.character(data[,data.col][rows_numbers])
         } else {
             dropped_rows <- rownames(data)[rows_numbers]
         }
-        dropped_rows <- rownames(data)[rows_numbers]
         data <- data[-c(rows_numbers),]
     }
 
