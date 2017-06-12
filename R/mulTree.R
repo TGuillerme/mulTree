@@ -114,7 +114,7 @@
 #DEBUG
 # source("sanitizing.R")
 # source("mulTree_fun.R")
-# source("read.mulTree_fun.R")
+# source("read.mulTree_fun")
 # data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))
 # tree <- replicate(3, rcoal(5, tip.label = LETTERS[1:5]), simplify = FALSE)
 # class(tree) <- "multiPhylo"
