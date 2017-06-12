@@ -34,13 +34,9 @@ install.packages(c("MCMCglmm", "coda", "hdrcde", "snow", "ape", "corpcor", "curl
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla_flavoured_phylogenetic_analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2017/06/12 - v1.2.6
+* 2017/06/12 - **v1.2.7**
   * Minor fix to `clean.data` to properly deal with data frames.
-  * Removed `caper` dependencies.
-  * Minor fixes to code internal documentation.
-  * `coda::gelman.diag` in `mulTree` now only outputs a warning rather than a stop message
-  * Allows R-structure's standrad multi-response model in `as.mulTree` (e.g. `rand.terms  = ~taxa + specimen + us(trait):observation`).
-  
+    
 Previous patch notes and the *next version* ones can be seen [here](https://github.com/TGuillerme/mulTree/blob/master/patch_notes.md).
 
 Authors

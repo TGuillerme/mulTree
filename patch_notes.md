@@ -1,7 +1,8 @@
 Patch notes
 ----
-* 2017/06/12 - v1.2.6
+* 2017/06/12 - **v1.2.7**
   * Minor fix to `clean.data` to properly deal with data frames.
+* 2017/05/15 - v1.2.6
   * Removed `caper` dependencies.
   * Minor fixes to code internal documentation.
   * `coda::gelman.diag` in `mulTree` now only outputs a warning rather than a stop message
