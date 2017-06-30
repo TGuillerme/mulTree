@@ -42,4 +42,3 @@ cleaned$data
 \author{
 Thomas Guillerme
 }
-

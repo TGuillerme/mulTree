@@ -33,4 +33,3 @@ plot(combined_trees) # A tree with both mammals and aves
 \author{
 Thomas Guillerme
 }
-

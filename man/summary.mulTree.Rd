@@ -49,10 +49,9 @@ summary(lifespan.mcmc, prob = 95)
 summary(lifespan.mcmc, use.hdr = FALSE)
 
 }
-\author{
-Thomas Guillerme
-}
 \seealso{
 \code{\link{mulTree}}, \code{\link{read.mulTree}}, \code{\link{plot.mulTree}}
 }
-
+\author{
+Thomas Guillerme
+}

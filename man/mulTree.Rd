@@ -129,10 +129,9 @@ file.remove(list.files(pattern = "longevity.example"))
 }
 
 }
-\author{
-Thomas Guillerme
-}
 \seealso{
 \code{\link[MCMCglmm]{MCMCglmm}}, \code{\link{as.mulTree}}, \code{\link{read.mulTree}}
 }
-
+\author{
+Thomas Guillerme
+}

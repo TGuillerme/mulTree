@@ -50,10 +50,9 @@ tree_list <- rmtree(5,5, tip.label = LETTERS[1:5])
 as.mulTree(data_table, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen)
 
 }
-\author{
-Thomas Guillerme
-}
 \seealso{
 \code{\link{mulTree}}
 }
-
+\author{
+Thomas Guillerme
+}
