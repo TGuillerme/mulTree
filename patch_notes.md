@@ -1,5 +1,7 @@
 Patch notes
 ----
+* 2017/07/18 - 1.3.1
+  * Added `ask` option to `mulTree`, whether to ask to overwrite files or not.
 * 2017/06/12 - **v1.3**
   * Minor fix to `clean.data` to properly deal with data frames.
 * 2017/05/15 - v1.2.6
