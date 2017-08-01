@@ -33,7 +33,7 @@ mulTree(mulTree.data, formula, parameters, chains = 2, priors, ...,
 
 \item{parallel}{An optional vector containing the virtual connection process type for running the chains in parallel (requires \code{snow} package).}
 
-\item{ask}{\code{logical}, whether to ask to overwrite models (\code{TRUE} - default) or not ()\code{FALSE}).}
+\item{ask}{\code{logical}, whether to ask to overwrite models (\code{TRUE} - default) or not (\code{FALSE})).}
 }
 \value{
 Generates MCMCglmm models and saves them sequentially out of \code{R} environment to minimise users RAM usage. 

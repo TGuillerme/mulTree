@@ -75,33 +75,3 @@ check.length <- function(object, length, msg, errorif = FALSE) {
         }        
     }
 }
-
-
-## Cleaning a tree so that the species match with the ones in a table
-clean.tree<-function(tree, table, verbose=FALSE) {
-    missing.species<-caper::comparative.data(tree, data.frame("species"=row.names(table), "dummy"=stats::rnorm(nrow(table)), "dumb"=stats::rnorm(nrow(table))), "species")$dropped
-    if(length(missing.species$tips) != 0) {
-        tree.tmp<-drop.tip(tree, missing.species$tips)
-        if (verbose==TRUE) {
-            cat("Dropped tips:\n")
-            cat(missing.species$tips, sep=", ")
-        }
-        tree<-tree.tmp
-    }
-
-    return(tree)
-}
-
-## Cleaning a table so that the species match with the ones in the tree
-clean.table<-function(table, tree, verbose=FALSE) {
-    missing.species<-caper::comparative.data(tree, data.frame("species"=row.names(table), "dummy"=stats::rnorm(nrow(table)), "dumb"=stats::rnorm(nrow(table))), "species")$dropped
-    if(length(missing.species$unmatched.rows) != 0) {
-        table.tmp<-table[-c(match(missing.species$unmatched.rows, rownames(table))),]
-        if (verbose==TRUE) {
-            cat("Dropped rows:\n")
-            cat(missing.species$unmatched.rows, sep=", ")
-        }
-        table<-table.tmp
-    }
-    return(table)
-}

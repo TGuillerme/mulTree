@@ -83,6 +83,18 @@ test_that("lapply.quantile works", {
 
 # Testing lapply.hdr
 test_that("lapply.hdr works", {
+
+    ## Smooth hdr (internal)
+
+    smooth_simple <- smooth.hdr(hdrcde::hdr(rnorm(100), prob=c(50,95)), prob=c(50,95), "test_hrd")
+    expect_is(smooth_simple, "list")
+    expect_equal(names(smooth_simple), c("hdr", "mode", "falpha"))
+
+    expect_message(smooth_bimod <- smooth.hdr(hdrcde::hdr((c(rnorm(50, 1, 1), rnorm(50, 10, 1))), prob=c(50,95)), prob=c(50,95), "test_hrd"))
+    expect_is(smooth_bimod, "list")
+    expect_equal(names(smooth_bimod), c("hdr", "mode", "falpha"))
+
+
     # Errors
     expect_error(
     	lapply.hdr("X", prob=c(50,95))
