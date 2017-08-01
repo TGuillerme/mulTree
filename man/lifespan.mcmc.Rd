@@ -12,4 +12,3 @@ This is an example of MCMCglmm output files using the \code{\link{mulTree}} func
 Healy, K., Guillerme, T., Finlay, S., Kane, A., Kelly, S, B, A., McClean, D., Kelly, D, J., Donohue, I., Jackson, A, L., Cooper, N. (2014) Ecology and mode-of-life explain lifespan variation in birds and mammals. Proceedings of the Royal Society B 281, 20140298c
 }
 \keyword{datasets}
-

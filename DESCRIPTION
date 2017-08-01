@@ -2,8 +2,8 @@ Package: mulTree
 Title: Performs MCMCglmm on Multiple Phylogenetic Trees
 Author: Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 Maintainer: Thomas Guillerme <guillert@tcd.ie>
-Version: 1.3
-Date: 2017-06-12
+Version: 1.3.1
+Date: 2017-08-01
 Description: Allows to run a MCMCglmm on multiple phylogenetic trees to take into account phylogenetic uncertainty.
 Depends:
     R (>= 3.0.0),
@@ -17,4 +17,4 @@ VignetteBuilder: knitr
 Suggests:
     testthat,
     knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

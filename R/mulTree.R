@@ -14,6 +14,7 @@
 #' @param output A string of characters that will be used as chain name for the models output (default = \code{mulTree_models}).
 #' @param warn Whether to print the warning messages from the \code{\link[MCMCglmm]{MCMCglmm}} function (default = \code{FALSE}).
 #' @param parallel An optional vector containing the virtual connection process type for running the chains in parallel (requires \code{snow} package).
+#' @param ask \code{logical}, whether to ask to overwrite models (\code{TRUE} - default) or not (\code{FALSE})).
 #'
 #' @return
 #' Generates MCMCglmm models and saves them sequentially out of \code{R} environment to minimise users RAM usage. 
@@ -130,7 +131,7 @@
 # verbose = TRUE
 # warn = FALSE
 
-mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., convergence = 1.1, ESS = 1000, verbose = TRUE, output = "mulTree_models", warn = FALSE, parallel) {  
+mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., convergence = 1.1, ESS = 1000, verbose = TRUE, output = "mulTree_models", warn = FALSE, parallel, ask = TRUE) {  
 
     ## HEADER
     ## libraries
@@ -186,7 +187,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     check.class(output, 'character')
     check.length(output, 1, " must be a single chain of characters.")
     ## Check if the output chain name is already present in the current directory
-    if(length(grep(output, list.files())) > 0) {
+    if(ask && length(grep(output, list.files())) > 0) {
         read.key(paste("Output chain name \"", output, "\" already exists!\nPress [enter] if you wish to overwrite the models or [esc] to cancel.", sep = ""), "Models will be overwritten...")
     }
 
@@ -289,7 +290,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
 
     ## timer (end)
     end.time <- Sys.time()
-    execution.time <- difftime(end.time,start.time, units = "secs")
+    execution.time <- difftime(end.time, start.time, units = "secs")
 
     ## verbose
     if(verbose==TRUE) {

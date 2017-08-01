@@ -55,10 +55,9 @@ read.mulTree("quick_example", extract=c("error.term", "Tune"))
 file.remove(list.files(pattern = "quick_example"))
 
 }
-\author{
-Thomas Guillerme
-}
 \seealso{
 \code{\link{mulTree}}, \code{\link{plot.mulTree}}, \code{\link{summary.mulTree}}
 }
-
+\author{
+Thomas Guillerme
+}

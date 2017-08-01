@@ -6,7 +6,7 @@
 \usage{
 mulTree(mulTree.data, formula, parameters, chains = 2, priors, ...,
   convergence = 1.1, ESS = 1000, verbose = TRUE,
-  output = "mulTree_models", warn = FALSE, parallel)
+  output = "mulTree_models", warn = FALSE, parallel, ask = TRUE)
 }
 \arguments{
 \item{mulTree.data}{A list of class \code{mulTree} generated using \code{\link{as.mulTree}}.}
@@ -32,6 +32,8 @@ mulTree(mulTree.data, formula, parameters, chains = 2, priors, ...,
 \item{warn}{Whether to print the warning messages from the \code{\link[MCMCglmm]{MCMCglmm}} function (default = \code{FALSE}).}
 
 \item{parallel}{An optional vector containing the virtual connection process type for running the chains in parallel (requires \code{snow} package).}
+
+\item{ask}{\code{logical}, whether to ask to overwrite models (\code{TRUE} - default) or not (\code{FALSE})).}
 }
 \value{
 Generates MCMCglmm models and saves them sequentially out of \code{R} environment to minimise users RAM usage. 
@@ -129,10 +131,9 @@ file.remove(list.files(pattern = "longevity.example"))
 }
 
 }
-\author{
-Thomas Guillerme
-}
 \seealso{
 \code{\link[MCMCglmm]{MCMCglmm}}, \code{\link{as.mulTree}}, \code{\link{read.mulTree}}
 }
-
+\author{
+Thomas Guillerme
+}

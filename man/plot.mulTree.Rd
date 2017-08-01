@@ -45,10 +45,9 @@ plot(summarized_data, horizontal = TRUE, ylab = "", ylim = c(-2,2),
 abline(v = 0, lty = 3)
 
 }
-\author{
-Thomas Guillerme
-}
 \seealso{
 \code{\link{mulTree}}, \code{\link{read.mulTree}}, \code{\link{summary.mulTree}}
 }
-
+\author{
+Thomas Guillerme
+}

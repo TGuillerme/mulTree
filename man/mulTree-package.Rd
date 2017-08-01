@@ -7,12 +7,12 @@
 \description{
 Allows to run a MCMCglmm on multiuple phylogenetic trees to take into account phylogenetic uncertainty.
 }
-\author{
-Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
-}
 \references{
 Healy, K., Guillerme T., Finlay, S., Kane, A., Kelly, S.B.A., McClean, D., Kelly, D.J., Donohue, I., Jackson, A.L. and Cooper, N. ,
 2014. Ecology and mode of life explain lifespan variation in birds and mammals. Proceedings of the Royal Society of London B. 281(1784), 20140298,
+}
+\author{
+Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 }
 \keyword{Bayesian,}
 \keyword{MCMCglmm,}
@@ -20,4 +20,3 @@ Healy, K., Guillerme T., Finlay, S., Kane, A., Kelly, S.B.A., McClean, D., Kelly
 \keyword{distribution}
 \keyword{phylogenetic}
 \keyword{tree}
-
