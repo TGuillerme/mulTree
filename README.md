@@ -59,6 +59,7 @@ Related packages
 
 Used in
 -------
+* NJ Clark, SM Clegg, K Sam, W Goulding, B Koane, K Wells (**2017**) Climate, host phylogeny and the connectivity of host communities govern regional parasite assembly. *Diversity and Distributions*. [DOI: 10.1111/ddi.12661](http://onlinelibrary.wiley.com/wol1/doi/10.1111/ddi.12661/abstract).
 * JS Gutiérrez, E Rakhimberdiev, T Piersma, DW Thieltges (**2017**) Migration and parasitism: habitat use, not migration distance, inﬂuences helminth species richness in Charadriiform birds. *Journal of Biogeography*. [DOI: 10.1111/jbi.12956](http://onlinelibrary.wiley.com/doi/10.1111/jbi.12956/full)
 * G Zhang, Q Zhao, AP Møller, JJ Komdeur, X Lu (**2017**) Climate predicts which sex acts as helpers among cooperatively breeding bird species. *Biology Letters* 13:1. [DOI: 10.1098/rsbl.2016.0863](http://rsbl.royalsocietypublishing.org/content/13/1/20160863)
 * K Healy, SBA Kelly, T Guillerme, R Inger, S Bearhop, AL Jackson (**2016**) Predicting trophic discrimination factor using Bayesian inference and phylogenetic, ecological and physiological data. DEsIR: Discrimination Estimation in R. *PeerJ Preprints* [https://peerj.com/preprints/1950.pdf](https://peerj.com/preprints/1950.pdf)
