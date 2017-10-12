@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/TGuillerme/mulTree.svg?branch=release)](https://travis-ci.org/TGuillerme/mulTree)
 [![codecov](https://codecov.io/gh/TGuillerme/mulTree/branch/release/graph/badge.svg)](https://codecov.io/gh/TGuillerme/mulTree)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.45097.svg)](https://doi.org/10.5281/zenodo.45097)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12902.svg)](https://doi.org/10.5281/zenodo.12902)
 
 This package is based on the [MCMCglmm](http://cran.r-project.org/web/packages/MCMCglmm/index.html) package
 and runs a MCMCglmm analysis on multiple trees.
