@@ -152,8 +152,27 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     ## Check the terms
     formula_terms <- as.character(attr(stats::terms(formula), "variables"))[-1]
     check_formula <- match(formula_terms, colnames(mulTree.data$data))
+
     if(any(is.na(check_formula))) {
-        stop(paste(paste(formula_terms[which(is.na(check_formula))], collapse = ", "), "terms in the formula do not match dataset column names."))
+        ## Check if the NA is from a multi-random
+        na_formula_terms <- formula_terms[which(is.na(check_formula))]
+        
+        if(grep("\\(", na_formula_terms) > 0) {
+            ## Function for clean term splitting
+            split.term <- function(one_na) {
+                return(unlist(strsplit(gsub(" ", "", gsub("\\)", "", strsplit(one_na, split = "\\(")[[1]][2])), split = ",")))
+            }
+            ## Splitting the terms (e.g. from a cbind)
+            split_terms <- unique(unlist(lapply(as.list(na_formula_terms), split.term)))
+            ## Matching the terms to the column names
+            matching <- split_terms %in% colnames(mulTree.data$data)
+
+            if(any(!matching)) {
+                stop(paste(paste(formula_terms[which(!matching)], collapse = ", "), "terms in the formula do not match dataset column names."))
+            }
+        } else {
+            stop(paste(paste(formula_terms[which(is.na(check_formula))], collapse = ", "), "terms in the formula do not match dataset column names."))
+        }
     }
 
     ## chains
