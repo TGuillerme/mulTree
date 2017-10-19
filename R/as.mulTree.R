@@ -102,6 +102,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
         terms_list <- labels(stats::terms(rand.terms))
         ## Checking if the terms are column names
         terms_list_match <- match(terms_list, colnames(data))
+        
         if(any(is.na(terms_list_match))) {
 
             ## Check if the non-matching terms are correlation terms
@@ -119,14 +120,15 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
                 cor_terms_list_match <- match(cor_term, colnames(data))
 
                 if(any(is.na(cor_terms_list_match))) {
-                    if(cor_term[is.na(cor_terms_list_match)] != "units") {
+                    if(!any(cor_term[is.na(cor_terms_list_match)] %in% c("units", "trait"))) {
                         stop("The following random terms do not match with any column name provided in data:\n    ", paste(cor_term[is.na(cor_terms_list_match)], sep = ", "), ".", sep = "")
                     }
                 }
             }
         }
+
         ## check if at least of the terms is the phylogeny (i.e. animal)
-        if(!is.na(match(taxa, terms_list))) {
+        if(length(grep(taxa, terms_list)) > 0 || length(grep("animal", terms_list)) > 0) {
             set_rand_terms <- FALSE
         } else {
             stop("The provided random terms should at least contain the taxa column (phylogeny).")
@@ -155,7 +157,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
     ## renaming the taxa column in the data.frame
     ## (this is because of the weird way comparative.data() deals with it's arguments (names.col <- as.character(substitute(names.col))), taxa as to be replaced by just "sp.col" instead of the more cleaner way: (taxa, list(taxa = taxa))) as in names.col <- as.character(substitute(taxa, list(taxa = taxa))).)
-    names(data_new) <- sub(taxa,"sp.col",names(data_new))
+    names(data_new) <- sub(taxa, "sp.col", names(data_new))
 
     ## Setting the random terms
     if(set_rand_terms) {
@@ -166,41 +168,54 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
     } else {
         ## Check which term corresponds to the phylogeny (i.e. animal)
         phylo_term <- terms_list[which(terms_list == taxa)]
+        ## Composite phylo_term
+        if(length(phylo_term) == 0) {
+            if(length(grep(taxa, terms_list)) > 0) {
+                phylo_term <- which(colnames(data_new) == "sp.col")
+            } else {
+                phylo_term <- which(colnames(data_new) == "animal")
+            }
+        }
+
         data_new[phylo_term] <- NA
         data_new[phylo_term] <- data_new[,which(names(data_new) == "sp.col")]
 
         ## Modify the formula and the column name to correspond to animal (phylogeny) for MCMCglmm (unless the phylo term is already called animal)
         #TG: THIS PART OF THE CODE IS A BIT CLUMSY! MIGHT WANT TO MODIFY THAT IN THE FUTURE
+
+
         if(phylo_term != "animal") {
-            names(data_new)[which(names(data_new) == phylo_term)] <- "animal"
-            if(length(terms_list) == 1) {
-                rand.terms[[2]] <- substitute(animal)
+                if(length(grep("animal", rand.terms)) == 0) {
+                names(data_new)[which(names(data_new) == phylo_term)] <- "animal"
+                if(length(terms_list) == 1) {
+                    rand.terms[[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 2) {
+                    rand.terms[[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 3) {
+                    rand.terms[[2]][[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 4) {
+                    rand.terms[[2]][[2]][[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 5) {
+                    rand.terms[[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 6) {
+                    rand.terms[[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 7) {
+                    rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 8) {
+                    rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
+                }
+                if(length(terms_list) == 9) {
+                    rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
+                }
+                message("The random terms formula has been updated to \"", rand.terms,"\".\nThe column \"", taxa, "\" has been duplicated into a new column called \"animal\".")
             }
-            if(length(terms_list) == 2) {
-                rand.terms[[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 3) {
-                rand.terms[[2]][[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 4) {
-                rand.terms[[2]][[2]][[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 5) {
-                rand.terms[[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 6) {
-                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 7) {
-                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 8) {
-                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
-            }
-            if(length(terms_list) == 9) {
-                rand.terms[[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]][[2]] <- substitute(animal)
-            }
-            message("The random terms formula has been updated to \"", rand.terms,"\".\nThe column \"", taxa, "\" has been duplicated into a new column called \"animal\".") 
         }
     }
 
