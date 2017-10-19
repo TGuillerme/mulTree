@@ -151,6 +151,14 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     check.class(formula, 'formula')
     ## Check the terms
     formula_terms <- as.character(attr(stats::terms(formula), "variables"))[-1]
+    ## Remove potential trait/units
+    if(length(grep("trait:", formula)) > 0) {
+        formula_terms <- formula_terms[-which(formula_terms == "trait")]
+    }
+    if(length(grep("units:", formula)) > 0) {
+        formula_terms <- formula_terms[-which(formula_terms == "units")]
+    }
+
     check_formula <- match(formula_terms, colnames(mulTree.data$data))
 
     if(any(is.na(check_formula))) {
@@ -224,7 +232,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     for (ntree in 1:length(mulTree.data$phy)) {
         ## Setting up mulTree arguments
         mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
-        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; stop("DEBUG")
+        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; stop("DEBUG") # family = c("poisson","poisson")
 
         if(missing(parallel)) {
             for(nchain in 1:chains) {
