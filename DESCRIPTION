@@ -3,7 +3,7 @@ Title: Performs MCMCglmm on Multiple Phylogenetic Trees
 Author: Thomas Guillerme <guillert@tcd.ie> & Kevin Healy <heaylke@tcd.ie>
 Maintainer: Thomas Guillerme <guillert@tcd.ie>
 Version: 1.3.1
-Date: 2017-08-01
+Date: 2017-10-19
 Description: Allows to run a MCMCglmm on multiple phylogenetic trees to take into account phylogenetic uncertainty.
 Depends:
     R (>= 3.0.0),
