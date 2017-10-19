@@ -1,6 +1,7 @@
 Patch notes
 ----
-* 2017/08/01 - 1.3.1
+* 2017/10/19 - 1.3.2
+  * Complex formula management in `mulTree`.
   * Minor changes (internal) and code coverage increased for `SIDER` release.
   * Added `ask` option to `mulTree`, whether to ask to overwrite files or not.
 * 2017/06/12 - **v1.3**
