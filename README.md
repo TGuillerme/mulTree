@@ -62,6 +62,9 @@ Used in
 Click on the google logo for citations details.
 > Mean citations for papers using `mulTree` = 16.8 (median = 3; as from 10/2017).
 
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Leukocyte+profiles+are+associated+with+longevity+and+survival%2C+but+not+migratory+effort%3A+A+comparative+analysis+of+shorebirds&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+P Minias, R Włodarczyk, W Meissner (**2017**) Leukocyte profiles are associated with longevity and survival, but not migratory effort: A comparative analysis of shorebirds. *Functional Ecology*. [DOI: 10.1111/1365-2435.12991](http://onlinelibrary.wiley.com/doi/10.1111/1365-2435.12991/full).
+
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Climate%2C+host+phylogeny+and+the+connectivity+of+host+communities+govern+regional+parasite+assembly&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 NJ Clark, SM Clegg, K Sam, W Goulding, B Koane, K Wells (**2017**) Climate, host phylogeny and the connectivity of host communities govern regional parasite assembly. *Diversity and Distributions*. [DOI: 10.1111/ddi.12661](http://onlinelibrary.wiley.com/wol1/doi/10.1111/ddi.12661/abstract).
 
