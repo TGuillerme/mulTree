@@ -22,6 +22,7 @@ if(!require(MCMCglmm)) install.packages("MCMCglmm")
 We will also install from GitHub the [`mulTree` package](https://github.com/TGuillerme/mulTree) which is still under development (so watch out for BUGS - and please [report them](mailto:guillert@tcd.ie)) but contains some handy data and also will allow us to use `MCMCglmm` to include the error associated with building phylogenies within our analysis later in the session.
 
 To do so we need to get them from GitHub and so we need to run.
+
 ```{r install_mulTree, results="hide", message=FALSE}
 if(!require(devtools)) install.packages("devtools")
 library(devtools)
@@ -75,6 +76,7 @@ is.ultrametric(mammal_tree)
 ## Lets run some models
 
 Lets first start off running a simple **glm** for a subset of data for mammals
+
 ```{r setting formula, message=FALSE, warning=FALSE}
 # Subset for mammals
 lifespan_mammals <- lifespan_volant[lifespan_volant$class == "Mammalia",]
