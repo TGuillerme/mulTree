@@ -67,7 +67,7 @@ test_that("lapply.MCMCglmm works", {
     	)
     # MCMCglmm is of standard length
     expect_equal(
-    	length(test), 18
+    	length(test), 19
     	)
 })
 

@@ -151,9 +151,36 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     check.class(formula, 'formula')
     ## Check the terms
     formula_terms <- as.character(attr(stats::terms(formula), "variables"))[-1]
+    ## Remove potential trait/units
+    if(length(grep("trait:", formula)) > 0) {
+        formula_terms <- formula_terms[-which(formula_terms == "trait")]
+    }
+    if(length(grep("units:", formula)) > 0) {
+        formula_terms <- formula_terms[-which(formula_terms == "units")]
+    }
+
     check_formula <- match(formula_terms, colnames(mulTree.data$data))
+
     if(any(is.na(check_formula))) {
-        stop(paste(paste(formula_terms[which(is.na(check_formula))], collapse = ", "), "terms in the formula do not match dataset column names."))
+        ## Check if the NA is from a multi-random
+        na_formula_terms <- formula_terms[which(is.na(check_formula))]
+        
+        if(grep("\\(", na_formula_terms) > 0) {
+            ## Function for clean term splitting
+            split.term <- function(one_na) {
+                return(unlist(strsplit(gsub(" ", "", gsub("\\)", "", strsplit(one_na, split = "\\(")[[1]][2])), split = ",")))
+            }
+            ## Splitting the terms (e.g. from a cbind)
+            split_terms <- unique(unlist(lapply(as.list(na_formula_terms), split.term)))
+            ## Matching the terms to the column names
+            matching <- split_terms %in% colnames(mulTree.data$data)
+
+            if(any(!matching)) {
+                stop(paste(paste(formula_terms[which(!matching)], collapse = ", "), "terms in the formula do not match dataset column names."))
+            }
+        } else {
+            stop(paste(paste(formula_terms[which(is.na(check_formula))], collapse = ", "), "terms in the formula do not match dataset column names."))
+        }
     }
 
     ## chains
@@ -205,7 +232,7 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
     for (ntree in 1:length(mulTree.data$phy)) {
         ## Setting up mulTree arguments
         mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
-        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; stop("DEBUG")
+        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; stop("DEBUG") # family = c("poisson","poisson")
 
         if(missing(parallel)) {
             for(nchain in 1:chains) {
