@@ -66,6 +66,9 @@ Used in
 Click on the google logo for citations details.
 > Mean citations for papers using `mulTree` = 10.25 (as from 03/2018).
 
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Evidence+for+multifactorial+processes+underlying+phenotypic+variation+in+bat+visual+opsins&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Evidence for multifactorial processes underlying phenotypic variation in bat visual opsins. *bioRxiv* 300301. [DOI: 10.1101/300301 ](https://www.biorxiv.org/content/early/2018/04/12/3003012)
+
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=2005&sciodt=0%2C5&cites=4584971410532907380&scipsc=&q=Allopreening+in+birds+is+associated+with+parental+cooperation+over+offspring+care+and+stable+pair+bonds+across+years&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 K Elspeth, TR Birkhead, JP Green (**2017**) Allopreening in birds is associated with parental cooperation over offspring care and stable pair bonds across years. *Behavioral Ecology* 28.4: 1142-1148. [DOI: 10.1093/beheco/arx078](https://academic.oup.com/beheco/article/28/4/1142/3865432)
