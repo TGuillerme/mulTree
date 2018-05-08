@@ -58,7 +58,7 @@ read.mulTree <- function(mulTree.chain, convergence = FALSE, model = FALSE, extr
 ##     check.length(scanned_chains, 0, " files not found in current directory.", errorif = TRUE)
     if(length(scanned_chains) == 1) {
         if(length(grep("chain[0-9].rda", scanned_chains)) == 0) {
-            stop("File \"", mulTree.chain, "\" not found in current directory.", sep="",call.=FALSE)
+            stop("File \"", mulTree.chain, "\" is not a mulTree chain but a single file.", sep="",call.=FALSE)
         }
     } else {
         if(length(grep("chain[0-9].rda", scanned_chains)) == 0) {
