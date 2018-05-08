@@ -34,7 +34,9 @@ install.packages(c("MCMCglmm", "coda", "hdrcde", "snow", "ape", "corpcor", "curl
 *  An additional example of running simple phylogenetic models is [here](https://github.com/TGuillerme/mulTree/blob/master/doc/Vanilla_flavoured_phylogenetic_analyses.Rmd).
 
 ##### Patch notes (latest version)
-* 2018/03/14 - 1.3.3
+* 2018/05/08 - 1.3.4
+  * Increased test coverage for all functions.
+  * Improved optional arguments handling for `mulTree` (following [Eldar Rakhimberdiev](https://github.com/eldarrak)'s contribution)
   * Converted `patch_notes.md` into `NEWS.md` (with the correct standard format).
   * Minor bug fix: the trees in `data(lifespan)` are now all ultrametric.
   * Complex formula management in `mulTree` and `as.mulTree`.
