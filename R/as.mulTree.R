@@ -55,7 +55,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
     check.class(data, "data.frame")
     ## testing the length of the dataset
     if(length(data) < 3) {
-        stop(paste(as.expression(match_call$data," must contain one taxa name column and at least two variables.", sep=""), call.=FALSE))
+        stop("data must contain one taxa name column and at least two variables.")
     }
 
     ## tree
@@ -111,7 +111,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
             if(length(is_cor) != length(no_match)) {
                 ## At leas one wrong term anyway!
-                stop("The following random terms do not match with any column name provided in data:\n    ", paste(no_match[-is_cor], sep = ", "), ".", sep = "")
+                stop("The following random terms do not match with any column name provided in data:\n    ", paste(as.character(no_match), sep = ", "), ".", sep = "")
             } else {
                 ## Check if the correlation terms exist
                 cor_term_tmp <- strsplit(no_match, split = ":")[[1]]
@@ -142,13 +142,13 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
     ## cleaning the data (optional)
     if(clean.data == TRUE) {
-        data_cleaned <- clean.data(data, tree)
+        data_cleaned <- mulTree::clean.data(data, tree, data.col = taxa)
         tree_new <- data_cleaned$tree
         data_new <- data_cleaned$data
         if(all(is.na(c(data_cleaned$dropped_tips, data_cleaned$dropped_rows)))) {
-            cat("Taxa in the tree and the table are all matching!")
+            cat("Taxa in the tree and the table are all matching!\n")
         } else {
-            cat("The following taxa were dropped from the analysis:\n", c(data_cleaned$dropped_tips, data_cleaned$dropped_rows))
+            cat("The following taxa were dropped from the analysis:\n", c(data_cleaned$dropped_tips, data_cleaned$dropped_rows), "\n")
         }
     } else {
         tree_new <- tree
