@@ -90,6 +90,22 @@ dummy_data <- data.frame(LETTERS[1:5], matrix(c(rnorm(5), runif(5)), 5, 2))
 colnames(dummy_data) <- c("species", "var1", "var2")
 cleaned <- clean.data(data = dummy_data, tree = trees_list, data.col = "species")
 test_that("clean.data works with a data.frame", {
+    # Errors
+    expect_error(
+        clean.data(data = matrix(c(rnorm(5), runif(5)), 5, 2), tree = trees_list, data.col = "species")
+        )
+    expect_error(
+        clean.data(data = dummy_data, tree = trees_list, data.col = 8)
+        )
+    expect_error(
+        clean.data(data = dummy_data, tree = trees_list, data.col = "8")
+        )
+
+    # Works with a single tree
+    expect_is(
+        clean.data(data = dummy_data, tree = trees_list[[1]], data.col = "species"), "list"
+        )
+
     # Output is a list...
     expect_is(
         cleaned, "list"
@@ -122,4 +138,19 @@ test_that("clean.data works with a data.frame", {
     expect_equal(
         cleaned[[4]], "E"
         )
+
+    # Returns NAs if trees and data are the same
+    
+    trees_list <- list(rtree(5, tip.label = LETTERS[1:5]), rtree(5, tip.label = LETTERS[1:5]), rtree(5, tip.label = LETTERS[1:5])) ; class(trees_list) <- "multiPhylo"
+    dummy_data <- data.frame(LETTERS[1:5], matrix(c(rnorm(5), runif(5)), 5, 2))
+    colnames(dummy_data) <- c("species", "var1", "var2")
+    cleaned <- clean.data(data = dummy_data, tree = trees_list, data.col = "species")
+
+    expect_true(
+        is.na(cleaned$dropped_tips)
+        )
+    expect_true(
+        is.na(cleaned$dropped_rows)
+        )
+
 })

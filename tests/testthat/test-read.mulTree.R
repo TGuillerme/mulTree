@@ -118,6 +118,11 @@ test_that("example works", {
     expect_error(
     	read.mulTree("quick_example")
     	)
+    a <- 1 ; save(a, file = "dummy_file_for_testing_read.mulTree")
+    expect_error(
+        read.mulTree("dummy_file_for_testing_read.mulTree")
+    )
+    expect_true(file.remove("dummy_file_for_testing_read.mulTree"))
     # wrong format
     expect_error(
     	read.mulTree(1)
@@ -132,6 +137,12 @@ test_that("example works", {
     expect_error(
     	read.mulTree("read.mulTree_testing", extract = "yes")
     	)
+    expect_error(
+        read.mulTree("read.mulTree_testing-tree1_chain1", convergence = TRUE)
+        )
+    expect_error(
+        read.mulTree("read.mulTree_testing-tree2", model = TRUE)
+        )
     # Running the example
     # Reading all the models
     all_chains <- read.mulTree("read.mulTree_testing")

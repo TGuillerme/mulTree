@@ -53,3 +53,25 @@ test_that("get.height works", {
     	get.height(matrix(seq(1:15), nrow=3), 3, 2), c(9,12,12,9)
     	)
 })
+
+
+# Testing plot examples
+test_that("plot.mulTree examples work", {
+
+    ## read in the data
+    data(lifespan.mcmc)
+
+    ## summarising the results
+    summarized_data <- summary(lifespan.mcmc)
+
+    ## plotting the results
+    expect_null(plot(summarized_data))
+
+    ## Same plot using more options
+    expect_null(
+         plot(summarized_data, horizontal = TRUE, ylab = "", ylim = c(-2,2),
+         main = "Posterior distributions", cex.terms = 0.5, cex.coeff = 0.8,
+         terms = c("Intercept", "BodyMass", "Volancy", "Phylogeny", "Residuals"),
+         col = c("red"), cex.main = 0.8)
+    )  
+})

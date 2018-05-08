@@ -1,3 +1,14 @@
+mulTree 1.3.4 (2018-05-08)
+=========================
+
+### NEW FEATURES
+
+  * Increased test coverage for all functions.
+
+### MINOR IMPROVEMENTS
+
+  * Improved optional arguments handling for `mulTree` (following [Eldar Rakhimberdiev](https://github.com/eldarrak)'s contribution)
+
 mulTree 1.3.3 (2018-03-14)
 =========================
 
@@ -13,6 +24,7 @@ mulTree 1.3.2 (2017/10/19)
 =========================
 
 ### NEW FEATURES
+
   * Complex formula management in `mulTree` and `as.mulTree`.
 
 ### MINOR IMPROVEMENTS

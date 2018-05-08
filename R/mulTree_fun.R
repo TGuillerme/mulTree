@@ -11,21 +11,24 @@ read.key <- function(msg1, msg2, scan = TRUE) {
 }
 
 ## Runs one single (on one single tree) MCMCglmmm
-lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, warn, ...){
+lapply.MCMCglmm <- function(all_args){
 
     ## require MCMCglmm for snow
     require(MCMCglmm)
 
+    ## Remove the warn from the arguments list
+    warn <- all_args$warn
+    all_args$warn <- NULL
     ## Disable warnings (if needed)
     if(warn == FALSE) {options(warn=-1)}
 
     ## Formula check
-    if(class(mulTree.data$random.terms) == "call") {
-        mulTree.data$random.terms <- stats::as.formula(mulTree.data$random.terms)
+    if(class(all_args$random) == "call") {
+        all_args$random <- stats::as.formula(all_args$random)
     }
 
     ## MCMCglmm
-    model <- MCMCglmm::MCMCglmm(fixed = formula, random = mulTree.data$random.terms, pedigree = mulTree.data$phy[[tree]], prior = priors, data = mulTree.data$data, verbose = FALSE, nitt = parameters[1], thin = parameters[2], burnin = parameters[3], ...)
+    model <- do.call(MCMCglmm::MCMCglmm, all_args)
     #model <- MCMCglmm::MCMCglmm(fixed = formula, random = mulTree.data$random.terms, pedigree = mulTree.data$phy[[tree]], prior = priors, data = mulTree.data$data, verbose = FALSE, nitt = parameters[1], thin = parameters[2], burnin = parameters[3]); warning("DEBUG") ## , ...)
 
     ## Re-enable warnings (if needed)
@@ -33,6 +36,32 @@ lapply.MCMCglmm <- function(tree, mulTree.data, formula, priors, parameters, war
 
     return(model)
 }
+
+
+## Runs one single (on one single tree) MCMCglmmm
+# lapply.MCMCglmm2 <- function(tree, mulTree.data, formula, priors, parameters, warn, ...){
+
+#     ## require MCMCglmm for snow
+#     require(MCMCglmm)
+
+#     ## Disable warnings (if needed)
+#     if(warn == FALSE) {options(warn=-1)}
+
+#     ## Formula check
+#     if(class(mulTree.data$random.terms) == "call") {
+#         mulTree.data$random.terms <- stats::as.formula(mulTree.data$random.terms)
+#     }
+
+#     ## MCMCglmm
+#     model <- MCMCglmm::MCMCglmm(fixed = formula, random = mulTree.data$random.terms, pedigree = mulTree.data$phy[[tree]], prior = priors, data = mulTree.data$data, verbose = FALSE, nitt = parameters[1], thin = parameters[2], burnin = parameters[3], ...)
+#     #model <- MCMCglmm::MCMCglmm(fixed = formula, random = mulTree.data$random.terms, pedigree = mulTree.data$phy[[tree]], prior = priors, data = mulTree.data$data, verbose = FALSE, nitt = parameters[1], thin = parameters[2], burnin = parameters[3]); warning("DEBUG") ## , ...)
+
+#     ## Re-enable warnings (if needed)
+#     if(warn == FALSE) {options(warn = 0)}
+
+#     return(model)
+# }
+
 
 ## get the name of a model
 get.model.name <- function(nchain, ntree, output){

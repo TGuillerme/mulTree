@@ -52,42 +52,50 @@ test_that("specimen.transform works", {
     	)
 })
 
-
-# # Testing comparative.data.test
-# data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)))
-# tree1 <- rmtree(1,5, tip.label = LETTERS[1:5])
-# tree2 <- tree1 ; tree2[[2]] <- rtree(5)
-# test_that("comparative.data.test works", {
-#     # Errors
-#     expect_error(
-#     	comparative.data.test("a")
-#     	)
-#     expect_error(
-#     	comparative.data.test(tree1)
-#     	)
-#     expect_error(
-#     	comparative.data.test(data)
-#     	)
-#     # Must be TRUE
-#     expect_true(
-#     	comparative.data.test(data, tree1)
-#     	)
-#     # Must be FALSE
-#     expect_false(
-#     	comparative.data.test(data, tree2)
-#     	)
-#     expect_false(
-#     	comparative.data.test(tree1, tree2)
-#     	)
-# })
-
-
 # Testing example
 data_table <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)))
 tree_list <- rmtree(5,5, tip.label = LETTERS[1:5])
 data_table_sp1 <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)), specimen = c(rep("spec1", 5)))
 data_table_sp2 <- data.frame(taxa = LETTERS[1:5], var1 = rnorm(5), var2 = c(rep("a",2), rep("b",3)), specimen = c(rep("spec2", 5)))
 data_table2 <- rbind(data_table_sp1, data_table_sp2)
+test_that("as.mulTree works", {
+    # Matrix conversion works
+    expect_is(
+        as.mulTree(as.matrix(data_table), tree_list, taxa = "taxa"), "mulTree"
+    )
+    # Wrong table format
+    expect_error(
+        as.mulTree(data_table[,-1], tree_list, taxa = "taxa")
+    )
+    # Tree conversion
+    expect_is(
+        as.mulTree(data_table, tree_list[[1]], taxa = "taxa"), "mulTree"
+    )    
+    # Taxa column number
+    expect_is(
+        as.mulTree(data_table, tree_list, taxa = 1), "mulTree"
+    )   
+    # Wrong taxa column 
+    expect_error(
+        as.mulTree(data_table, tree_list, taxa = "bob")
+    )   
+    expect_error(
+        as.mulTree(data_table, tree_list, taxa = 8)
+    )   
+
+    # Cleaning data
+    test <- capture_output(as.mulTree(data_table, tree_list, taxa = "taxa", clean.data = TRUE))
+    expect_equal(
+        test, "Taxa in the tree and the table are all matching!"
+    ) 
+    test <- capture_output(as.mulTree(data_table[-1,], tree_list, taxa = "taxa", clean.data = TRUE))
+    expect_equal(
+        test, "The following taxa were dropped from the analysis:\n A NA " 
+    ) 
+
+})
+
+# Testing example
 test_that("example works", {
     # Errors
     #taxa not found
@@ -167,6 +175,12 @@ test_that("example works", {
     # outputs a mulTree...
     test3 <- suppressMessages(as.mulTree(data_table2, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen+var2:us(var1)))
     test3.1 <- suppressMessages(as.mulTree(data_table2, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen+us(var1):var2))
+    expect_error(
+        as.mulTree(data_table2, tree_list, taxa = "taxa", rand.terms = ~taxa+specimen+var2:us(var8))
+        )
+    expect_error(
+        as.mulTree(data_table2, tree_list, taxa = "taxa", rand.terms = ~specimen+var2:us(var1))
+        )
     expect_is(
         test3, "mulTree"
         )

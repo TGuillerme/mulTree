@@ -30,37 +30,58 @@ parameters <- c(10000, 10, 1000)
 chains <- 2
 priors <- list(R = list(V = 1/2, nu = 0.002), G = list(G1 = list(V = 1/2, nu = 0.002)))
 
+## Making the arg list
+mulTree_arguments <-  list("warn" = FALSE, "fixed" = formula, "random" = mulTree.data$random.terms, "pedigree" = mulTree.data$phy[[1]], "prior" = priors, "data" = mulTree.data$data, "verbose" = FALSE, "nitt" = parameters[1], "thin" = parameters[2], "burnin" = parameters[3])
+
 # Testing lapply MCMCglmm wrapper function
 test_that("lapply.MCMCglmm works", {
     #Errors
-    # tree is not a tree (multiPhylo)
+    # tree is not a single tree (multiPhylo)
+    test_args <- mulTree_arguments
+    test_args$pedigree <- mulTree.data$phy
     expect_error(
-    	lapply.MCMCglmm(tree[[1]], mulTree.data, formula, priors, parameters), warn=FALSE
-    	)
-    # mulTree.data is not mulTree
+        lapply.MCMCglmm(test_args)
+        )
+
+    # mulTree.data is not the proper dataset
+    test_args <- mulTree_arguments
+    test_args$data <- matrix(1)
     expect_error(
-    	lapply.MCMCglmm(1, data, formula, priors, parameters), warn=FALSE
-    	)
+        lapply.MCMCglmm(test_args)
+        )
+
     # formula is not a formula
+    test_args <- mulTree_arguments
+    test_args$formula <- "bob"
     expect_error(
-    	lapply.MCMCglmm(1, mulTree.data, formula="bla", priors, parameters), warn=FALSE
-    	)
+        lapply.MCMCglmm(test_args)
+        )
+
     # priors' not a list
+    test_args <- mulTree_arguments
+    test_args$priors <- 1
     expect_error(
-    	lapply.MCMCglmm(1, mulTree.data, formula, prior=1, parameters), warn=FALSE
-    	)
+        lapply.MCMCglmm(test_args)
+        )
+
     # parameters is not a vector
-    expect_error(
-    	lapply.MCMCglmm(1, mulTree.data, formula, priors, parameters=1), warn=FALSE
-    	)
+    test_args <- mulTree_arguments
+    test_args$thin <- parameters
+    expect_warning(
+        expect_error(
+            lapply.MCMCglmm(test_args)
+            )
+        )
+
     # wrong additional argument
+    test_args <- mulTree_arguments
+    test_args$whatever <- TRUE
     expect_error(
-    	lapply.MCMCglmm(1, mulTree.data, formula, priors, parameters, some_arg="whatever"), warn=FALSE
-    	)
+        lapply.MCMCglmm(test_args), warn=FALSE
+        )
     
     # When no errors, outputs a MCMCglmm object
-    set.seed(1)
-    test <- lapply.MCMCglmm(1, mulTree.data, formula, priors, parameters, warn=FALSE)
+    test <- lapply.MCMCglmm(mulTree_arguments)
     # Output is MCMCglmm
     expect_is(
     	test, "MCMCglmm"
@@ -69,6 +90,32 @@ test_that("lapply.MCMCglmm works", {
     expect_equal(
     	length(test), 19
     	)
+
+    # Correct optional arguments handling
+    test_args <- mulTree_arguments
+    test_args$family <- "gaussian"
+    test_args$nodes <- "ALL"
+    test_args$scale <- TRUE
+    test_args$pr <- FALSE
+    test_args$pl <- FALSE
+    test_args$DIC <- TRUE
+    test_args$singular.ok <- FALSE
+    test_args$saveX <- TRUE
+    test_args$saveZ <- TRUE
+    test_args$saveXL <- TRUE
+    test_args$slice <- FALSE
+    test_args$trunc <- FALSE
+
+    test <- lapply.MCMCglmm(test_args)
+
+    # Output is MCMCglmm
+    expect_is(
+        test, "MCMCglmm"
+        )
+    # MCMCglmm is of standard length
+    expect_equal(
+        length(test), 19
+        )
 })
 
 test_that("get.model.name internal fun", {
@@ -115,9 +162,11 @@ test_that("get.timer internal function", {
 
 
 # Creating two dummy chains
+mulTree_arguments <-  list("warn" = FALSE, "fixed" = formula, "random" = mulTree.data$random.terms, "pedigree" = mulTree.data$phy[[1]], "prior" = priors, "data" = mulTree.data$data, "verbose" = FALSE, "nitt" = parameters[1], "thin" = parameters[2], "burnin" = parameters[3])
+
 set.seed(1)
-model_tree1_chain1 <- lapply.MCMCglmm(1, mulTree.data, formula, priors, parameters, warn=FALSE)
-model_tree1_chain2 <- lapply.MCMCglmm(1, mulTree.data, formula, priors, parameters, warn=FALSE)
+model_tree1_chain1 <- lapply.MCMCglmm(mulTree_arguments)
+model_tree1_chain2 <- lapply.MCMCglmm(mulTree_arguments)
 # Testing the convergence test
 test_that("convergence.test works", {
     # Errors
@@ -164,6 +213,40 @@ test_that("ESS.lapply works", {
     	names(ESS.lapply(model_tree1_chain1)), c("Sol","VCV")
     	)
 })
+
+
+## Get timer
+test_that("get.timer works", {
+
+    one_sec <- 1
+    attr(one_sec, "units") <- "secs"
+    class(one_sec) <- "difftime"
+    two_min <- 2*60
+    attr(two_min, "units") <- "secs"
+    class(two_min) <- "difftime"
+    three_hour <- 3*60*60
+    attr(three_hour, "units") <- "secs"
+    class(three_hour) <- "difftime"
+
+    expect_equal(
+        capture_output(get.timer(one_sec)), "Total execution time: 1 secs."
+        )
+    expect_equal(
+        capture_output(get.timer(two_min)), "Total execution time: 2 mins."
+        )
+    expect_equal(
+        capture_output(get.timer(three_hour)), "Total execution time: 3 hours."
+        )
+
+    one_day <- 86401
+    attr(one_day, "units") <- "secs"
+    class(one_day) <- "difftime"
+
+    expect_equal(
+        capture_output(get.timer(one_day)), "Total execution time: 1.000012 days."
+        )
+})
+
 
 
 #Testing quick example
