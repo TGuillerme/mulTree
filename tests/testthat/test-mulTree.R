@@ -215,6 +215,40 @@ test_that("ESS.lapply works", {
 })
 
 
+## Get timer
+test_that("get.timer works", {
+
+    one_sec <- 1
+    attr(one_sec, "units") <- "secs"
+    class(one_sec) <- "difftime"
+    two_min <- 2*60
+    attr(two_min, "units") <- "secs"
+    class(two_min) <- "difftime"
+    three_hour <- 3*60*60
+    attr(three_hour, "units") <- "secs"
+    class(three_hour) <- "difftime"
+
+    expect_equal(
+        capture_output(get.timer(one_sec)), "Total execution time: 1 secs."
+        )
+    expect_equal(
+        capture_output(get.timer(two_min)), "Total execution time: 2 mins."
+        )
+    expect_equal(
+        capture_output(get.timer(three_hour)), "Total execution time: 3 hours."
+        )
+
+    one_day <- 86401
+    attr(one_day, "units") <- "secs"
+    class(one_day) <- "difftime"
+
+    expect_equal(
+        capture_output(get.timer(one_day)), "Total execution time: 1.000012 days."
+        )
+})
+
+
+
 #Testing quick example
 test_that("Quick mulTree example works", {
     #Errors
