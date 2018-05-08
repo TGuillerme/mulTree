@@ -48,6 +48,10 @@ Authors
 -------
 [Thomas Guillerme](http://tguillerme.github.io) and [Kevin Healy](http://healyke.github.io)
 
+##Contributors
+
+[Eldar Rakhimberdiev](https://github.com/eldarrak).
+
 Citation
 -------
 If you are using this package, please cite:

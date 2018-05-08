@@ -226,19 +226,30 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
         check.class(parallel, "character")
         ## Set up the cluster
         cluster_ID <- snow::makeCluster(chains, parallel)
+        do_parallel <- TRUE
+    } else {
+        do_parallel <- FALSE
     }
+
+    ## Getting the optional arguments
+    dots <- list(...)
+    optional_args <- ifelse(length(dots) == 0, FALSE, TRUE)
 
     ## RUNNING THE MODELS
     for (ntree in 1:length(mulTree.data$phy)) {
         ## Setting up mulTree arguments
-        mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn, ...)))[-1L]
-        #mulTree_arguments <- as.list(substitute(list(tree = ntree, mulTree.data = mulTree.data, formula = formula, priors = priors, parameters = parameters, warn = warn)))[-1L] ; stop("DEBUG") # family = c("poisson","poisson")
+        mulTree_arguments <-  list("warn" = warn, "fixed" = formula, "random" = mulTree.data$random.terms, "pedigree" = mulTree.data$phy[[ntree]], "prior" = priors, "data" = mulTree.data$data, "verbose" = FALSE, "nitt" = parameters[1], "thin" = parameters[2], "burnin" = parameters[3])
 
-        if(missing(parallel)) {
+        ## Run the models
+        if(!do_parallel) {
             for(nchain in 1:chains) {
 
                 ## Run the model
-                model <- do.call(lapply.MCMCglmm, mulTree_arguments)
+                if(optional_args){
+                    model <- lapply.MCMCglmm(c(mulTree_arguments, dots))
+                } else {
+                    model <- lapply.MCMCglmm(mulTree_arguments)
+                }
 
                 ## Saving the model out of R environment
                 save(model, file = get.model.name(nchain, ntree, output))
@@ -249,7 +260,19 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
 
         } else {
             ## Run the models
-            model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
+            if(optional_args){
+                model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, c(mulTree_arguments, dots))
+            } else {
+                model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, mulTree_arguments)
+            }
+
+            # if (!exists('pr')) {
+            #     model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, ..., warn=warn)
+            # } else {
+            #     model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, ..., warn=warn, pr=pr)
+            # }
+
+            # model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data, formula, priors, parameters, ..., warn)
             #model_tmp <- snow::clusterCall(cluster_ID, lapply.MCMCglmm, ntree, mulTree.data=mulTree.data, formula=formula, priors=priors, parameters=parameters, warn=warn) ; warning("DEBUG MODE")
                         
             ## Saving the models
