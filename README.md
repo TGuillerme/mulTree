@@ -48,7 +48,7 @@ Authors
 -------
 [Thomas Guillerme](http://tguillerme.github.io) and [Kevin Healy](http://healyke.github.io)
 
-##Contributors
+## Contributors
 
 [Eldar Rakhimberdiev](https://github.com/eldarrak).
 

@@ -27,7 +27,7 @@ smooth.hdr <- function(hdr_out, prob, name) {
         }
         hdr_out$hdr <- new_hdr
         ## Print some warning!
-        message("Warning message:\n", name, " has multiple highest density regions (hdr) for some probabilities.\nOnly the maximum and the minimum hdr were used for each probabilities.", sep="")
+        warning(name, " has multiple highest density regions (hdr) for some probabilities.\nOnly the maximum and the minimum hdr were used for each probabilities.", sep="")
     }
     return(hdr_out)
 }
