@@ -98,7 +98,7 @@
 #' trees <- clean.data(data, combined_trees, data.col = "species")$tree
 #' 
 #' ##Creates the mulTree object
-#' mulTree_data <- as.mulTree(data, trees, species = "species",
+#' mulTree_data <- as.mulTree(data, trees, taxa = "species",
 #'      rand.terms = ~species+specimen)
 #' 
 #' ##Running MCMCglmm on multiple trees

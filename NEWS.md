@@ -1,4 +1,4 @@
-mulTree 1.3.4 (2018-05-08)
+mulTree 1.3.4 (2018-08-08)
 =========================
 
 ### NEW FEATURES
@@ -8,6 +8,7 @@ mulTree 1.3.4 (2018-05-08)
 ### MINOR IMPROVEMENTS
 
   * Improved optional arguments handling for `mulTree` (following [Eldar Rakhimberdiev](https://github.com/eldarrak)'s contribution)
+  * Fixed typos in the manual
 
 mulTree 1.3.3 (2018-03-14)
 =========================
