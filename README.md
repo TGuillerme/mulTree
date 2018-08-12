@@ -70,7 +70,7 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 11 publications have cited `mulTree` since 2014 (2.75 per year). The average cites for papers using `mulTree` is 9.9 (on the 08/12/2018).
+> 11 publications have cited `mulTree` since 2014 (2.75 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Mixing+models+and+stable+isotopes+as+tools+for+research++on+feeding+aquatic+organisms&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Mixing models and stable isotopes as tools for research on feeding aquatic organisms. *Cienc. Rural* 48:7. [DOI: 10.1590/0103-8478cr20160101](http://www.scielo.br/scielo.php?script=sci_arttext&pid=S0103-84782018000700650&lng=en&nrm=iso&tlng=en)
