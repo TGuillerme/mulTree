@@ -70,15 +70,19 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> Mean citations for papers using `mulTree` = 10.25 (as from 03/2018).
+> 11 publications have cited `mulTree` since 2014 (2.75 per year). The average cites for papers using `mulTree` is 9.9 (on the 08/12/2018).
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Mixing+models+and+stable+isotopes+as+tools+for+research++on+feeding+aquatic+organisms&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Mixing models and stable isotopes as tools for research on feeding aquatic organisms. *Cienc. Rural* 48:7. [DOI: 10.1590/0103-8478cr20160101](http://www.scielo.br/scielo.php?script=sci_arttext&pid=S0103-84782018000700650&lng=en&nrm=iso&tlng=en)
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Annual+chronotypes+functionally+link+life+histories+and+life+cycles+in+birds&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+J Karagicheva, E Rakhimberdiev, A Saveliev, T Piersma  (**2018**) Annual chronotypes functionally link life histories and life cycles in birds. *Funct Ecol.* 00:1–11. [DOI: 10.1111/1365-2435.13181](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.13181)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Evidence+for+multifactorial+processes+underlying+phenotypic+variation+in+bat+visual+opsins&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
-A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Evidence for multifactorial processes underlying phenotypic variation in bat visual opsins. *bioRxiv* 300301. [DOI: 10.1101/300301 ](https://www.biorxiv.org/content/early/2018/04/12/3003012)
-
+A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Evidence for multifactorial processes underlying phenotypic variation in bat visual opsins. *bioRxiv* 300301. [DOI: 10.1101/300301](https://www.biorxiv.org/content/early/2018/04/12/3003012)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=2005&sciodt=0%2C5&cites=4584971410532907380&scipsc=&q=Allopreening+in+birds+is+associated+with+parental+cooperation+over+offspring+care+and+stable+pair+bonds+across+years&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 K Elspeth, TR Birkhead, JP Green (**2017**) Allopreening in birds is associated with parental cooperation over offspring care and stable pair bonds across years. *Behavioral Ecology* 28.4: 1142-1148. [DOI: 10.1093/beheco/arx078](https://academic.oup.com/beheco/article/28/4/1142/3865432)
-
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Leukocyte+profiles+are+associated+with+longevity+and+survival%2C+but+not+migratory+effort%3A+A+comparative+analysis+of+shorebirds&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 P Minias, R Włodarczyk, W Meissner (**2017**) Leukocyte profiles are associated with longevity and survival, but not migratory effort: A comparative analysis of shorebirds. *Functional Ecology*. [DOI: 10.1111/1365-2435.12991](http://onlinelibrary.wiley.com/doi/10.1111/1365-2435.12991/full).
@@ -93,7 +97,7 @@ JS Gutiérrez, E Rakhimberdiev, T Piersma, DW Thieltges (**2017**) Migration and
 G Zhang, Q Zhao, AP Møller, JJ Komdeur, X Lu (**2017**) Climate predicts which sex acts as helpers among cooperatively breeding bird species. *Biology Letters* 13:1. [DOI: 10.1098/rsbl.2016.0863](http://rsbl.royalsocietypublishing.org/content/13/1/20160863)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2017&q=SIDER%3A+an+R+package+for+predicting+trophic+discrimination+factors+of+consumers+based+on+their+ecology+and+phylogenetic+relatedness&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a> 
-K Healy, SBA Kelly, T Guillerme, R Inger, S Bearhop, AL Jackson (**2017**) SIDER: an R package for predicting trophic discrimination factors of consumers based on their ecology and phylogenetic relatedness. *Ecography* [DOI: 10.1111/ecog.03371](http://onlinelibrary.wiley.com/doi/10.1111/ecog.03371/full)
+K Healy, SBA Kelly, T Guillerme, R Inger, S Bearhop, AL Jackson (**2017**) SIDER: an R package for predicting trophic discrimination factors of consumers based on their ecology and phylogenetic relatedness. *Ecography* [DOI: 10.1111/ecog.03371](https://onlinelibrary.wiley.com/doi/abs/10.1111/ecog.03371)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Eusociality+but+not+fossoriality+drives+longevity+in+small+mammal&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a> K Healy (**2015**) Eusociality but not fossoriality drives longevity in small mammals. *Proceedings of the Royal Society B* 282, 20142917. [DOI: 10.1098/rspb.2014.2917](http://rspb.royalsocietypublishing.org/content/282/1806/20142917)
 
