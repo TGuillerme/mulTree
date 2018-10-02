@@ -70,16 +70,19 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 11 publications have cited `mulTree` since 2014 (2.75 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+> 12 publications have cited `mulTree` since 2014 (3 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2018&q=Avian+diet+and+foraging+ecology+constrain+foreign+egg+recognition+and+rejection&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+AB Luro, ME Hauber (**2018**) Avian diet and foraging ecology constrain foreign egg recognition and rejection. *bioRxiv*, 402941. [DOI: 10.1101/402941 ](https://www.biorxiv.org/content/early/2018/08/29/402941)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Mixing+models+and+stable+isotopes+as+tools+for+research++on+feeding+aquatic+organisms&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
-A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Mixing models and stable isotopes as tools for research on feeding aquatic organisms. *Cienc. Rural* 48:7. [DOI: 10.1590/0103-8478cr20160101](http://www.scielo.br/scielo.php?script=sci_arttext&pid=S0103-84782018000700650&lng=en&nrm=iso&tlng=en)
+A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**) Mixing models and stable isotopes as tools for research on feeding aquatic organisms. *Cienc. Rural* 48:7. [DOI: 10.1590/0103-8478cr20160101](http://www.scielo.br/scielo.php?script=sci_arttext&pid=S0103-84782018000700650&lng=en&nrm=iso&tlng=en)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Annual+chronotypes+functionally+link+life+histories+and+life+cycles+in+birds&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 J Karagicheva, E Rakhimberdiev, A Saveliev, T Piersma  (**2018**) Annual chronotypes functionally link life histories and life cycles in birds. *Funct Ecol.* 00:1–11. [DOI: 10.1111/1365-2435.13181](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.13181)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Evidence+for+multifactorial+processes+underlying+phenotypic+variation+in+bat+visual+opsins&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
-A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**)Evidence for multifactorial processes underlying phenotypic variation in bat visual opsins. *bioRxiv* 300301. [DOI: 10.1101/300301](https://www.biorxiv.org/content/early/2018/04/12/3003012)
+A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**) Evidence for multifactorial processes underlying phenotypic variation in bat visual opsins. *bioRxiv* 300301. [DOI: 10.1101/300301](https://www.biorxiv.org/content/early/2018/04/12/3003012)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=2005&sciodt=0%2C5&cites=4584971410532907380&scipsc=&q=Allopreening+in+birds+is+associated+with+parental+cooperation+over+offspring+care+and+stable+pair+bonds+across+years&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 K Elspeth, TR Birkhead, JP Green (**2017**) Allopreening in birds is associated with parental cooperation over offspring care and stable pair bonds across years. *Behavioral Ecology* 28.4: 1142-1148. [DOI: 10.1093/beheco/arx078](https://academic.oup.com/beheco/article/28/4/1142/3865432)
