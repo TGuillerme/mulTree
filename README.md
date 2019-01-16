@@ -70,13 +70,16 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 12 publications have cited `mulTree` since 2014 (3 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+> 13 publications have cited `mulTree` since 2014 (3 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=The+effect+of+insularity+on+avian+growth+rates+and+implications+for+insular+body+size+evolution&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+EM Sandvig, T Coulson, SM Clegg (**2019**) The effect of insularity on avian growth rates and implications for insular body size evolution. *Proceedings of the Royal Society B*, 286(1894) 20181967. [DOI: 10.1098/rspb.2018.1967](https://royalsocietypublishing.org/doi/full/10.1098/rspb.2018.1967)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2018&q=Avian+diet+and+foraging+ecology+constrain+foreign+egg+recognition+and+rejection&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 AB Luro, ME Hauber (**2018**) Avian diet and foraging ecology constrain foreign egg recognition and rejection. *bioRxiv*, 402941. [DOI: 10.1101/402941 ](https://www.biorxiv.org/content/early/2018/08/29/402941)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Mixing+models+and+stable+isotopes+as+tools+for+research++on+feeding+aquatic+organisms&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
-A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**) Mixing models and stable isotopes as tools for research on feeding aquatic organisms. *Cienc. Rural* 48:7. [DOI: 10.1590/0103-8478cr20160101](http://www.scielo.br/scielo.php?script=sci_arttext&pid=S0103-84782018000700650&lng=en&nrm=iso&tlng=en)
+CR Ferreira de Moraes, GG Henry-Silva (**2018**) Mixing models and stable isotopes as tools for research on feeding aquatic organisms. *Cienc. Rural* 48:7. [DOI: 10.1590/0103-8478cr20160101](http://www.scielo.br/scielo.php?script=sci_arttext&pid=S0103-84782018000700650&lng=en&nrm=iso&tlng=en)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Annual+chronotypes+functionally+link+life+histories+and+life+cycles+in+birds&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 J Karagicheva, E Rakhimberdiev, A Saveliev, T Piersma  (**2018**) Annual chronotypes functionally link life histories and life cycles in birds. *Funct Ecol.* 00:1–11. [DOI: 10.1111/1365-2435.13181](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.13181)
