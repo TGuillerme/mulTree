@@ -1,3 +1,10 @@
+mulTree 1.3.5 (2019-03-04)
+=========================
+
+### MINOR IMPROVEMENTS
+
+  * `read.mulTree` can now read more than 9 chains (following [Hugo Gruson](https://github.com/Bisaloo)'s [contribution](https://github.com/TGuillerme/mulTree/pull/51))
+
 mulTree 1.3.4 (2018-08-08)
 =========================
 
