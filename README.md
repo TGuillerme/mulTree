@@ -52,7 +52,7 @@ Authors
 
 ## Contributors
 
-[Eldar Rakhimberdiev](https://github.com/eldarrak).
+[Eldar Rakhimberdiev](https://github.com/eldarrak), [Hugo Gruson](https://github.com/Bisaloo).
 
 Citation
 -------
