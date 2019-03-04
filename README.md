@@ -70,7 +70,13 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 13 publications have cited `mulTree` since 2014 (3 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+> 15 publications have cited `mulTree` since 2014 (3 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&q=Weak+effects+of+geolocators+on+small+birds%3A+a+meta%E2%80%90analysis+controlled+for+phylogeny+and+publication+bias&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+V Brlík et al. (**2019**) Weak effects of geolocators on small birds: a meta‐analysis controlled for phylogeny and publication bias. *Journal of Animal Ecology*. [DOI: 10.1111/1365-2656.12962](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2656.12962)
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&q=Evolution+of+heterophil%2Flymphocyte+ratios+in+response+to+ecological+and+life%E2%80%90history+traits%3A+A+comparative+analysis+across+the+avian+tree+of+life&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+P Minias (**2019**) Evolution of heterophil/lymphocyte ratios in response to ecological and life‐history traits: A comparative analysis across the avian tree of life. *Journal of Animal Ecology*, 286(1894) 20181967. [DOI: 10.1111/1365-2656.12941](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2656.12941)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=The+effect+of+insularity+on+avian+growth+rates+and+implications+for+insular+body+size+evolution&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 EM Sandvig, T Coulson, SM Clegg (**2019**) The effect of insularity on avian growth rates and implications for insular body size evolution. *Proceedings of the Royal Society B*, 286(1894) 20181967. [DOI: 10.1098/rspb.2018.1967](https://royalsocietypublishing.org/doi/full/10.1098/rspb.2018.1967)
