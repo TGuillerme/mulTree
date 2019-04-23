@@ -70,7 +70,10 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 15 publications have cited `mulTree` since 2014 (3 per year). The average cites for papers using `mulTree` is 9.9 (the median is 3; calculated on the 08/12/2018).
+> 16 publications have cited `mulTree` since 2014 (3.2 per year). The average cites for papers using `mulTree` is 10.4 (the median is 4; calculated on the 23/04/2019).
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Micro%E2%80%90and+macroparasite+species+richness+in+birds%3A+the+role+of+host+life+history+and+ecology&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+JS Gutiérrez, T Piersma, DW Thieltges (**2019**). Micro‐and macroparasite species richness in birds: the role of host life history and ecology. *Journal of Animal Ecology*. [DOI: 10.1111/1365-2656.12998](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2656.12998)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&q=Weak+effects+of+geolocators+on+small+birds%3A+a+meta%E2%80%90analysis+controlled+for+phylogeny+and+publication+bias&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 V Brlík et al. (**2019**) Weak effects of geolocators on small birds: a meta‐analysis controlled for phylogeny and publication bias. *Journal of Animal Ecology*. [DOI: 10.1111/1365-2656.12962](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2656.12962)
