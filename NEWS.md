@@ -1,3 +1,10 @@
+mulTree 1.3.6 (2019-05-08)
+=========================
+
+### MINOR IMPROVEMENTS
+
+  * Updated package to R version 3.6.0
+
 mulTree 1.3.5 (2019-03-04)
 =========================
 

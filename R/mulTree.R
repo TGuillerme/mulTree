@@ -236,7 +236,6 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
         do_parallel <- FALSE
     }
 
-    ## Getting the optional arguments
     dots <- list(...)
     optional_args <- ifelse(length(dots) == 0, FALSE, TRUE)
 

@@ -4,8 +4,8 @@
 \alias{summary.mulTree}
 \title{Summarises \code{mulTree} data}
 \usage{
-\method{summary}{mulTree}(mulTree.results, prob = c(50, 95), use.hdr = TRUE,
-  cent.tend = stats::median, ...)
+\method{summary}{mulTree}(mulTree.results, prob = c(50, 95),
+  use.hdr = TRUE, cent.tend = stats::median, ...)
 }
 \arguments{
 \item{mulTree.results}{A \code{mulTree} object obtained from \code{\link{read.mulTree}} function.}

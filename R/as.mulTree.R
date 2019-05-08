@@ -113,7 +113,6 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
                 ## At leas one wrong term anyway!
                 stop("The following random terms do not match with any column name provided in data:\n    ", paste(as.character(no_match), sep = ", "), ".", sep = "")
             } else {
-                ## Check if the correlation terms exist
                 cor_term_tmp <- strsplit(no_match, split = ":")[[1]]
                 is_us <- grep("us\\(", cor_term_tmp)
                 cor_term <- c(strsplit(strsplit(cor_term_tmp[is_us], split = "\\(")[[1]][2], "\\)")[[1]][1], cor_term_tmp[-is_us])
