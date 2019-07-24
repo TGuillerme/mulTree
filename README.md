@@ -70,9 +70,12 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 17 publications have cited `mulTree` since 2014 (3.2 per year). The average cites for papers using `mulTree` is 10.4 (the median is 4; calculated on the 23/04/2019).
+> 18 publications have cited `mulTree` since 2014 (3.6 per year). The average cites for papers using `mulTree` is 10.5 (the median is 4; calculated on the 24/06/2019).
 
-* <a href="https://scholar.google.co.uk/scholar"><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Animal+life+history+is+shaped+by+the+pace+of+life+and+the+distribution+of+age-specific+mortality+and+reproduction&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+JA Nations, LR Heaney, TC Demos, AS Achmadi, KC Rowe, JA Esselstyn. (**2019**). A simple skeletal measurement effectively predicts climbing behaviour in a diverse clade of small mammals. *Biological Journal of the Linnean Society*. [DOI: 10.1093/biolinnean/blz085](https://academic.oup.com/biolinnean/advance-article/doi/10.1093/biolinnean/blz085/5533433)
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Animal+life+history+is+shaped+by+the+pace+of+life+and+the+distribution+of+age-specific+mortality+and+reproduction&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 K Healy, THG Ezard, OR Jones, R Salguero-Gómez, YM Buckley. (**2019**). Animal life history is shaped by the pace of life and the distribution of age-specific mortality and reproduction. *Nature Ecology & Evolution*. [DOI: 10.1038/s41559-019-0938-7](https://www.nature.com/articles/s41559-019-0938-7)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Micro%E2%80%90and+macroparasite+species+richness+in+birds%3A+the+role+of+host+life+history+and+ecology&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
@@ -96,8 +99,8 @@ CR Ferreira de Moraes, GG Henry-Silva (**2018**) Mixing models and stable isotop
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Annual+chronotypes+functionally+link+life+histories+and+life+cycles+in+birds&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 J Karagicheva, E Rakhimberdiev, A Saveliev, T Piersma  (**2018**) Annual chronotypes functionally link life histories and life cycles in birds. *Funct Ecol.* 00:1–11. [DOI: 10.1111/1365-2435.13181](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2435.13181)
 
-* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Evidence+for+multifactorial+processes+underlying+phenotypic+variation+in+bat+visual+opsins&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
-A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**) Evidence for multifactorial processes underlying phenotypic variation in bat visual opsins. *eLife* 7:e37412. [DOI: 10.7554/eLife.37412](https://elifesciences.org/articles/37412)
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Multifactorial+processes+underlie+parallel+opsin+loss+in+neotropical+bats&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+A Sadier, K Davies, L Yohe, K Yun, P Donat, BP Hedrick, E Dumont, L Davalos, S Rossiter, KE Sears (**2018**) Multifactorial processes underlie parallelopsin loss in neotropical bats. *eLife* 7:e37412. [DOI: 10.7554/eLife.37412](https://elifesciences.org/articles/37412)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=2005&sciodt=0%2C5&cites=4584971410532907380&scipsc=&q=Allopreening+in+birds+is+associated+with+parental+cooperation+over+offspring+care+and+stable+pair+bonds+across+years&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 K Elspeth, TR Birkhead, JP Green (**2017**) Allopreening in birds is associated with parental cooperation over offspring care and stable pair bonds across years. *Behavioral Ecology* 28.4: 1142-1148. [DOI: 10.1093/beheco/arx078](https://academic.oup.com/beheco/article/28/4/1142/3865432)
