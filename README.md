@@ -59,8 +59,7 @@ Citation
 If you are using this package, please cite (if the DOI is in there, even better!):
 
 * Guillerme, T. & Healy, K. (**2014**). mulTree: a package for running MCMCglmm analysis on multiple trees. ZENODO. 10.5281/zenodo.12902
-
-[BibTeX](https://zenodo.org/record/12902/export/hx), [EndNote](https://zenodo.org/record/12902/export/xe), [DataCite](https://zenodo.org/record/12902/export/dcite3), [RefWorks](https://zenodo.org/record/12902/export/xw)
+###### [BibTeX](https://zenodo.org/record/12902/export/hx), [CSL](https://zenodo.org/record/12902/export/csl), [DataCite](https://zenodo.org/record/12902/export/dcite3), [Dublin core](https://zenodo.org/record/12902/export/xd), [Mendeley](https://www.mendeley.com/import/?url=https://zenodo.org/record/12902), [more...](https://zenodo.org/record/12902/#.XTpLtlBS8W8)
 
 Related packages
 -------
