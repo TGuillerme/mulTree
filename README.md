@@ -69,7 +69,12 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 18 publications have cited `mulTree` since 2014 (3.6 per year). The average cites for papers using `mulTree` is 10.5 (the median is 4; calculated on the 24/06/2019).
+> 19 publications have cited `mulTree` since 2014 (3.8 per year). The average cites for papers using `mulTree` is 10.5 (the median is 4; calculated on the 24/06/2019).
+
+<!-- cite style: vancouver reverse -->
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&q=Unveiled+feather+microcosm%3A+feather+microbiota+of+passerine+birds+is+closely+associated+with+host+species+identity+and+bacteriocin-producing+bacteria&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+VG Javůrková, J Kreisinger, P Procházka, M Požgayová, K Ševčíková, V Brlík, P Adamík, P Heneberg, J Porkert. (**2019**) Unveiled feather microcosm: feather microbiota of passerine birds is closely associated with host species identity and bacteriocin-producing bacteria. *The ISME journal*. 13:2363–2376. [DOI: 10.1038/s41396-019-0438-4](https://www.nature.com/articles/s41396-019-0438-4)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Animal+life+history+is+shaped+by+the+pace+of+life+and+the+distribution+of+age-specific+mortality+and+reproduction&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 JA Nations, LR Heaney, TC Demos, AS Achmadi, KC Rowe, JA Esselstyn. (**2019**). A simple skeletal measurement effectively predicts climbing behaviour in a diverse clade of small mammals. *Biological Journal of the Linnean Society*. [DOI: 10.1093/biolinnean/blz085](https://academic.oup.com/biolinnean/advance-article/doi/10.1093/biolinnean/blz085/5533433)
