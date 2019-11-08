@@ -76,6 +76,9 @@ Click on the google logo for citations details.
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Co-expression+clustering+across+flower+development+identifies+modules+and+candidate+genes+for+diverse+floral+forms+in+Achimenes+%28Gesneriaceae%29&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 WR Roberts, EH Roalson. (**2019**) Co-expression clustering across flower development identifies modules and candidate genes for diverse floral forms in Achimenes (Gesneriaceae). *bioRxiv*. 1:817221. [DOI: 10.1101/817221](https://www.biorxiv.org/content/10.1101/817221v1.full)
 
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Hummingbird+iridescence%3A+an+unsuspected+structural+diversity+influences+colouration+at+multiple+scales&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+H Gruson, M Elias, C Andraud, C Djediat, S Berthier, C Doutrelant, D Gomez. (**2019**) Hummingbird iridescence: an unsuspected structural diversity influences colouration at multiple scales. *bioRxiv*. 1:699744. [DOI: 10.1101/699744 ](https://www.biorxiv.org/content/10.1101/699744v1.full)
+
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&q=Unveiled+feather+microcosm%3A+feather+microbiota+of+passerine+birds+is+closely+associated+with+host+species+identity+and+bacteriocin-producing+bacteria&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 VG Javůrková, J Kreisinger, P Procházka, M Požgayová, K Ševčíková, V Brlík, P Adamík, P Heneberg, J Porkert. (**2019**) Unveiled feather microcosm: feather microbiota of passerine birds is closely associated with host species identity and bacteriocin-producing bacteria. *The ISME journal*. 13:2363–2376. [DOI: 10.1038/s41396-019-0438-4](https://www.nature.com/articles/s41396-019-0438-4)
 
