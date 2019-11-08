@@ -69,9 +69,12 @@ Related packages
 Used in
 -------
 Click on the google logo for citations details.
-> 19 publications have cited `mulTree` since 2014 (3.8 per year). The average cites for papers using `mulTree` is 10.5 (the median is 4; calculated on the 24/06/2019).
+> 20 publications have cited `mulTree` since 2014 (4 per year). The average cites for papers using `mulTree` is 11.15 (the median is 4; calculated on the 07/11/2019).
 
 <!-- cite style: vancouver reverse -->
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Co-expression+clustering+across+flower+development+identifies+modules+and+candidate+genes+for+diverse+floral+forms+in+Achimenes+%28Gesneriaceae%29&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+WR Roberts, EH Roalson. (**2019**) Co-expression clustering across flower development identifies modules and candidate genes for diverse floral forms in Achimenes (Gesneriaceae). *bioRxiv*. 1:817221. [DOI: 10.1101/817221](https://www.biorxiv.org/content/10.1101/817221v1.full)
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&q=Unveiled+feather+microcosm%3A+feather+microbiota+of+passerine+birds+is+closely+associated+with+host+species+identity+and+bacteriocin-producing+bacteria&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 VG Javůrková, J Kreisinger, P Procházka, M Požgayová, K Ševčíková, V Brlík, P Adamík, P Heneberg, J Porkert. (**2019**) Unveiled feather microcosm: feather microbiota of passerine birds is closely associated with host species identity and bacteriocin-producing bacteria. *The ISME journal*. 13:2363–2376. [DOI: 10.1038/s41396-019-0438-4](https://www.nature.com/articles/s41396-019-0438-4)
