@@ -69,7 +69,7 @@ test_that("add.root.edge works", {
     # Correct root edge
     set.seed(1)
     expect_equal(
-    	round(add.root.edge(rtree(5), 10)$root.edge, digit=4), 8.3372
+    	round(add.root.edge(rtree(5), 10)$root.edge, digit = 2), 8.46
     	)
 })
 

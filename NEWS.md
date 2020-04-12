@@ -1,4 +1,26 @@
-mulTree 1.3.4 (2018-05-08)
+mulTree 1.3.7 (2020-04-12)
+=========================
+
+### MINOR IMPROVEMENTS
+
+  * Updated package to R version 3.6.3
+  * Updated package to `ape` version 5.3
+
+mulTree 1.3.6 (2019-05-08)
+=========================
+
+### MINOR IMPROVEMENTS
+
+  * Updated package to R version 3.6.0
+
+mulTree 1.3.5 (2019-03-04)
+=========================
+
+### MINOR IMPROVEMENTS
+
+  * `read.mulTree` can now read more than 9 chains (following [Hugo Gruson](https://github.com/Bisaloo)'s [contribution](https://github.com/TGuillerme/mulTree/pull/51))
+
+mulTree 1.3.4 (2018-08-08)
 =========================
 
 ### NEW FEATURES
@@ -8,6 +30,7 @@ mulTree 1.3.4 (2018-05-08)
 ### MINOR IMPROVEMENTS
 
   * Improved optional arguments handling for `mulTree` (following [Eldar Rakhimberdiev](https://github.com/eldarrak)'s contribution)
+  * Fixed typos in the manual
 
 mulTree 1.3.3 (2018-03-14)
 =========================

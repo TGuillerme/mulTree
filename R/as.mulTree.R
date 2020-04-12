@@ -49,7 +49,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
     ## SANITIZING
     ## data
     ## converting into a data.frame (if matrix)
-    if (class(data) == "matrix") {
+    if (is(data, "matrix")) {
         data <- as.data.frame(data)
     }
     check.class(data, "data.frame")
@@ -60,7 +60,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
     ## tree
     ## convert to multiPhylo if is phylo
-    if(class(tree) == "phylo") {
+    if(is(tree, "phylo")) {
         tree <- list(tree)
         class(tree) <- "multiPhylo"
     }
@@ -68,10 +68,10 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
     check.class(tree, "multiPhylo", " must be of class phylo or multiPhylo.")
 
     ## taxa
-    if (class(taxa) == "numeric") {
+    if (is(taxa, "numeric")) {
         taxa.column.num = TRUE
     } else {
-        if (class(taxa) == "character") {
+        if (is(taxa,  "character")) {
             taxa.column.num = FALSE
         } else {
             stop(paste(as.expression(match_call$taxa)," not found in ", as.expression(match_call$data), sep = ""), call. = FALSE)
@@ -113,7 +113,6 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
                 ## At leas one wrong term anyway!
                 stop("The following random terms do not match with any column name provided in data:\n    ", paste(as.character(no_match), sep = ", "), ".", sep = "")
             } else {
-                ## Check if the correlation terms exist
                 cor_term_tmp <- strsplit(no_match, split = ":")[[1]]
                 is_us <- grep("us\\(", cor_term_tmp)
                 cor_term <- c(strsplit(strsplit(cor_term_tmp[is_us], split = "\\(")[[1]][2], "\\)")[[1]][1], cor_term_tmp[-is_us])

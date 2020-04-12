@@ -52,7 +52,6 @@ clean.data <- function(data, tree, data.col = FALSE) {
         check.length(data.col, 1, " must be either a numeric value or a character string.", errorif = FALSE)
         data_col_class <- check.class(data.col, c("numeric", "character"))
 
-        ## Sort out data.col's class
         if(data_col_class == "numeric") {
             ## Data.col is numeric
             if(data.col > ncol(data)) {

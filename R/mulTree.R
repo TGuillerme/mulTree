@@ -98,8 +98,13 @@
 #' trees <- clean.data(data, combined_trees, data.col = "species")$tree
 #' 
 #' ##Creates the mulTree object
-#' mulTree_data <- as.mulTree(data, trees, species = "species",
+#' mulTree_data <- as.mulTree(data, trees, taxa = "species",
 #'      rand.terms = ~species+specimen)
+#' 
+#' ## Updating the priors
+#' mcmc_priors <- list(R = list(V = 1/2, nu = 0.002),
+#'                     G = list(G1 = list(V = 1/2, nu = 0.002),
+#'                     G2 = list(V = 1/2, nu = 0.002)))
 #' 
 #' ##Running MCMCglmm on multiple trees
 #' mulTree(mulTree_data, formula = test_formula, parameters = mcmc_parameters,
@@ -231,7 +236,6 @@ mulTree <- function(mulTree.data, formula, parameters, chains = 2, priors, ..., 
         do_parallel <- FALSE
     }
 
-    ## Getting the optional arguments
     dots <- list(...)
     optional_args <- ifelse(length(dots) == 0, FALSE, TRUE)
 
