@@ -1,3 +1,11 @@
+mulTree 1.3.6 (2020-04-12)
+=========================
+
+### MINOR IMPROVEMENTS
+
+  * Updated package to R version 3.6.3
+  * Updated package to `ape` version 5.3
+
 mulTree 1.3.6 (2019-05-08)
 =========================
 

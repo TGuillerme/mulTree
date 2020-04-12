@@ -49,7 +49,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
     ## SANITIZING
     ## data
     ## converting into a data.frame (if matrix)
-    if (class(data) == "matrix") {
+    if (is(data, "matrix")) {
         data <- as.data.frame(data)
     }
     check.class(data, "data.frame")
@@ -60,7 +60,7 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
 
     ## tree
     ## convert to multiPhylo if is phylo
-    if(class(tree) == "phylo") {
+    if(is(tree, "phylo")) {
         tree <- list(tree)
         class(tree) <- "multiPhylo"
     }
@@ -68,10 +68,10 @@ as.mulTree <- function(data, tree, taxa, rand.terms, clean.data = FALSE) {
     check.class(tree, "multiPhylo", " must be of class phylo or multiPhylo.")
 
     ## taxa
-    if (class(taxa) == "numeric") {
+    if (is(taxa, "numeric")) {
         taxa.column.num = TRUE
     } else {
-        if (class(taxa) == "character") {
+        if (is(taxa,  "character")) {
             taxa.column.num = FALSE
         } else {
             stop(paste(as.expression(match_call$taxa)," not found in ", as.expression(match_call$data), sep = ""), call. = FALSE)

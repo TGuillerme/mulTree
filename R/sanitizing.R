@@ -5,7 +5,7 @@ check.class <- function(object, class, msg, errorif = FALSE) {
     match_call <- match.call()
 
     ## class_object variable initialisation
-    class_object <- class(object)
+    class_object <- class(object)[1]
     ## class_length variable initialisation
     length_class <- length(class)
 
@@ -39,7 +39,7 @@ check.class <- function(object, class, msg, errorif = FALSE) {
                 }
             }
         }
-        ## If function did not returned, class is not matching
+        ## If function did not return, class is not matching
         if(!any(!error)) {
             stop(match_call$object, msg, call. = FALSE)
         } else {
