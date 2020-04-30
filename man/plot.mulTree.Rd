@@ -4,8 +4,16 @@
 \alias{plot.mulTree}
 \title{Plots \code{mulTree} results}
 \usage{
-\method{plot}{mulTree}(mulTree.summary, terms, cex.terms, cex.coeff,
-  horizontal = FALSE, ylim, col, ...)
+\method{plot}{mulTree}(
+  mulTree.summary,
+  terms,
+  cex.terms,
+  cex.coeff,
+  horizontal = FALSE,
+  ylim,
+  col,
+  ...
+)
 }
 \arguments{
 \item{mulTree.summary}{A \code{mulTree} matrix summarized by \code{\link{summary.mulTree}}.}

@@ -4,8 +4,7 @@
 \alias{read.mulTree}
 \title{Reads MCMCglmm models fromn mulTree.}
 \usage{
-read.mulTree(mulTree.chain, convergence = FALSE, model = FALSE,
-  extract = NULL)
+read.mulTree(mulTree.chain, convergence = FALSE, model = FALSE, extract = NULL)
 }
 \arguments{
 \item{mulTree.chain}{A chain name of \code{MCMCglmm} models written by the \code{\link{mulTree}} function.}

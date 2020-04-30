@@ -4,12 +4,14 @@
 \name{lifespan}
 \alias{lifespan}
 \title{Example dataset for the \code{mulTree} package}
-\format{Contains a \code{data.frame} and two \code{multiPhylo} objects:
+\format{
+Contains a \code{data.frame} and two \code{multiPhylo} objects:
    \describe{
        \item{lifespan_volant}{A \code{data.frame} object of five variables for 192 species (see \code{\link{lifespan_volant_192taxa}}).}
        \item{trees_aves}{A \code{multiPhylo} object of two trees of 58 bird species. The tip names are the binomial names of the species.}
        \item{trees_mammalia}{A a \code{multiPhylo} object of two trees of 134 mammal species. The tip names are the binomial names of the species.}
-   }}
+   }
+}
 \description{
 This is a dataset containing lifespan data and trees from Healy et al (2014)
 }

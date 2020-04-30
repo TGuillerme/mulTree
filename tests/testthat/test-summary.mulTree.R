@@ -157,7 +157,7 @@ test_that("example works", {
     	summary(lifespan.mcmc, use.hdr="why not")
     	)
     expect_error(
-    	summary(lifespan.mcmc, use.hdr=FALSE, cent.tend=matrix)
+    	expect_warning(summary(lifespan.mcmc, use.hdr=FALSE, cent.tend=matrix))
     	)
     expect_error(
         summary(lifespan.mcmc, prob = 101)

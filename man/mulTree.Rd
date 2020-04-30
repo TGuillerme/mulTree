@@ -4,9 +4,21 @@
 \alias{mulTree}
 \title{Run MCMCglmm on multiple trees}
 \usage{
-mulTree(mulTree.data, formula, parameters, chains = 2, priors, ...,
-  convergence = 1.1, ESS = 1000, verbose = TRUE,
-  output = "mulTree_models", warn = FALSE, parallel, ask = TRUE)
+mulTree(
+  mulTree.data,
+  formula,
+  parameters,
+  chains = 2,
+  priors,
+  ...,
+  convergence = 1.1,
+  ESS = 1000,
+  verbose = TRUE,
+  output = "mulTree_models",
+  warn = FALSE,
+  parallel,
+  ask = TRUE
+)
 }
 \arguments{
 \item{mulTree.data}{A list of class \code{mulTree} generated using \code{\link{as.mulTree}}.}
