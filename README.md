@@ -68,6 +68,12 @@ Click on the google logo for citations details.
 
 <!-- cite style: vancouver reverse -->
 
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=The+case+for+extended+lifespan+in+cooperatively+breeding+mammals%3A+a+re-appraisal&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+Thorley J. The case for extended lifespan in cooperatively breeding mammals: a re-appraisal. *PeerJ*. **2020** 19;8:e9214. [DOI: 10.7717/peerj.9214](https://peerj.com/articles/9214/)
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Contrasting+patterns+of+Campylobacter+and+Salmonella+distribution+in+wild+birds%3A+a+comparative+analysis&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+Minias P. Contrasting patterns of Campylobacter and Salmonella distribution in wild birds: a comparative analysis. *Journal of Avian Biology*. **2020** 51(5). [DOI: 10.1111/jav.02426](https://onlinelibrary.wiley.com/doi/full/10.1111/jav.02426?casa_token=AIswxWVUg2MAAAAA%3AXs9NyycVfMswodB4pOdc-mmqUHwa6jQNHCYHJKO68wcoj2AcVpSW7F27EWK_-1bODUMwbIqL4LcD5fc)
+
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Examining+the+link+between+relaxed+predation+and+bird+coloration+on+islands&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 L Bliard, M Paquet, A Robert, P Dufour, JP Renoult, A Grégoire, PA Crochet, R Covas, C Doutrelant. (**2020**) Examining the link between relaxed predation and bird coloration on islands. *Biology Letters*. 2020 Apr 29;16(4):20200002. [DOI: 10.1098/rsbl.2020.0002](https://royalsocietypublishing.org/doi/full/10.1098/rsbl.2020.0002?af=R)
 
