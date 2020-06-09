@@ -68,6 +68,10 @@ Click on the google logo for citations details.
 
 <!-- cite style: vancouver reverse -->
 
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Homogenisation+of+carnivorous+mammal+ensembles+caused+by+global+range+reductions+of+large-bodied+hypercarnivores+during+the+late+Quaternary&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+Middleton OS, Scharlemann JP, Sandom CJ. Homogenisation of carnivorous mammal ensembles caused by global range reductions of large-bodied hypercarnivores during the late Quaternary. Proceedings of the Royal Society B: Biological Sciences. **2020** Jun 3.[DOI:](http://sro.sussex.ac.uk/id/eprint/91597/)
+
+
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=The+case+for+extended+lifespan+in+cooperatively+breeding+mammals%3A+a+re-appraisal&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 Thorley J. The case for extended lifespan in cooperatively breeding mammals: a re-appraisal. *PeerJ*. **2020** 19;8:e9214. [DOI: 10.7717/peerj.9214](https://peerj.com/articles/9214/)
 
