@@ -68,9 +68,12 @@ Click on the google logo for citations details.
 
 <!-- cite style: vancouver reverse -->
 
+
+* <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Variation+in+transparency+degree%3A+response+to+light+availability+or+part+of+mimicry+syndrome%3F&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
+Arias M, Barbut J, Rougerie R, Dutry M, Kohler M, Laulan B, Paillard C, Berthier S, Andraud C, Elias M, Gomez D. Variation in transparency degree: response to light availability or part of mimicry syndrome?. *bioRxiv*. **2020** [DOI: 10.1101/2020.06.26.172932 ](https://www.biorxiv.org/content/10.1101/2020.06.26.172932v1.full)
+
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=Homogenisation+of+carnivorous+mammal+ensembles+caused+by+global+range+reductions+of+large-bodied+hypercarnivores+during+the+late+Quaternary&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 Middleton OS, Scharlemann JP, Sandom CJ. Homogenisation of carnivorous mammal ensembles caused by global range reductions of large-bodied hypercarnivores during the late Quaternary. Proceedings of the Royal Society B: Biological Sciences. **2020** Jun 3.[DOI:](http://sro.sussex.ac.uk/id/eprint/91597/)
-
 
 * <a href="https://scholar.google.co.uk/scholar?hl=en&as_sdt=0%2C5&q=The+case+for+extended+lifespan+in+cooperatively+breeding+mammals%3A+a+re-appraisal&btnG="><img src="http://tguillerme.github.io/images/649298-64.png" height="15" widht="15"/></a>
 Thorley J. The case for extended lifespan in cooperatively breeding mammals: a re-appraisal. *PeerJ*. **2020** 19;8:e9214. [DOI: 10.7717/peerj.9214](https://peerj.com/articles/9214/)
