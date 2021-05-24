@@ -1,6 +1,4 @@
 # TEST tree.bind
-context("tree.bind")
-
 # Testing get.replace
 test_that("get.replace works", {
     # Only one tree and one sample (no replace)

@@ -1,6 +1,4 @@
 # TEST read.mulTree
-context("read.mulTree")
-
 # Dummy data for testing
 set.seed(1)
 data <- data.frame("sp.col" = LETTERS[1:5], var1 = rnorm(5), var2 = rnorm(5))

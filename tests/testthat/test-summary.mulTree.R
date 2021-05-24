@@ -1,6 +1,4 @@
 # TEST summary.mulTree
-context("summary.mulTree")
-
 # Testing is.wholenumber works
 test_that("is.wholenumber works", {
     # Error

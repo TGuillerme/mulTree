@@ -1,7 +1,5 @@
 #TEST sanitizing
 
-context("sanitizing")
-
 #Testing class.check
 #examples
 class_1<-NA ; class(class_1) <- 'class_1'

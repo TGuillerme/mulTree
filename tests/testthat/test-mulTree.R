@@ -1,6 +1,4 @@
 # TEST as.mulTree
-context("mulTree")
-
 # Testing select.tip.labels
 test_that("read.key works - scan option deactivated!", {
     #Message

@@ -1,6 +1,4 @@
 # TEST as.mulTree
-context("as.mulTree")
-
 # Testing select.tip.labels
 test_that("select.tip.labels works", {
     # Errors

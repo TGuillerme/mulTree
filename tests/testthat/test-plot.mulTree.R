@@ -1,6 +1,4 @@
 # TEST plot.mulTree
-context("plot.mulTree (non-graphic)")
-
 # Testing get.ylim
 test_that("get.ylim works", {
     # Error
