@@ -1,3 +1,6 @@
+# Security
+.coveralls.yml
+
 # Raw data and idiocy prevention#
 *.xlsx
 *.xls
