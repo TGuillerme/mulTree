@@ -17,4 +17,4 @@ VignetteBuilder: knitr
 Suggests:
     testthat,
     knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
