@@ -26,7 +26,7 @@ test_that("get.mulTree.model works", {
     	)
     # (18 elements)
     expect_equal(
-    	length(get.mulTree.model("read.mulTree_testing-tree1_chain1.rda")), 20
+    	length(get.mulTree.model("read.mulTree_testing-tree1_chain1.rda")), 22
     	)
 })
 
@@ -173,7 +173,7 @@ test_that("example works", {
     	model, "MCMCglmm"
     	)
     expect_equal(
-    	length(model), 20
+    	length(model), 22
     	)
     # Reading only the error term and the tune for all models
     elements <- read.mulTree("read.mulTree_testing", extract=c("error.term", "Tune"))
